@@ -21,5 +21,7 @@ namespace WanderListAPI.Models
 
         //Navigation Properties i.e FKs to different tables
         public ICollection<ResourceMeta> ResourceMetas { get; set; }
+
+        public ICollection<History> Histories { get; set; }
     }
 }

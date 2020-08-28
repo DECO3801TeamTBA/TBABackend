@@ -17,6 +17,7 @@ namespace WanderListAPI.Data
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
         public DbSet<Activity> Activity { get; set; }
         public DbSet<WanderUser> WanderUser { get; set; }
+        public DbSet<History> History { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

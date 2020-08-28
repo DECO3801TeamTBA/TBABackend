@@ -10,5 +10,7 @@ namespace WanderListAPI.Models
     /// </summary>
     public class WanderUser
     {
+        //Navigation properties
+        public ICollection<History> Histories { get; set; }
     }
 }
