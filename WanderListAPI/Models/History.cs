@@ -1,5 +1,4 @@
-﻿using Org.BouncyCastle.Bcpg;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,15 +9,15 @@ namespace WanderListAPI.Models
 {
     public class History
     {   
-        [ForeignKey("Content"), Key]
+        [ForeignKey("Content")]
         public Guid ContentId { get; set; }
-        [ForeignKey("WanderUser"), Key]
-        public Guid WanderUserId { get; set; }
-        [Timestamp, Key]
+        [ForeignKey("WanderUser")]
+        public string WanderUserId { get; set; }
+        
         public DateTime Date { get; set; }
 
         //Navigation Properties
-        public Content Content { get; set; }
-        public WanderUser WanderUser { get; set; }
+        public virtual Content Content { get; set; }
+        public virtual WanderUser WanderUser { get; set; }
     }
 }

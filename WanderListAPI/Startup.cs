@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using MySql.Data.EntityFrameworkCore.Extensions;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
 
@@ -33,10 +34,16 @@ namespace WanderListAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
-            services.AddDbContext<WanderListDbContext>();
+
+            services.AddDbContext<WanderListDbContext>(options => options
+                // replace with your connection string
+                .UseMySql("Server=localhost;Database=WanderList;User=TBADev;Password=1234;", mySqlOptions => mySqlOptions
+                    // replace with your Server Version and Type
+                    .ServerVersion(new Version(8, 0, 21), ServerType.MySql)
+            ));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<WanderListDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(options =>

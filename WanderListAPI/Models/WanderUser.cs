@@ -8,9 +8,7 @@ namespace WanderListAPI.Models
     /// <summary>
     /// WanderList user specific details should go here
     /// </summary>
-    public class WanderUser
+    public class WanderUser : ApplicationUser
     {
-        //Navigation properties
-        public ICollection<History> Histories { get; set; }
     }
 }

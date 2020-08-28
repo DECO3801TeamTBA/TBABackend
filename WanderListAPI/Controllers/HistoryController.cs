@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
 
@@ -17,23 +19,24 @@ namespace WanderListAPI.Controllers
     public class HistoryController : ControllerBase
     {
         private readonly WanderListDbContext _context;
-        private readonly IConfiguration _configuration;
-        public HistoryController(WanderListDbContext context, IConfiguration configuration)
+        private readonly ILogger _logger;
+        public HistoryController(WanderListDbContext context, ILogger logger)
         {
+            _logger = logger;
             _context = context;
-            _configuration = configuration;
         }
 
 
-        // GET api/<HistoryController>/5
-        [HttpGet("/{role}/{id}")]
+        // GET api/<HistoryController>/{role}/{id}
+        [Authorize]
+        [HttpGet("{role}/{id}")]
         public async Task<IEnumerable<History>> Get(string role, Guid id)
-
         {
+            _logger.LogInformation($"GET Histories {role} {id}"); //If we wish to log information for debug purposes
             if (role == "user")
             {
                 var histories = await _context.History
-                    .Where(hist => hist.WanderUserId == id)
+                    .Where(hist => hist.WanderUserId == id.ToString())
                     .ToListAsync();
                 return histories;
             }
