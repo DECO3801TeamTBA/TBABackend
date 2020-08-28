@@ -12,5 +12,6 @@ namespace WanderListAPI.Models
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
+        public virtual WanderUser User { get; set; }
     }
 }

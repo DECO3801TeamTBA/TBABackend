@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WanderListAPI.Data;
+using WanderListAPI.Models;
 
 namespace WanderListAPI.Controllers
 {
@@ -17,10 +20,12 @@ namespace WanderListAPI.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly WanderListDbContext _context;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, WanderListDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
