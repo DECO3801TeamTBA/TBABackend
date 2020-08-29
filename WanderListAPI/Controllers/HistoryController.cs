@@ -20,7 +20,7 @@ namespace WanderListAPI.Controllers
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
-        public HistoryController(WanderListDbContext context, ILogger logger)
+        public HistoryController(WanderListDbContext context, ILogger<History> logger)
         {
             _logger = logger;
             _context = context;
@@ -28,7 +28,7 @@ namespace WanderListAPI.Controllers
 
 
         // GET api/<HistoryController>/{role}/{id}
-        [Authorize]
+        //[Authorize]
         [HttpGet("{role}/{id}")]
         public async Task<IEnumerable<History>> Get(string role, Guid id)
         {
@@ -36,7 +36,7 @@ namespace WanderListAPI.Controllers
             if (role == "user")
             {
                 var histories = await _context.History
-                    .Where(hist => hist.WanderUserId == id.ToString())
+                    .Where(hist => hist.UserId == id.ToString())
                     .ToListAsync();
                 return histories;
             }

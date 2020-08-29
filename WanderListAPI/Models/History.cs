@@ -12,12 +12,12 @@ namespace WanderListAPI.Models
         [ForeignKey("Content")]
         public Guid ContentId { get; set; }
         [ForeignKey("WanderUser")]
-        public string WanderUserId { get; set; }
+        public string UserId { get; set; }
         
         public DateTime Date { get; set; }
 
         //Navigation Properties
         public virtual Content Content { get; set; }
-        public virtual WanderUser WanderUser { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

@@ -9,8 +9,8 @@ using WanderListAPI.Data;
 namespace WanderListAPI.Migrations
 {
     [DbContext(typeof(WanderListDbContext))]
-    [Migration("20200828221736_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200829011201_InitialCreateAndSeed")]
+    partial class InitialCreateAndSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,15 @@ namespace WanderListAPI.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5",
+                            ConcurrencyStamp = "29415286-eb2f-49b6-a919-98186fd9c3c3",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -82,7 +91,7 @@ namespace WanderListAPI.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -104,7 +113,7 @@ namespace WanderListAPI.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -116,7 +125,7 @@ namespace WanderListAPI.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
@@ -126,12 +135,19 @@ namespace WanderListAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "f54647c3-8380-4b64-8426-6f75faf3ceef",
+                            RoleId = "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
@@ -166,8 +182,7 @@ namespace WanderListAPI.Migrations
             modelBuilder.Entity("WanderListAPI.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4")
-                        .HasMaxLength(36);
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -176,16 +191,18 @@ namespace WanderListAPI.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Email")
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -216,9 +233,6 @@ namespace WanderListAPI.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4");
-
                     b.Property<string>("UserName")
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
@@ -232,11 +246,25 @@ namespace WanderListAPI.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUsers");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
+                    b.HasData(
+                        new
+                        {
+                            Id = "f54647c3-8380-4b64-8426-6f75faf3ceef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "02bd9e9f-7f6d-45d8-b4a9-3b9c049d9e45",
+                            Email = "fake@fake.com",
+                            EmailConfirmed = false,
+                            FirstName = "JoeyJojo",
+                            LastName = "Shabadoo",
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAELxZ96DUA5yZxCCp3ZcnR9l7C3BFFASWK6EVgGBTgxjhu2CRu8ursPGLhIXBlOi51w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ad988a7e-7042-43d7-9b66-1664b1cdd17c",
+                            TwoFactorEnabled = false,
+                            UserName = "wanderuser"
+                        });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.Content", b =>
@@ -269,6 +297,19 @@ namespace WanderListAPI.Migrations
                     b.HasKey("ContentId");
 
                     b.ToTable("Content");
+
+                    b.HasData(
+                        new
+                        {
+                            ContentId = new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"),
+                            Address = "fake",
+                            Capacity = 200,
+                            Description = "fake",
+                            Lattitude = 15.51m,
+                            Longitude = 45.15m,
+                            Name = "Fakorama",
+                            Website = "www.fake.com"
+                        });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.Destination", b =>
@@ -287,17 +328,25 @@ namespace WanderListAPI.Migrations
                     b.Property<Guid>("ContentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("WanderUserId")
-                        .HasColumnType("varchar(36) CHARACTER SET utf8mb4");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("ContentId", "WanderUserId");
+                    b.HasKey("ContentId", "UserId");
 
-                    b.HasIndex("WanderUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("History");
+
+                    b.HasData(
+                        new
+                        {
+                            ContentId = new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"),
+                            UserId = "f54647c3-8380-4b64-8426-6f75faf3ceef",
+                            Date = new DateTime(2020, 8, 29, 11, 12, 0, 735, DateTimeKind.Local).AddTicks(9746)
+                        });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.Resource", b =>
@@ -354,13 +403,6 @@ namespace WanderListAPI.Migrations
                     b.HasIndex("ContentId");
 
                     b.ToTable("ResourceMeta");
-                });
-
-            modelBuilder.Entity("WanderListAPI.Models.WanderUser", b =>
-                {
-                    b.HasBaseType("WanderListAPI.Models.ApplicationUser");
-
-                    b.HasDiscriminator().HasValue("WanderUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -421,13 +463,6 @@ namespace WanderListAPI.Migrations
                         .HasForeignKey("DestinationId");
                 });
 
-            modelBuilder.Entity("WanderListAPI.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("WanderListAPI.Models.WanderUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("WanderListAPI.Models.History", b =>
                 {
                     b.HasOne("WanderListAPI.Models.Content", "Content")
@@ -436,9 +471,9 @@ namespace WanderListAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WanderListAPI.Models.WanderUser", "WanderUser")
+                    b.HasOne("WanderListAPI.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("WanderUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WanderListAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateAndSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,7 @@ namespace WanderListAPI.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 36, nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -41,18 +41,12 @@ namespace WanderListAPI.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false)
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,12 +202,12 @@ namespace WanderListAPI.Migrations
                 columns: table => new
                 {
                     ContentId = table.Column<Guid>(nullable: false),
-                    WanderUserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_History", x => new { x.ContentId, x.WanderUserId });
+                    table.PrimaryKey("PK_History", x => new { x.ContentId, x.UserId });
                     table.ForeignKey(
                         name: "FK_History_Content_ContentId",
                         column: x => x.ContentId,
@@ -221,8 +215,8 @@ namespace WanderListAPI.Migrations
                         principalColumn: "ContentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_History_AspNetUsers_WanderUserId",
-                        column: x => x.WanderUserId,
+                        name: "FK_History_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -277,6 +271,31 @@ namespace WanderListAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5", "29415286-eb2f-49b6-a919-98186fd9c3c3", "Admin", "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "f54647c3-8380-4b64-8426-6f75faf3ceef", 0, "02bd9e9f-7f6d-45d8-b4a9-3b9c049d9e45", "fake@fake.com", false, "JoeyJojo", "Shabadoo", false, null, null, null, "AQAAAAEAACcQAAAAELxZ96DUA5yZxCCp3ZcnR9l7C3BFFASWK6EVgGBTgxjhu2CRu8ursPGLhIXBlOi51w==", null, false, "ad988a7e-7042-43d7-9b66-1664b1cdd17c", false, "wanderuser" });
+
+            migrationBuilder.InsertData(
+                table: "Content",
+                columns: new[] { "ContentId", "Address", "Capacity", "Description", "Lattitude", "Longitude", "Name", "Website" },
+                values: new object[] { new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"), "fake", 200, "fake", 15.51m, 45.15m, "Fakorama", "www.fake.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { "f54647c3-8380-4b64-8426-6f75faf3ceef", "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5" });
+
+            migrationBuilder.InsertData(
+                table: "History",
+                columns: new[] { "ContentId", "UserId", "Date" },
+                values: new object[] { new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"), "f54647c3-8380-4b64-8426-6f75faf3ceef", new DateTime(2020, 8, 29, 11, 12, 0, 735, DateTimeKind.Local).AddTicks(9746) });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Activity_DestinationId",
                 table: "Activity",
@@ -320,14 +339,9 @@ namespace WanderListAPI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UserId",
-                table: "AspNetUsers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_History_WanderUserId",
+                name: "IX_History_UserId",
                 table: "History",
-                column: "WanderUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourceMeta_ContentId",
