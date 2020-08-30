@@ -8,6 +8,7 @@ namespace WanderListAPI.Models
 {
     public class Resource
     {
+        // Table Properties
         //not sure if this annotation is needed at the moment
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ResourceId { get; set; }

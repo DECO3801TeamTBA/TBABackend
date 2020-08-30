@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace WanderListAPI.Models
 {
-    public class Activity : Content
+    public class Shortlist
     {
-        // Table Properties
-        [ForeignKey("Content")]
-        public Guid ActivityId { get; set; }
-
-        //activity specific stuff?
+        [ForeignKey("ApplicationUser")]
+        public Guid UserId { get; set; }
+        public Guid ListId { get; set; }
+        public String ListName { get; set; }
     }
 }

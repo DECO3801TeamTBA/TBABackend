@@ -14,12 +14,18 @@ namespace WanderListAPI.Data
     {
 
         //Add DbSet<Entity> here
+        public DbSet<Activity> Activity { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<Destination> Destination { get; set; }
+        public DbSet<History> History { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
-        public DbSet<Activity> Activity { get; set; }
-        public DbSet<History> History { get; set; }
+        public DbSet<Restaurant> Restaurant { get; set; }
+        public DbSet<Reward> Reward { get; set; }
+        public DbSet<Shortlist> Shortlist { get; set; }
+        public DbSet<ShortlistContent> ShortlistContent { get; set; }
+        public DbSet<UserReward> UserReward { get; set; }
 
         public WanderListDbContext()
         {
@@ -107,6 +113,37 @@ namespace WanderListAPI.Data
 
             // We are using int here because of the change on the PK
 
+            // Alternative way to build initial data?
+            // The following populates every table (except the Resource tables) with at least 1 entry
+            var seed = new DataSeed();
+            var appUser = seed.GenerateApplicationUser();
+            var appUserId = Guid.NewGuid();
+            Guid.TryParse(user.Id, out appUserId);
+            var activity = seed.GenerateContent();
+            var destination = seed.GenerateContent();
+            var restaurant = seed.GenerateContent();
+            var reward = seed.GenerateReward();
+            var shortlist = seed.GenerateShortlist(appUserId);
+
+            modelBuilder.Entity<ApplicationUser>().HasData(user);
+            modelBuilder.Entity<Content>().HasData(activity);
+            modelBuilder.Entity<Content>().HasData(destination);
+            modelBuilder.Entity<Content>().HasData(restaurant);
+            modelBuilder.Entity<Activity>().HasData(seed.GenerateActivity(activity.ContentId));
+            modelBuilder.Entity<Destination>().HasData(seed.GenerateDestination(destination.ContentId));
+            modelBuilder.Entity<Restaurant>().HasData(seed.GenerateRestaurant(restaurant.ContentId));
+            modelBuilder.Entity<Reward>().HasData(reward);
+            modelBuilder.Entity<UserReward>().HasData(seed.GenerateUserReward(reward.RewardId, appUserId));
+            modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, activity.ContentId));
+            modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, destination.ContentId));
+            modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, restaurant.ContentId));
+            modelBuilder.Entity<Shortlist>().HasData(shortlist);
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ListId,
+                activity.ContentId));
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ListId,
+                destination.ContentId));
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ListId,
+                restaurant.ContentId));
         }
     }
 }

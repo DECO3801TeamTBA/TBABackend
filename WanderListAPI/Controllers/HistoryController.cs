@@ -36,35 +36,21 @@ namespace WanderListAPI.Controllers
             if (role == "user")
             {
                 var histories = await _context.History
-                    .Where(hist => hist.UserId == id.ToString())
+                    .Where(val => val.UserId == id.ToString())
                     .ToListAsync();
                 return histories;
             }
-            else
+            else if (role == "content")
             {
                 var histories = await _context.History
                     .Where(hist => hist.ContentId == id)
                     .ToListAsync();
                 return histories;
+            } else
+            {
+                //return bad request?
+                return null;
             }
-        }
-
-        // POST api/<HistoryController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<HistoryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<HistoryController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
