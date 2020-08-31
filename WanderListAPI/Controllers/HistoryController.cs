@@ -32,7 +32,7 @@ namespace WanderListAPI.Controllers
         [HttpGet("{role}/{id}")]
         public async Task<IEnumerable<History>> Get(string role, Guid id)
         {
-            _logger.LogInformation($"GET Histories {role} {id}"); //If we wish to log information for debug purposes
+            _logger.LogInformation($"GET History {role} {id}"); 
             if (role == "user")
             {
                 var histories = await _context.History

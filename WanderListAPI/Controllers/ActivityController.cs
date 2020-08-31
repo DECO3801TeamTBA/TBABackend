@@ -25,11 +25,11 @@ namespace WanderListAPI.Controllers
             _context = context;
         }
 
-        // GET: api/<ContentController>/all
+        // GET: api/<ActivityController>/all
         [HttpGet("all")]
-        public async Task<IEnumerable<Activity>> Get(string type)
+        public async Task<IEnumerable<Activity>> Get()
         {
-            _logger.LogInformation($"GET Content {type}");
+            _logger.LogInformation($"GET Activity all");
             var content = await _context.Activity
                 .Include(act => act.Content)
                 .ToListAsync();
@@ -37,11 +37,11 @@ namespace WanderListAPI.Controllers
         }
 
 
-        // GET api/<ContentController>/5
+        // GET api/<ActivityController>/5
         [HttpGet("{activityId}")]
         public async Task<Activity> Get(Guid activityId)
         {
-            _logger.LogInformation($"GET Content {activityId}");
+            _logger.LogInformation($"GET Activity {activityId}");
             var content = await _context.Activity
                 .Include(act => act.Content)
                 .Where(val => val.Content.ContentId == activityId)

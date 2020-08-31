@@ -21,7 +21,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ContentController(WanderListDbContext context, ILogger<History> logger)
+        public ContentController(WanderListDbContext context, ILogger<Content> logger)
         {
             _logger = logger;
             _context = context;
@@ -29,9 +29,9 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<ContentController>/all
         [HttpGet("all")]
-        public async Task<IEnumerable<Content>> Get(String type)
+        public async Task<IEnumerable<Content>> Get()
         {
-            _logger.LogInformation($"GET Content {type}");
+            _logger.LogInformation($"GET Content all");
             var content = await _context.Content
                 .ToListAsync();
             return content;
