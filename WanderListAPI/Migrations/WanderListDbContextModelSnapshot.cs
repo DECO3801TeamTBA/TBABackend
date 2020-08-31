@@ -45,10 +45,17 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5",
-                            ConcurrencyStamp = "29415286-eb2f-49b6-a919-98186fd9c3c3",
+                            Id = "af369cc6-1ec4-4eed-94a9-54f8798ab05c",
+                            ConcurrencyStamp = "60c32101-a22c-43b3-9999-4835a962d031",
                             Name = "Admin",
                             NormalizedName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "78966968-c6e9-46e8-a277-972d45c381f2",
+                            ConcurrencyStamp = "2522ed2f-e023-4b20-a9b0-82c860eb019c",
+                            Name = "User",
+                            NormalizedName = "User"
                         });
                 });
 
@@ -137,8 +144,13 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f54647c3-8380-4b64-8426-6f75faf3ceef",
-                            RoleId = "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5"
+                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
+                            RoleId = "af369cc6-1ec4-4eed-94a9-54f8798ab05c"
+                        },
+                        new
+                        {
+                            UserId = "4e5d808d-87f8-45b5-aae3-f8bb03d9a6b2",
+                            RoleId = "78966968-c6e9-46e8-a277-972d45c381f2"
                         });
                 });
 
@@ -164,17 +176,17 @@ namespace WanderListAPI.Migrations
             modelBuilder.Entity("WanderListAPI.Models.Activity", b =>
                 {
                     b.Property<Guid>("ActivityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("DestinationId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("ActivityId");
 
-                    b.HasIndex("DestinationId");
-
                     b.ToTable("Activity");
+
+                    b.HasData(
+                        new
+                        {
+                            ActivityId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28")
+                        });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.ApplicationUser", b =>
@@ -225,6 +237,9 @@ namespace WanderListAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -249,19 +264,37 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f54647c3-8380-4b64-8426-6f75faf3ceef",
+                            Id = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02bd9e9f-7f6d-45d8-b4a9-3b9c049d9e45",
+                            ConcurrencyStamp = "f0087192-d389-48dc-a037-c8f279ce9bfa",
                             Email = "fake@fake.com",
                             EmailConfirmed = false,
                             FirstName = "JoeyJojo",
                             LastName = "Shabadoo",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAELxZ96DUA5yZxCCp3ZcnR9l7C3BFFASWK6EVgGBTgxjhu2CRu8ursPGLhIXBlOi51w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAYjOpoEKhZX96VzAk7lc+fBrAPrZFWDUAyMDnWxjewD+WpQtbcYyxZbqw/Q3WF8xQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ad988a7e-7042-43d7-9b66-1664b1cdd17c",
+                            Points = 0,
+                            SecurityStamp = "a165f7be-522d-42b3-a937-ce4faa32192b",
                             TwoFactorEnabled = false,
                             UserName = "wanderuser"
+                        },
+                        new
+                        {
+                            Id = "4e5d808d-87f8-45b5-aae3-f8bb03d9a6b2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "afe61de1-0ff2-4a00-8346-a93a268bc7fd",
+                            Email = "surfer69@scoobydoo.com",
+                            EmailConfirmed = false,
+                            FirstName = "Norville",
+                            LastName = "Rogers",
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEM1G44oo51+TC2poqw+lJkrxhFsMleUOo6xjjt3YakrOfAG38nRurw+wMZRSofYBEg==",
+                            PhoneNumberConfirmed = false,
+                            Points = 0,
+                            SecurityStamp = "e21d68e2-1e8b-4903-a76d-dcbc10fe006e",
+                            TwoFactorEnabled = false,
+                            UserName = "Shaggy"
                         });
                 });
 
@@ -274,7 +307,7 @@ namespace WanderListAPI.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("Capacity")
+                    b.Property<int>("Capacity")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -299,7 +332,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"),
+                            ContentId = new Guid("c7c89c9c-e5f6-419a-b569-a170b1334c2a"),
                             Address = "fake",
                             Capacity = 200,
                             Description = "fake",
@@ -307,18 +340,44 @@ namespace WanderListAPI.Migrations
                             Longitude = 45.15m,
                             Name = "Fakorama",
                             Website = "www.fake.com"
+                        },
+                        new
+                        {
+                            ContentId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"),
+                            Capacity = 0,
+                            Lattitude = 0m,
+                            Longitude = 0m
+                        },
+                        new
+                        {
+                            ContentId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"),
+                            Capacity = 0,
+                            Lattitude = 0m,
+                            Longitude = 0m
+                        },
+                        new
+                        {
+                            ContentId = new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"),
+                            Capacity = 0,
+                            Lattitude = 0m,
+                            Longitude = 0m
                         });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.Destination", b =>
                 {
                     b.Property<Guid>("DestinationId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.HasKey("DestinationId");
 
                     b.ToTable("Destination");
+
+                    b.HasData(
+                        new
+                        {
+                            DestinationId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724")
+                        });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.History", b =>
@@ -341,9 +400,27 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"),
-                            UserId = "f54647c3-8380-4b64-8426-6f75faf3ceef",
-                            Date = new DateTime(2020, 8, 29, 11, 12, 0, 735, DateTimeKind.Local).AddTicks(9746)
+                            ContentId = new Guid("c7c89c9c-e5f6-419a-b569-a170b1334c2a"),
+                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
+                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 159, DateTimeKind.Local).AddTicks(8205)
+                        },
+                        new
+                        {
+                            ContentId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"),
+                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
+                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(5989)
+                        },
+                        new
+                        {
+                            ContentId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"),
+                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
+                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(6102)
+                        },
+                        new
+                        {
+                            ContentId = new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"),
+                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
+                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(6130)
                         });
                 });
 
@@ -403,6 +480,119 @@ namespace WanderListAPI.Migrations
                     b.ToTable("ResourceMeta");
                 });
 
+            modelBuilder.Entity("WanderListAPI.Models.Reward", b =>
+                {
+                    b.Property<Guid>("RewardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("RewardId");
+
+                    b.ToTable("Reward");
+
+                    b.HasData(
+                        new
+                        {
+                            RewardId = new Guid("bcac4e97-646f-494d-a15e-66952fc53fe7"),
+                            ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Burger King Coupon",
+                            Value = "15% OFF"
+                        });
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.Shortlist", b =>
+                {
+                    b.Property<Guid>("ShortListId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ListName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("ShortListId");
+
+                    b.ToTable("Shortlist");
+
+                    b.HasData(
+                        new
+                        {
+                            ShortListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            ListName = "Scooby Doo Vacation",
+                            UserId = new Guid("59768b0c-fc94-4645-a27a-e79b0b7ae84e")
+                        });
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.ShortlistContent", b =>
+                {
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ListId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContentId", "ListId");
+
+                    b.ToTable("ShortlistContent");
+
+                    b.HasData(
+                        new
+                        {
+                            ContentId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"),
+                            ListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            Number = 1
+                        },
+                        new
+                        {
+                            ContentId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"),
+                            ListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            Number = 1
+                        },
+                        new
+                        {
+                            ContentId = new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"),
+                            ListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            Number = 1
+                        });
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.UserReward", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RewardId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("UserId", "RewardId");
+
+                    b.ToTable("UserReward");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("bcac4e97-646f-494d-a15e-66952fc53fe7"),
+                            RewardId = new Guid("59768b0c-fc94-4645-a27a-e79b0b7ae84e")
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -456,9 +646,20 @@ namespace WanderListAPI.Migrations
 
             modelBuilder.Entity("WanderListAPI.Models.Activity", b =>
                 {
-                    b.HasOne("WanderListAPI.Models.Destination", "Destination")
+                    b.HasOne("WanderListAPI.Models.Content", "Content")
                         .WithMany()
-                        .HasForeignKey("DestinationId");
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.Destination", b =>
+                {
+                    b.HasOne("WanderListAPI.Models.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.History", b =>

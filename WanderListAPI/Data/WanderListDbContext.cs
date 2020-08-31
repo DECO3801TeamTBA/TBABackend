@@ -21,7 +21,7 @@ namespace WanderListAPI.Data
         public DbSet<History> History { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
-        public DbSet<Restaurant> Restaurant { get; set; }
+        //public DbSet<Restaurant> Restaurant { get; set; }
         public DbSet<Reward> Reward { get; set; }
         public DbSet<Shortlist> Shortlist { get; set; }
         public DbSet<ShortlistContent> ShortlistContent { get; set; }
@@ -51,17 +51,30 @@ namespace WanderListAPI.Data
 
             //Add fluentAPI calls here. Not necessary atm I think, since we're using DataAnnotations (see Models)
             //Additionally, some properties do not even require DataAnnotations (see EF Core docs)
+
+            //Composite Keys here
             modelBuilder.Entity<History>().HasKey(hist => new { hist.ContentId, hist.UserId });
+            modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ListId });
+            modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
+
 
             //create some Ids
             string userId = Guid.NewGuid().ToString();
-            string roleId = Guid.NewGuid().ToString();
+            string roleIdAdmin = Guid.NewGuid().ToString();
+            string roleIdUser = Guid.NewGuid().ToString();
 
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
-                Id = roleId,
+                Id = roleIdAdmin,
                 Name = "Admin",
                 NormalizedName = "Admin"
+            });
+
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = roleIdUser,
+                Name = "User",
+                NormalizedName = "User"
             });
 
             var user = new ApplicationUser()
@@ -79,9 +92,11 @@ namespace WanderListAPI.Data
 
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
-                RoleId = roleId,
+                RoleId = roleIdAdmin,
                 UserId = userId
             });
+
+            
 
             //Add to WanderUser table too, we can probably just remove WanderUser and house everything in ApplicationUser?
             //modelBuilder.Entity<WanderUser>().HasData(user);
@@ -125,24 +140,30 @@ namespace WanderListAPI.Data
             var reward = seed.GenerateReward();
             var shortlist = seed.GenerateShortlist(appUserId);
 
-            modelBuilder.Entity<ApplicationUser>().HasData(user);
+            modelBuilder.Entity<ApplicationUser>().HasData(appUser);
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = roleIdUser,
+                UserId = appUser.Id
+            });
+
             modelBuilder.Entity<Content>().HasData(activity);
             modelBuilder.Entity<Content>().HasData(destination);
             modelBuilder.Entity<Content>().HasData(restaurant);
-            modelBuilder.Entity<Activity>().HasData(seed.GenerateActivity(activity.ContentId));
-            modelBuilder.Entity<Destination>().HasData(seed.GenerateDestination(destination.ContentId));
-            modelBuilder.Entity<Restaurant>().HasData(seed.GenerateRestaurant(restaurant.ContentId));
+            modelBuilder.Entity<Activity>().HasData(seed.GenerateActivity(activity));
+            modelBuilder.Entity<Destination>().HasData(seed.GenerateDestination(destination));
+            //modelBuilder.Entity<Restaurant>().HasData(seed.GenerateRestaurant(restaurant.ContentId));
             modelBuilder.Entity<Reward>().HasData(reward);
             modelBuilder.Entity<UserReward>().HasData(seed.GenerateUserReward(reward.RewardId, appUserId));
             modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, activity.ContentId));
             modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, destination.ContentId));
             modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, restaurant.ContentId));
             modelBuilder.Entity<Shortlist>().HasData(shortlist);
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
                 activity.ContentId));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
                 destination.ContentId));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
                 restaurant.ContentId));
         }
     }

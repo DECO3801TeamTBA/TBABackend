@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WanderListAPI.Migrations
 {
-    public partial class InitialCreateAndSeed : Migration
+    public partial class NewSeedPlusSchemaWuChen : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,8 @@ namespace WanderListAPI.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    Points = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,26 +57,15 @@ namespace WanderListAPI.Migrations
                     ContentId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Longitude = table.Column<decimal>(nullable: false),
                     Lattitude = table.Column<decimal>(nullable: false),
+                    Longitude = table.Column<decimal>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     Website = table.Column<string>(nullable: true),
-                    Capacity = table.Column<int>(nullable: true)
+                    Capacity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Content", x => x.ContentId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Destination",
-                columns: table => new
-                {
-                    DestinationId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Destination", x => x.DestinationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,6 +79,59 @@ namespace WanderListAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Resource", x => x.ResourceId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reward",
+                columns: table => new
+                {
+                    RewardId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true),
+                    ExpiryDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reward", x => x.RewardId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shortlist",
+                columns: table => new
+                {
+                    ShortListId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    ListName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shortlist", x => x.ShortListId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShortlistContent",
+                columns: table => new
+                {
+                    ListId = table.Column<Guid>(nullable: false),
+                    ContentId = table.Column<Guid>(nullable: false),
+                    Number = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShortlistContent", x => new { x.ContentId, x.ListId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserReward",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(nullable: false),
+                    RewardId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserReward", x => new { x.UserId, x.RewardId });
                 });
 
             migrationBuilder.CreateTable(
@@ -198,6 +241,40 @@ namespace WanderListAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Activity",
+                columns: table => new
+                {
+                    ActivityId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activity", x => x.ActivityId);
+                    table.ForeignKey(
+                        name: "FK_Activity_Content_ActivityId",
+                        column: x => x.ActivityId,
+                        principalTable: "Content",
+                        principalColumn: "ContentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Destination",
+                columns: table => new
+                {
+                    DestinationId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Destination", x => x.DestinationId);
+                    table.ForeignKey(
+                        name: "FK_Destination_Content_DestinationId",
+                        column: x => x.DestinationId,
+                        principalTable: "Content",
+                        principalColumn: "ContentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "History",
                 columns: table => new
                 {
@@ -220,24 +297,6 @@ namespace WanderListAPI.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Activity",
-                columns: table => new
-                {
-                    ActivityId = table.Column<Guid>(nullable: false),
-                    DestinationId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activity", x => x.ActivityId);
-                    table.ForeignKey(
-                        name: "FK_Activity_Destination_DestinationId",
-                        column: x => x.DestinationId,
-                        principalTable: "Destination",
-                        principalColumn: "DestinationId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -274,32 +333,86 @@ namespace WanderListAPI.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5", "29415286-eb2f-49b6-a919-98186fd9c3c3", "Admin", "Admin" });
+                values: new object[,]
+                {
+                    { "af369cc6-1ec4-4eed-94a9-54f8798ab05c", "60c32101-a22c-43b3-9999-4835a962d031", "Admin", "Admin" },
+                    { "78966968-c6e9-46e8-a277-972d45c381f2", "2522ed2f-e023-4b20-a9b0-82c860eb019c", "User", "User" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "f54647c3-8380-4b64-8426-6f75faf3ceef", 0, "02bd9e9f-7f6d-45d8-b4a9-3b9c049d9e45", "fake@fake.com", false, "JoeyJojo", "Shabadoo", false, null, null, null, "AQAAAAEAACcQAAAAELxZ96DUA5yZxCCp3ZcnR9l7C3BFFASWK6EVgGBTgxjhu2CRu8ursPGLhIXBlOi51w==", null, false, "ad988a7e-7042-43d7-9b66-1664b1cdd17c", false, "wanderuser" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "59768b0c-fc94-4645-a27a-e79b0b7ae84e", 0, "f0087192-d389-48dc-a037-c8f279ce9bfa", "fake@fake.com", false, "JoeyJojo", "Shabadoo", false, null, null, null, "AQAAAAEAACcQAAAAEAYjOpoEKhZX96VzAk7lc+fBrAPrZFWDUAyMDnWxjewD+WpQtbcYyxZbqw/Q3WF8xQ==", null, false, 0, "a165f7be-522d-42b3-a937-ce4faa32192b", false, "wanderuser" },
+                    { "4e5d808d-87f8-45b5-aae3-f8bb03d9a6b2", 0, "afe61de1-0ff2-4a00-8346-a93a268bc7fd", "surfer69@scoobydoo.com", false, "Norville", "Rogers", false, null, null, null, "AQAAAAEAACcQAAAAEM1G44oo51+TC2poqw+lJkrxhFsMleUOo6xjjt3YakrOfAG38nRurw+wMZRSofYBEg==", null, false, 0, "e21d68e2-1e8b-4903-a76d-dcbc10fe006e", false, "Shaggy" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Content",
                 columns: new[] { "ContentId", "Address", "Capacity", "Description", "Lattitude", "Longitude", "Name", "Website" },
-                values: new object[] { new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"), "fake", 200, "fake", 15.51m, 45.15m, "Fakorama", "www.fake.com" });
+                values: new object[,]
+                {
+                    { new Guid("c7c89c9c-e5f6-419a-b569-a170b1334c2a"), "fake", 200, "fake", 15.51m, 45.15m, "Fakorama", "www.fake.com" },
+                    { new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"), null, 0, null, 0m, 0m, null, null },
+                    { new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"), null, 0, null, 0m, 0m, null, null },
+                    { new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"), null, 0, null, 0m, 0m, null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reward",
+                columns: new[] { "RewardId", "Description", "ExpiryDate", "Name", "Value" },
+                values: new object[] { new Guid("bcac4e97-646f-494d-a15e-66952fc53fe7"), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Burger King Coupon", "15% OFF" });
+
+            migrationBuilder.InsertData(
+                table: "Shortlist",
+                columns: new[] { "ShortListId", "ListName", "UserId" },
+                values: new object[] { new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"), "Scooby Doo Vacation", new Guid("59768b0c-fc94-4645-a27a-e79b0b7ae84e") });
+
+            migrationBuilder.InsertData(
+                table: "ShortlistContent",
+                columns: new[] { "ContentId", "ListId", "Number" },
+                values: new object[,]
+                {
+                    { new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"), new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"), 1 },
+                    { new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"), new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"), 1 },
+                    { new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"), new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"), 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserReward",
+                columns: new[] { "UserId", "RewardId" },
+                values: new object[] { new Guid("bcac4e97-646f-494d-a15e-66952fc53fe7"), new Guid("59768b0c-fc94-4645-a27a-e79b0b7ae84e") });
+
+            migrationBuilder.InsertData(
+                table: "Activity",
+                column: "ActivityId",
+                value: new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"));
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "f54647c3-8380-4b64-8426-6f75faf3ceef", "9414bc55-e6a3-4e1c-882c-6ff899bf9fc5" });
+                values: new object[,]
+                {
+                    { "59768b0c-fc94-4645-a27a-e79b0b7ae84e", "af369cc6-1ec4-4eed-94a9-54f8798ab05c" },
+                    { "4e5d808d-87f8-45b5-aae3-f8bb03d9a6b2", "78966968-c6e9-46e8-a277-972d45c381f2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Destination",
+                column: "DestinationId",
+                value: new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"));
 
             migrationBuilder.InsertData(
                 table: "History",
                 columns: new[] { "ContentId", "UserId", "Date" },
-                values: new object[] { new Guid("3ce77d67-5448-461e-9fe3-5a7b7b58ad66"), "f54647c3-8380-4b64-8426-6f75faf3ceef", new DateTime(2020, 8, 29, 11, 12, 0, 735, DateTimeKind.Local).AddTicks(9746) });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Activity_DestinationId",
-                table: "Activity",
-                column: "DestinationId");
+                values: new object[,]
+                {
+                    { new Guid("c7c89c9c-e5f6-419a-b569-a170b1334c2a"), "59768b0c-fc94-4645-a27a-e79b0b7ae84e", new DateTime(2020, 8, 31, 13, 19, 52, 159, DateTimeKind.Local).AddTicks(8205) },
+                    { new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"), "59768b0c-fc94-4645-a27a-e79b0b7ae84e", new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(5989) },
+                    { new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"), "59768b0c-fc94-4645-a27a-e79b0b7ae84e", new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(6102) },
+                    { new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"), "59768b0c-fc94-4645-a27a-e79b0b7ae84e", new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(6130) }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -370,13 +483,25 @@ namespace WanderListAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Destination");
+
+            migrationBuilder.DropTable(
                 name: "History");
 
             migrationBuilder.DropTable(
                 name: "ResourceMeta");
 
             migrationBuilder.DropTable(
-                name: "Destination");
+                name: "Reward");
+
+            migrationBuilder.DropTable(
+                name: "Shortlist");
+
+            migrationBuilder.DropTable(
+                name: "ShortlistContent");
+
+            migrationBuilder.DropTable(
+                name: "UserReward");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

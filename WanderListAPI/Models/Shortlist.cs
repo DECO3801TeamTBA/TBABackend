@@ -10,7 +10,7 @@ namespace WanderListAPI.Models
     {
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }
-        public Guid ListId { get; set; }
-        public String ListName { get; set; }
+        public Guid ShortListId { get; set; }
+        public string ListName { get; set; }
     }
 }

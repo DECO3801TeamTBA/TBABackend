@@ -21,7 +21,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ApplicationUserController(WanderListDbContext context, ILogger<History> logger)
+        public ApplicationUserController(WanderListDbContext context, ILogger<ApplicationUser> logger)
         {
             _logger = logger;
             _context = context;

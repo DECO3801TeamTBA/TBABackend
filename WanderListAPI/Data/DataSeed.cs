@@ -48,28 +48,21 @@ namespace WanderListAPI.Data
             return reward;
         }
 
-        public Activity GenerateActivity(Guid contentId)
+        public Activity GenerateActivity(Content content)
         {
             var activity = new Activity()
             {
-                ActivityId = contentId,
-                Name = "Ride in the Mystery.inc truck",
-                Description = "Take a guided tour of the towns most " +
-                "mysterious attractions in a mystery inc truck",
-                Capacity = 125
+                ActivityId = content.ContentId
             };
 
             return activity;
         }
 
-        public Destination GenerateDestination(Guid contentId)
+        public Destination GenerateDestination(Content content)
         {
             var destination = new Destination()
             {
-                DestinationId = contentId,
-                Name = "Scooby Ville",
-                Description = "The scooby themed holiday destination",
-                Capacity = 50
+                DestinationId = content.ContentId
             };
 
             return destination;
@@ -87,24 +80,24 @@ namespace WanderListAPI.Data
             return history;
         }
 
-        public Restaurant GenerateRestaurant(Guid contentId)
-        {
-            var restaurant = new Restaurant()
-            {
-                RestaurantId = contentId,
-                Name = "Burger King",
-                Description = "Come dine Shaggy and Scooby style at the Burger King!",
-                Capacity = 25
-            };
-            return restaurant;
-        }
+        //public Restaurant GenerateRestaurant(Guid contentId)
+        //{
+        //    var restaurant = new Restaurant()
+        //    {
+        //        RestaurantId = contentId,
+        //        Name = "Burger King",
+        //        Description = "Come dine Shaggy and Scooby style at the Burger King!",
+        //        Capacity = 25
+        //    };
+        //    return restaurant;
+        //}
 
         public Shortlist GenerateShortlist(Guid userId)
         {
             var shortlist = new Shortlist()
             {
                 UserId = userId,
-                ListId = Guid.NewGuid(),
+                ShortListId = Guid.NewGuid(),
                 ListName = "Scooby Doo Vacation"
             };
 
