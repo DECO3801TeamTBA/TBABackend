@@ -76,9 +76,13 @@ namespace WanderListAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //The live version is sitting behind a Nginx server that handles https traffic,
+                //within the local network traffic is handled with faster http. (See UQ Zone Docs)
+                app.UseHttpsRedirection(); 
+
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseRouting();
 
