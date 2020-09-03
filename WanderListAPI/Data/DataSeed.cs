@@ -92,12 +92,12 @@ namespace WanderListAPI.Data
         //    return restaurant;
         //}
 
-        public Shortlist GenerateShortlist(Guid userId)
+        public Shortlist GenerateShortlist(ApplicationUser user)
         {
             var shortlist = new Shortlist()
             {
-                UserId = userId,
-                ShortListId = Guid.NewGuid(),
+                UserId = user.Id.ToString(),
+                ShortlistId = Guid.NewGuid(),
                 ListName = "Scooby Doo Vacation"
             };
 
@@ -108,7 +108,7 @@ namespace WanderListAPI.Data
         {
             var shortlistContent = new ShortlistContent()
             {
-                ListId = listId,
+                ShortlistId = listId,
                 ContentId = contentId,
                 Number = 1
             };

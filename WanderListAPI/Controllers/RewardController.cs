@@ -43,7 +43,7 @@ namespace WanderListAPI.Controllers
             var result = await _context.Reward.FindAsync(id);
             if (result == default(Reward))
             {
-                return BadRequest(new Response()
+                return NotFound(new Response()
                 {
                     Message = $"No reward exists with id {id}",
                     Status = "400"
@@ -71,7 +71,7 @@ namespace WanderListAPI.Controllers
                     Status = "400"
                 });
             }
-            return NoContent();
+            return CreatedAtAction("GET Reward", reward);
         }
 
         // PUT api/<RewardController>/5
@@ -128,9 +128,19 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation($"DELETE Reward with {id}");
+
+            var result = await _context.Reward.FindAsync();
+            if (result == default(Reward))
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No reward exists with id {id}",
+                    Status = "400"
+                });
+            }
             try
             {
-                _context.Reward.Remove(new Reward() { RewardId = id });
+                _context.Reward.Remove(result);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

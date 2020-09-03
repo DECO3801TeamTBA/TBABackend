@@ -54,7 +54,7 @@ namespace WanderListAPI.Data
 
             //Composite Keys here
             modelBuilder.Entity<History>().HasKey(hist => new { hist.ContentId, hist.UserId });
-            modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ListId });
+            modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ShortlistId });
             modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
 
 
@@ -138,7 +138,7 @@ namespace WanderListAPI.Data
             var destination = seed.GenerateContent();
             var restaurant = seed.GenerateContent();
             var reward = seed.GenerateReward();
-            var shortlist = seed.GenerateShortlist(appUserId);
+            var shortlist = seed.GenerateShortlist(appUser);
 
             modelBuilder.Entity<ApplicationUser>().HasData(appUser);
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
@@ -159,11 +159,11 @@ namespace WanderListAPI.Data
             modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, destination.ContentId));
             modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, restaurant.ContentId));
             modelBuilder.Entity<Shortlist>().HasData(shortlist);
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortlistId,
                 activity.ContentId));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortlistId,
                 destination.ContentId));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortlistId,
                 restaurant.ContentId));
         }
     }

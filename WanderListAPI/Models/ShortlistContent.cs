@@ -10,10 +10,16 @@ namespace WanderListAPI.Models
     public class ShortlistContent
     {
         [ForeignKey("Shortlist")]
-        public Guid ListId { get; set; }
+        public Guid ShortlistId { get; set; }
         [ForeignKey("Content")]
         public Guid ContentId { get; set; }
         [Required]
         public int Number { get; set; }
+
+
+        //Navigation properties
+        public Shortlist Shortlist { get; set; }
+        public Content Content { get; set; }
+        
     }
 }
