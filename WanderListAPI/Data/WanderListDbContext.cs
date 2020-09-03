@@ -58,113 +58,59 @@ namespace WanderListAPI.Data
             modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
 
 
-            //create some Ids
-            string userId = Guid.NewGuid().ToString();
-            string roleIdAdmin = Guid.NewGuid().ToString();
-            string roleIdUser = Guid.NewGuid().ToString();
+            //Generate Data
+            var seed = new DataFactory();
 
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
-            {
-                Id = roleIdAdmin,
-                Name = "Admin",
-                NormalizedName = "Admin"
-            });
+            // User stuff
+            IdentityRole adminRole = seed.CreateIdentityRole("Admin");
+            IdentityRole userRole = seed.CreateIdentityRole("User");
+            ApplicationUser user = seed.CreateApplicationUser();
+            Guid userId = Guid.NewGuid();
+            Guid.TryParse(user.Id, out userId);
 
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
-            {
-                Id = roleIdUser,
-                Name = "User",
-                NormalizedName = "User"
-            });
-
-            var user = new ApplicationUser()
-            {
-                FirstName = "JoeyJojo",
-                LastName = "Shabadoo",
-                Id = userId,
-                UserName = "wanderuser",
-                Email = "fake@fake.com",
-                PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "1234"),
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-
+            modelBuilder.Entity<IdentityRole>().HasData(adminRole);
+            modelBuilder.Entity<IdentityRole>().HasData(userRole);
             modelBuilder.Entity<ApplicationUser>().HasData(user);
-
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
-                RoleId = roleIdAdmin,
-                UserId = userId
+                RoleId = userRole.Id,
+                UserId = user.Id
             });
 
-            
+            // Content stuff
+            Content activityContent = seed.CreateContent();
+            Content destinationContent = seed.CreateContent();
+            Activity activity = seed.CreateActivity(activityContent);
+            Destination destination = seed.CreateDestination(destinationContent);
 
-            //Add to WanderUser table too, we can probably just remove WanderUser and house everything in ApplicationUser?
-            //modelBuilder.Entity<WanderUser>().HasData(user);
+            modelBuilder.Entity<Content>().HasData(activityContent);
+            modelBuilder.Entity<Content>().HasData(destinationContent);
+            modelBuilder.Entity<Activity>().HasData(activity);
+            modelBuilder.Entity<Destination>().HasData(destination);
 
-            var contentId = Guid.NewGuid();
-            modelBuilder.Entity<Content>().HasData(new Content
-            {
-                ContentId = contentId,
-                Description = "fake",
-                Address = "fake",
-                Name = "Fakorama",
-                Lattitude = 15.51M,
-                Longitude = 45.15M,
-                Website = "www.fake.com",
-                Capacity = 200
-            });
+            // Shortlist stuff
+            Shortlist shortlist = seed.CreateShortlist(userId);
 
-            modelBuilder.Entity<History>().HasData(new History()
-            {
-                UserId = userId,
-                ContentId = contentId,
-                Date = DateTime.Now
-            });
+            modelBuilder.Entity<Shortlist>().HasData(shortlist);
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortListId,
+                activity.ActivityId, 0));
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortListId,
+                destination.DestinationId, 0));
 
+            // Reward stuff
+            var reward = seed.CreateReward();
 
+            modelBuilder.Entity<Reward>().HasData(reward);
+            modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(reward.RewardId, userId));
+
+            // History stuff
+            modelBuilder.Entity<History>().HasData(seed.CreateHistory(userId, activity.ActivityId));
+            modelBuilder.Entity<History>().HasData(seed.CreateHistory(userId, destination.DestinationId));
 
             //MySQL issues, found on stack overflow here:
             //https://stackoverflow.com/questions/49573740/identity-and-mysql-in-code-first-specified-key-was-too-long-max-key-length-is
 
             // We are using int here because of the change on the PK
-
-            // Alternative way to build initial data?
-            // The following populates every table (except the Resource tables) with at least 1 entry
-            var seed = new DataSeed();
-            var appUser = seed.GenerateApplicationUser();
-            var appUserId = Guid.NewGuid();
-            Guid.TryParse(user.Id, out appUserId);
-            var activity = seed.GenerateContent();
-            var destination = seed.GenerateContent();
-            var restaurant = seed.GenerateContent();
-            var reward = seed.GenerateReward();
-            var shortlist = seed.GenerateShortlist(appUserId);
-
-            modelBuilder.Entity<ApplicationUser>().HasData(appUser);
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            {
-                RoleId = roleIdUser,
-                UserId = appUser.Id
-            });
-
-            modelBuilder.Entity<Content>().HasData(activity);
-            modelBuilder.Entity<Content>().HasData(destination);
-            modelBuilder.Entity<Content>().HasData(restaurant);
-            modelBuilder.Entity<Activity>().HasData(seed.GenerateActivity(activity));
-            modelBuilder.Entity<Destination>().HasData(seed.GenerateDestination(destination));
-            //modelBuilder.Entity<Restaurant>().HasData(seed.GenerateRestaurant(restaurant.ContentId));
-            modelBuilder.Entity<Reward>().HasData(reward);
-            modelBuilder.Entity<UserReward>().HasData(seed.GenerateUserReward(reward.RewardId, appUserId));
-            modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, activity.ContentId));
-            modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, destination.ContentId));
-            modelBuilder.Entity<History>().HasData(seed.GenerateHistory(appUserId, restaurant.ContentId));
-            modelBuilder.Entity<Shortlist>().HasData(shortlist);
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
-                activity.ContentId));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
-                destination.ContentId));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.GenerateShortlistContent(shortlist.ShortListId,
-                restaurant.ContentId));
         }
     }
 }

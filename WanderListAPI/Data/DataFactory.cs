@@ -7,9 +7,32 @@ using WanderListAPI.Models;
 
 namespace WanderListAPI.Data
 {
-    public class DataSeed
+    public class DataFactory
     {
-        public ApplicationUser GenerateApplicationUser()
+        public IdentityRole CreateIdentityRole(string type)
+        {
+            var identityRole = new IdentityRole()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = type,
+                NormalizedName = type
+            };
+
+            return identityRole;
+        }
+
+        public IdentityUserRole<string> CreateIdentityUserRole(Guid userId, Guid roleId)
+        {
+            var identityUserRole = new IdentityUserRole<string>()
+            {
+                RoleId = roleId.ToString(),
+                UserId = userId.ToString()
+            };
+
+            return identityUserRole;
+        }
+
+        public ApplicationUser CreateApplicationUser()
         {
             var user = new ApplicationUser()
             {
@@ -25,7 +48,7 @@ namespace WanderListAPI.Data
             return user;
         }
 
-        public Content GenerateContent()
+        public Content CreateContent()
         {
             var content = new Content()
             {
@@ -35,7 +58,7 @@ namespace WanderListAPI.Data
             return content;
         }
 
-        public Reward GenerateReward()
+        public Reward CreateReward()
         {
             var reward = new Reward()
             {
@@ -48,8 +71,13 @@ namespace WanderListAPI.Data
             return reward;
         }
 
-        public Activity GenerateActivity(Content content)
+        public Activity CreateActivity(Content content)
         {
+            content.Name = "Ride in the Mystery.inc truck";
+            content.Description = "Take a guided tour of the towns most " +
+                "mysterious attractions in a mystery inc truck";
+            content.Capacity = 125;
+
             var activity = new Activity()
             {
                 ActivityId = content.ContentId
@@ -58,8 +86,12 @@ namespace WanderListAPI.Data
             return activity;
         }
 
-        public Destination GenerateDestination(Content content)
+        public Destination CreateDestination(Content content)
         {
+            content.Name = "Scooby Ville";
+            content.Description = "The scooby themed holiday destination";
+            content.Capacity = 50;
+
             var destination = new Destination()
             {
                 DestinationId = content.ContentId
@@ -68,7 +100,7 @@ namespace WanderListAPI.Data
             return destination;
         }
 
-        public History GenerateHistory(Guid userId, Guid contentId)
+        public History CreateHistory(Guid userId, Guid contentId)
         {
             var history = new History()
             {
@@ -80,19 +112,7 @@ namespace WanderListAPI.Data
             return history;
         }
 
-        //public Restaurant GenerateRestaurant(Guid contentId)
-        //{
-        //    var restaurant = new Restaurant()
-        //    {
-        //        RestaurantId = contentId,
-        //        Name = "Burger King",
-        //        Description = "Come dine Shaggy and Scooby style at the Burger King!",
-        //        Capacity = 25
-        //    };
-        //    return restaurant;
-        //}
-
-        public Shortlist GenerateShortlist(Guid userId)
+        public Shortlist CreateShortlist(Guid userId)
         {
             var shortlist = new Shortlist()
             {
@@ -104,19 +124,19 @@ namespace WanderListAPI.Data
             return shortlist;
         }
 
-        public ShortlistContent GenerateShortlistContent(Guid listId, Guid contentId)
+        public ShortlistContent CreateShortlistContent(Guid listId, Guid contentId, int number)
         {
             var shortlistContent = new ShortlistContent()
             {
                 ListId = listId,
                 ContentId = contentId,
-                Number = 1
+                Number = number
             };
 
             return shortlistContent;
         }
 
-        public UserReward GenerateUserReward(Guid userId, Guid rewardId)
+        public UserReward CreateUserReward(Guid userId, Guid rewardId)
         {
             var userReward = new UserReward()
             {
