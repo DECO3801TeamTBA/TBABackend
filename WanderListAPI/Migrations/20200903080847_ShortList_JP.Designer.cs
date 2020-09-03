@@ -9,8 +9,8 @@ using WanderListAPI.Data;
 namespace WanderListAPI.Migrations
 {
     [DbContext(typeof(WanderListDbContext))]
-    [Migration("20200831031952_NewSeedPlusSchemaWuChen")]
-    partial class NewSeedPlusSchemaWuChen
+    [Migration("20200903080847_ShortList_JP")]
+    partial class ShortList_JP
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,15 +47,15 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "af369cc6-1ec4-4eed-94a9-54f8798ab05c",
-                            ConcurrencyStamp = "60c32101-a22c-43b3-9999-4835a962d031",
+                            Id = "9df462ce-9abf-416f-bc98-27328d8d11f0",
+                            ConcurrencyStamp = "5b192353-f878-4a7d-be44-6384fd500a17",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "78966968-c6e9-46e8-a277-972d45c381f2",
-                            ConcurrencyStamp = "2522ed2f-e023-4b20-a9b0-82c860eb019c",
+                            Id = "6906aacd-cc11-4a78-a0a0-5e2e884fd78b",
+                            ConcurrencyStamp = "d913a93d-fb11-4edf-ad51-81cba69526cd",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -146,13 +146,13 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
-                            RoleId = "af369cc6-1ec4-4eed-94a9-54f8798ab05c"
+                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
+                            RoleId = "9df462ce-9abf-416f-bc98-27328d8d11f0"
                         },
                         new
                         {
-                            UserId = "4e5d808d-87f8-45b5-aae3-f8bb03d9a6b2",
-                            RoleId = "78966968-c6e9-46e8-a277-972d45c381f2"
+                            UserId = "9e383f17-4356-4e5f-a0b9-84e08eb1ca5d",
+                            RoleId = "6906aacd-cc11-4a78-a0a0-5e2e884fd78b"
                         });
                 });
 
@@ -187,7 +187,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ActivityId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28")
+                            ActivityId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180")
                         });
                 });
 
@@ -266,35 +266,35 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
+                            Id = "fdcbc55e-7752-4df1-aaff-d8540221995d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f0087192-d389-48dc-a037-c8f279ce9bfa",
+                            ConcurrencyStamp = "4ebe985e-2eae-4d9d-82f0-227f7c3c3cf2",
                             Email = "fake@fake.com",
                             EmailConfirmed = false,
                             FirstName = "JoeyJojo",
                             LastName = "Shabadoo",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEAYjOpoEKhZX96VzAk7lc+fBrAPrZFWDUAyMDnWxjewD+WpQtbcYyxZbqw/Q3WF8xQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN4sP5JeSPQ6ji1hv1oXonc+SqzHQXCU1wfVgqYof+y9G6rg2LnsRCNlfZSM22LJkg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
-                            SecurityStamp = "a165f7be-522d-42b3-a937-ce4faa32192b",
+                            SecurityStamp = "2d2ce6ac-cde8-4d10-a5e9-e22742ccdb9f",
                             TwoFactorEnabled = false,
                             UserName = "wanderuser"
                         },
                         new
                         {
-                            Id = "4e5d808d-87f8-45b5-aae3-f8bb03d9a6b2",
+                            Id = "9e383f17-4356-4e5f-a0b9-84e08eb1ca5d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "afe61de1-0ff2-4a00-8346-a93a268bc7fd",
+                            ConcurrencyStamp = "252bd55e-4195-4f53-ae87-c53017cde406",
                             Email = "surfer69@scoobydoo.com",
                             EmailConfirmed = false,
                             FirstName = "Norville",
                             LastName = "Rogers",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEM1G44oo51+TC2poqw+lJkrxhFsMleUOo6xjjt3YakrOfAG38nRurw+wMZRSofYBEg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKZ80I3MkvhpytJXTPLAt8IIDwtxGgoOXbaIgk+Int9p+AB5j129JhNGCZYMKYmveA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
-                            SecurityStamp = "e21d68e2-1e8b-4903-a76d-dcbc10fe006e",
+                            SecurityStamp = "a1a6b919-acb3-4bbb-ab34-ecc1bfef5126",
                             TwoFactorEnabled = false,
                             UserName = "Shaggy"
                         });
@@ -334,7 +334,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("c7c89c9c-e5f6-419a-b569-a170b1334c2a"),
+                            ContentId = new Guid("6dddafa9-b15e-42b4-bcfb-2fbbe5411d8a"),
                             Address = "fake",
                             Capacity = 200,
                             Description = "fake",
@@ -345,21 +345,21 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"),
+                            ContentId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180"),
                             Capacity = 0,
                             Lattitude = 0m,
                             Longitude = 0m
                         },
                         new
                         {
-                            ContentId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"),
+                            ContentId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa"),
                             Capacity = 0,
                             Lattitude = 0m,
                             Longitude = 0m
                         },
                         new
                         {
-                            ContentId = new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"),
+                            ContentId = new Guid("f0a1a865-9636-4e49-92fa-45108b39ccdf"),
                             Capacity = 0,
                             Lattitude = 0m,
                             Longitude = 0m
@@ -378,7 +378,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            DestinationId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724")
+                            DestinationId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa")
                         });
                 });
 
@@ -402,27 +402,27 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("c7c89c9c-e5f6-419a-b569-a170b1334c2a"),
-                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
-                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 159, DateTimeKind.Local).AddTicks(8205)
+                            ContentId = new Guid("6dddafa9-b15e-42b4-bcfb-2fbbe5411d8a"),
+                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
+                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 661, DateTimeKind.Local).AddTicks(3795)
                         },
                         new
                         {
-                            ContentId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"),
-                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
-                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(5989)
+                            ContentId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180"),
+                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
+                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 665, DateTimeKind.Local).AddTicks(2856)
                         },
                         new
                         {
-                            ContentId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"),
-                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
-                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(6102)
+                            ContentId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa"),
+                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
+                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 665, DateTimeKind.Local).AddTicks(2969)
                         },
                         new
                         {
-                            ContentId = new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"),
-                            UserId = "59768b0c-fc94-4645-a27a-e79b0b7ae84e",
-                            Date = new DateTime(2020, 8, 31, 13, 19, 52, 169, DateTimeKind.Local).AddTicks(6130)
+                            ContentId = new Guid("f0a1a865-9636-4e49-92fa-45108b39ccdf"),
+                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
+                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 665, DateTimeKind.Local).AddTicks(2993)
                         });
                 });
 
@@ -507,7 +507,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            RewardId = new Guid("bcac4e97-646f-494d-a15e-66952fc53fe7"),
+                            RewardId = new Guid("41e43295-8ba2-4c71-b909-ade5b96448d4"),
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Burger King Coupon",
                             Value = "15% OFF"
@@ -516,26 +516,28 @@ namespace WanderListAPI.Migrations
 
             modelBuilder.Entity("WanderListAPI.Models.Shortlist", b =>
                 {
-                    b.Property<Guid>("ShortListId")
+                    b.Property<Guid>("ShortlistId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ListName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.HasKey("ShortListId");
+                    b.HasKey("ShortlistId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Shortlist");
 
                     b.HasData(
                         new
                         {
-                            ShortListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
                             ListName = "Scooby Doo Vacation",
-                            UserId = new Guid("59768b0c-fc94-4645-a27a-e79b0b7ae84e")
+                            UserId = "9e383f17-4356-4e5f-a0b9-84e08eb1ca5d"
                         });
                 });
 
@@ -544,33 +546,35 @@ namespace WanderListAPI.Migrations
                     b.Property<Guid>("ContentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ListId")
+                    b.Property<Guid>("ShortlistId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.HasKey("ContentId", "ListId");
+                    b.HasKey("ContentId", "ShortlistId");
+
+                    b.HasIndex("ShortlistId");
 
                     b.ToTable("ShortlistContent");
 
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("32881ddb-21e1-4935-a06d-0c91e6014d28"),
-                            ListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            ContentId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180"),
+                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("2dbbea42-abab-40f0-9eba-9236b740c724"),
-                            ListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            ContentId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa"),
+                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("7b80434e-34f2-4227-afdf-1f8044f7043a"),
-                            ListId = new Guid("751a3cb0-7c1c-4391-ad08-3db7e69c1ab0"),
+                            ContentId = new Guid("f0a1a865-9636-4e49-92fa-45108b39ccdf"),
+                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
                             Number = 1
                         });
                 });
@@ -590,8 +594,8 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("bcac4e97-646f-494d-a15e-66952fc53fe7"),
-                            RewardId = new Guid("59768b0c-fc94-4645-a27a-e79b0b7ae84e")
+                            UserId = new Guid("41e43295-8ba2-4c71-b909-ade5b96448d4"),
+                            RewardId = new Guid("fdcbc55e-7752-4df1-aaff-d8540221995d")
                         });
                 });
 
@@ -688,6 +692,28 @@ namespace WanderListAPI.Migrations
                     b.HasOne("WanderListAPI.Models.Resource", "Resource")
                         .WithOne("ResourceMeta")
                         .HasForeignKey("WanderListAPI.Models.ResourceMeta", "ResourceMetaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.Shortlist", b =>
+                {
+                    b.HasOne("WanderListAPI.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.ShortlistContent", b =>
+                {
+                    b.HasOne("WanderListAPI.Models.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WanderListAPI.Models.Shortlist", "Shortlist")
+                        .WithMany()
+                        .HasForeignKey("ShortlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
