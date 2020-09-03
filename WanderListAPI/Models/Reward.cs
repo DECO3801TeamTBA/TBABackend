@@ -11,9 +11,9 @@ namespace WanderListAPI.Models
         // Table Properties
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid RewardId { get; set; }
-        public String Name { get; set; }
-        public String Description { get; set; }
-        public String Value { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Value { get; set; }
         public DateTime ExpiryDate { get; set; }
     }
 }
