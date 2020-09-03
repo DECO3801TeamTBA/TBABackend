@@ -45,7 +45,7 @@ namespace WanderListAPI.Controllers
             {
                 return BadRequest(new Response()
                 {
-                    Message = "No reward exists with id " + id.ToString(),
+                    Message = $"No reward exists with id {id}",
                     Status = "400"
                 });
             }
@@ -81,16 +81,7 @@ namespace WanderListAPI.Controllers
             _logger.LogInformation($"PUT Reward with {id}");
             try
             {
-                var result = await _context.Reward.FindAsync(id);
-                if (result == default(Reward))
-                {
-                    return BadRequest(new Response()
-                    {
-                        Message = "Could not find reward with id " + id.ToString(),
-                        Status = "400"
-                    });
-                }
-                result = reward;
+                _context.Reward.Update(reward);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -118,7 +109,7 @@ namespace WanderListAPI.Controllers
             }
             try
             {
-                _context.Reward.AddRange(rewards);
+                _context.Reward.UpdateRange(rewards);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
