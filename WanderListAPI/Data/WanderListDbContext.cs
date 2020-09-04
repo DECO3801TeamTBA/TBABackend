@@ -54,7 +54,7 @@ namespace WanderListAPI.Data
 
             //Composite Keys here
             modelBuilder.Entity<History>().HasKey(hist => new { hist.ContentId, hist.UserId });
-            modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ListId });
+            modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ShortlistId });
             modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
 
 
@@ -92,9 +92,9 @@ namespace WanderListAPI.Data
             Shortlist shortlist = seed.CreateShortlist(userId);
 
             modelBuilder.Entity<Shortlist>().HasData(shortlist);
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
                 activity.ActivityId, 0));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortListId,
+            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
                 destination.DestinationId, 0));
 
             // Reward stuff

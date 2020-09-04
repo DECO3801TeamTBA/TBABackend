@@ -112,12 +112,13 @@ namespace WanderListAPI.Data
             return history;
         }
 
+
         public Shortlist CreateShortlist(Guid userId)
         {
             var shortlist = new Shortlist()
             {
-                UserId = userId,
-                ShortListId = Guid.NewGuid(),
+                UserId = userId.ToString(),
+                ShortlistId = Guid.NewGuid(),
                 ListName = "Scooby Doo Vacation"
             };
 
@@ -128,7 +129,7 @@ namespace WanderListAPI.Data
         {
             var shortlistContent = new ShortlistContent()
             {
-                ListId = listId,
+                ShortlistId = listId,
                 ContentId = contentId,
                 Number = number
             };

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,7 +15,8 @@ using WanderListAPI.Models;
 
 namespace WanderListAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class RewardController : ControllerBase
     {
@@ -28,6 +31,7 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<RewardController>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<Reward>> Get()
         {
             _logger.LogInformation($"GET all Reward");
@@ -37,16 +41,18 @@ namespace WanderListAPI.Controllers
 
         // GET api/<RewardController>/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Reward with {id}");
             var result = await _context.Reward.FindAsync(id);
             if (result == default(Reward))
             {
-                return BadRequest(new Response()
+                return NotFound(new Response()
                 {
                     Message = $"No reward exists with id {id}",
-                    Status = "400"
+                    Status = "404"
                 });
             }
 
@@ -55,6 +61,9 @@ namespace WanderListAPI.Controllers
 
         // POST api/<RewardController>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] Reward reward)
         {
             _logger.LogInformation($"POST Reward");
@@ -71,11 +80,14 @@ namespace WanderListAPI.Controllers
                     Status = "400"
                 });
             }
-            return NoContent();
+            return CreatedAtAction(nameof(Post), new { id = reward.RewardId }, reward);
         }
 
         // PUT api/<RewardController>/5
         [HttpPut("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(Guid id, [FromBody] Reward reward)
         {
             _logger.LogInformation($"PUT Reward with {id}");
@@ -96,6 +108,9 @@ namespace WanderListAPI.Controllers
         }
 
         [HttpPut]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put([FromBody] IEnumerable<Reward> rewards)
         {
             _logger.LogInformation($"PUT Rewards");
@@ -125,12 +140,25 @@ namespace WanderListAPI.Controllers
 
         // DELETE api/<RewardController>/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation($"DELETE Reward with {id}");
+
+            var result = await _context.Reward.FindAsync(id);
+            if (result == default(Reward))
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No reward exists with id {id}",
+                    Status = "404"
+                });
+            }
             try
             {
-                _context.Reward.Remove(new Reward() { RewardId = id });
+                _context.Reward.Remove(result);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -146,6 +174,8 @@ namespace WanderListAPI.Controllers
 
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete()
         {
             _logger.LogInformation($"DELETE all Rewards");
