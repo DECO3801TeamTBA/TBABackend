@@ -65,8 +65,6 @@ namespace WanderListAPI.Data
             IdentityRole adminRole = seed.CreateIdentityRole("Admin");
             IdentityRole userRole = seed.CreateIdentityRole("User");
             ApplicationUser user = seed.CreateApplicationUser();
-            Guid userId = Guid.NewGuid();
-            Guid.TryParse(user.Id, out userId);
 
             modelBuilder.Entity<IdentityRole>().HasData(adminRole);
             modelBuilder.Entity<IdentityRole>().HasData(userRole);
@@ -89,7 +87,7 @@ namespace WanderListAPI.Data
             modelBuilder.Entity<Destination>().HasData(destination);
 
             // Shortlist stuff
-            Shortlist shortlist = seed.CreateShortlist(userId);
+            Shortlist shortlist = seed.CreateShortlist(user.Id);
 
             modelBuilder.Entity<Shortlist>().HasData(shortlist);
             modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
@@ -101,16 +99,11 @@ namespace WanderListAPI.Data
             var reward = seed.CreateReward();
 
             modelBuilder.Entity<Reward>().HasData(reward);
-            modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(reward.RewardId, userId));
+            modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(user.Id, reward.RewardId));
 
             // History stuff
-            modelBuilder.Entity<History>().HasData(seed.CreateHistory(userId, activity.ActivityId));
-            modelBuilder.Entity<History>().HasData(seed.CreateHistory(userId, destination.DestinationId));
-
-            //MySQL issues, found on stack overflow here:
-            //https://stackoverflow.com/questions/49573740/identity-and-mysql-in-code-first-specified-key-was-too-long-max-key-length-is
-
-            // We are using int here because of the change on the PK
+            modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, activity.ActivityId));
+            modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, destination.DestinationId));
         }
     }
 }
