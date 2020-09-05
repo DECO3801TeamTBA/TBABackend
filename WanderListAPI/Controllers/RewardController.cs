@@ -31,7 +31,7 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<RewardController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Reward>),StatusCodes.Status200OK)]
         public async Task<IEnumerable<Reward>> Get()
         {
             _logger.LogInformation($"GET all Reward");
@@ -41,8 +41,8 @@ namespace WanderListAPI.Controllers
 
         // GET api/<RewardController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Reward),StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Reward with {id}");
@@ -62,8 +62,8 @@ namespace WanderListAPI.Controllers
         // POST api/<RewardController>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Reward),StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] Reward reward)
         {
             _logger.LogInformation($"POST Reward");
@@ -87,7 +87,7 @@ namespace WanderListAPI.Controllers
         [HttpPut("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(Guid id, [FromBody] Reward reward)
         {
             _logger.LogInformation($"PUT Reward with {id}");
@@ -110,7 +110,7 @@ namespace WanderListAPI.Controllers
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put([FromBody] IEnumerable<Reward> rewards)
         {
             _logger.LogInformation($"PUT Rewards");
@@ -141,8 +141,8 @@ namespace WanderListAPI.Controllers
         // DELETE api/<RewardController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation($"DELETE Reward with {id}");
@@ -175,7 +175,7 @@ namespace WanderListAPI.Controllers
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete()
         {
             _logger.LogInformation($"DELETE all Rewards");
