@@ -26,33 +26,17 @@ namespace WanderListAPI.Controllers
             _context = context;
         }
 
-        // GET: api/<apiVersion>/<ShortlistController>
-        [HttpGet("{idType}{id}")]
+        // GET: api/<apiVersion>/<ShortlistController>/5
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get(Guid id, string idType)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (idType == "")
-            {
-                _logger.LogInformation($"GET shortlist {id}");
-                var shortlist = await _context.Shortlist
-                        .Where(val => val.ShortlistId == id)
-                        .ToListAsync();
-                return Ok(shortlist);
-            } 
-            else if (idType == "user/")
-            {
-                _logger.LogInformation($"GET shortlists for user {id}");
-                var shortlist = await _context.Shortlist
-                        .Where(val => val.UserId == id.ToString())
-                        .ToListAsync();
-                return Ok(shortlist);
-            } 
-            else
-            {
-                return BadRequest();
-            }
-            
+            _logger.LogInformation($"GET shortlists for user {id}");
+            var shortlist = await _context.Shortlist
+                    .Where(val => val.UserId == id.ToString())
+                    .ToListAsync();
+            return Ok(shortlist);
         }
     }
 }
