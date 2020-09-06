@@ -31,13 +31,8 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<apiVersion>/<RewardController>
         [HttpGet]
-<<<<<<< HEAD
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
-=======
-        [ProducesResponseType(typeof(IEnumerable<Reward>),StatusCodes.Status200OK)]
-        public async Task<IEnumerable<Reward>> Get()
->>>>>>> 67f197686dd3adccbf15793726e4ffb905c7fe6f
         {
             _logger.LogInformation($"GET all Reward");
             //If none exists, just return empty list.

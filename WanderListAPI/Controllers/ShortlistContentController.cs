@@ -29,10 +29,12 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET content for shortlist {id}");
-            var shortlistContent = await _context.ShortlistContent
-                    .Where(val => val.ShortlistId == id)
-                    .ToListAsync();
-            return Ok(shortlistContent);
+            //var shortlistContent = await _context.ShortlistContent
+            //        .Where(val => val.ShortlistId == id)
+            //        .ToListAsync();
+            //return Ok(shortlistContent);
+
+            return Ok();
         }
     }
 }
