@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,8 @@ using WanderListAPI.Models;
 
 namespace WanderListAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ActivityController : ControllerBase
     {
@@ -25,28 +27,41 @@ namespace WanderListAPI.Controllers
             _context = context;
         }
 
-        // GET: api/<ActivityController>/all
-        [HttpGet("all")]
-        public async Task<IEnumerable<Activity>> Get()
+        // GET: api/<apiVersion>/<ActivityController>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Activity all");
-            var content = await _context.Activity
+            var activity = await _context.Activity
                 .Include(act => act.Content)
                 .ToListAsync();
-            return content;
+            return Ok(activity);
         }
 
 
-        // GET api/<ActivityController>/5
+        // GET api/<apiVersion>/<ActivityController>/5
         [HttpGet("{activityId}")]
-        public async Task<Activity> Get(Guid activityId)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Activity {activityId}");
-            var content = await _context.Activity
+            _logger.LogInformation($"GET Activity {id}");
+            var activity = await _context.Activity
                 .Include(act => act.Content)
-                .Where(val => val.Content.ContentId == activityId)
+                .Where(val => val.Content.ContentId == id)
                 .FirstOrDefaultAsync();
-            return content;
+
+            if (activity == default(Activity))
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No activity exists with id {id}",
+                    Status = "404"
+                });
+            }
+
+            return Ok(activity);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,8 @@ using WanderListAPI.Models;
 
 namespace WanderListAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ApplicationUserController : ControllerBase
     {
@@ -27,25 +29,53 @@ namespace WanderListAPI.Controllers
             _context = context;
         }
 
-        // GET: api/<ApplicationUserController>/all
-        [HttpGet("all")]
-        public async Task<IEnumerable<ApplicationUser>> Get()
+        // GET: api/<apiVersion>/<ApplicationUserController>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Users all");
             var users = await _context.ApplicationUser
+                .Select(val => new { 
+                    val.UserName, 
+                    val.FirstName, 
+                    val.LastName, 
+                    val.Email, 
+                    val.PhoneNumber, 
+                    val.Points})
                 .ToListAsync();
-            return users;
+            return Ok(users);
         }
 
-        // GET api/<ApplicationUserController>/5
+        // GET api/<apiVersion>/<ApplicationUserController>/5
         [HttpGet("{userid}")]
-        public async Task<ApplicationUser> Get(int userId)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(int id)
         {
-            _logger.LogInformation($"GET Users {userId}");
+            _logger.LogInformation($"GET Users {id}");
             var user = await _context.ApplicationUser
-                .Where(val => val.Id == userId.ToString())
+                .Where(val => val.Id == id.ToString())
+                .Select(val => new {
+                    val.UserName,
+                    val.FirstName,
+                    val.LastName,
+                    val.Email,
+                    val.PhoneNumber,
+                    val.Points
+                })
                 .FirstOrDefaultAsync();
-            return user;
+
+            if (user == null)
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No user exists with id {id}",
+                    Status = "404"
+                });
+            }
+
+            return Ok(user);
         }
     }
 }

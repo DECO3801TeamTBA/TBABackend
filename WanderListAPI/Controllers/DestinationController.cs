@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,8 @@ using WanderListAPI.Models;
 
 namespace WanderListAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class DestinationController : ControllerBase
     {
@@ -25,28 +27,41 @@ namespace WanderListAPI.Controllers
             _context = context;
         }
 
-        // GET: api/<DestinationController>/all
-        [HttpGet("all")]
-        public async Task<IEnumerable<Destination>> Get()
+        // GET: api/<apiVersion>/<DestinationController>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Destination all");
-            var content = await _context.Destination
+            var destination = await _context.Destination
                 .Include(dest => dest.Content)
                 .ToListAsync();
-            return content;
+            return Ok(destination);
         }
 
 
-        // GET api/<DestinationController>/5
-        [HttpGet("{destinationId}")]
-        public async Task<Destination> Get(Guid destinationId)
+        // GET api/<apiVersion>/<DestinationController>/5
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Destination {destinationId}");
-            var content = await _context.Destination
+            _logger.LogInformation($"GET Destination {id}");
+            var destination = await _context.Destination
                 .Include(dest => dest.Content)
-                .Where(val => val.Content.ContentId == destinationId)
+                .Where(val => val.Content.ContentId == id)
                 .FirstOrDefaultAsync();
-            return content;
+
+            if (destination == default(Destination))
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No destination exists with id {id}",
+                    Status = "404"
+                });
+            }
+
+            return Ok(destination);
         }
     }
 }

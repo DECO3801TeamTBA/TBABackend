@@ -29,25 +29,25 @@ namespace WanderListAPI.Controllers
             _logger = logger;
         }
 
-        // GET: api/<RewardController>
+        // GET: api/<apiVersion>/<RewardController>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<Reward>> Get()
+        public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET all Reward");
             //If none exists, just return empty list.
-            return await _context.Reward.ToListAsync();
+            return Ok(await _context.Reward.ToListAsync());
         }
 
-        // GET api/<RewardController>/5
+        // GET api/<apiVersion>/<RewardController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Reward with {id}");
-            var result = await _context.Reward.FindAsync(id);
-            if (result == default(Reward))
+            var reward = await _context.Reward.FindAsync(id);
+            if (reward == default(Reward))
             {
                 return NotFound(new Response()
                 {
@@ -56,10 +56,10 @@ namespace WanderListAPI.Controllers
                 });
             }
 
-            return Ok(result);
+            return Ok(reward);
         }
 
-        // POST api/<RewardController>
+        // POST api/<apiVersion>/<RewardController>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -83,7 +83,7 @@ namespace WanderListAPI.Controllers
             return CreatedAtAction(nameof(Post), new { id = reward.RewardId }, reward);
         }
 
-        // PUT api/<RewardController>/5
+        // PUT api/<apiVersion>/<RewardController>/5
         [HttpPut("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -107,6 +107,7 @@ namespace WanderListAPI.Controllers
             return NoContent();
         }
 
+        // PUT api/<apiVersion>/<RewardController>
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -118,7 +119,7 @@ namespace WanderListAPI.Controllers
             {
                 return BadRequest(new Response()
                 {
-                    Message = "You must include rewards to update",
+                    Message = "No rewards to update",
                     Status = "400"
                 });
             }
@@ -138,7 +139,7 @@ namespace WanderListAPI.Controllers
             return NoContent();
         }
 
-        // DELETE api/<RewardController>/5
+        // DELETE api/<apiVersion>/<RewardController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -147,8 +148,8 @@ namespace WanderListAPI.Controllers
         {
             _logger.LogInformation($"DELETE Reward with {id}");
 
-            var result = await _context.Reward.FindAsync(id);
-            if (result == default(Reward))
+            var reward = await _context.Reward.FindAsync(id);
+            if (reward == default(Reward))
             {
                 return NotFound(new Response()
                 {
@@ -158,7 +159,7 @@ namespace WanderListAPI.Controllers
             }
             try
             {
-                _context.Reward.Remove(result);
+                _context.Reward.Remove(reward);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -172,7 +173,7 @@ namespace WanderListAPI.Controllers
             return NoContent();
         }
 
-
+        // DELETE api/<apiVersion>/<RewardController>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
