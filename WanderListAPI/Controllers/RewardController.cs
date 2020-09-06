@@ -31,7 +31,7 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<apiVersion>/<RewardController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Reward>),StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET all Reward");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
@@ -29,12 +30,10 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET rewards for user {id}");
-            //var userReward = await _context.UserReward
-            //        .Where(val => val.UserId == id)
-            //        .ToListAsync();
-            //return Ok(userReward);
-
-            return Ok();
+            var userReward = await _context.UserReward
+                    .Where(val => val.UserId == id.ToString())
+                    .ToListAsync();
+            return Ok(userReward);
         }
     }
 }
