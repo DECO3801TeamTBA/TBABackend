@@ -100,7 +100,7 @@ namespace WanderListAPI.Data
             return destination;
         }
 
-        public History CreateHistory(Guid userId, Guid contentId)
+        public History CreateHistory(string userId, Guid contentId)
         {
             var history = new History()
             {
@@ -113,7 +113,7 @@ namespace WanderListAPI.Data
         }
 
 
-        public Shortlist CreateShortlist(Guid userId)
+        public Shortlist CreateShortlist(string userId)
         {
             var shortlist = new Shortlist()
             {
@@ -137,7 +137,7 @@ namespace WanderListAPI.Data
             return shortlistContent;
         }
 
-        public UserReward CreateUserReward(Guid userId, Guid rewardId)
+        public UserReward CreateUserReward(string userId, Guid rewardId)
         {
             var userReward = new UserReward()
             {

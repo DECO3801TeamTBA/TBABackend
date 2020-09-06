@@ -9,8 +9,12 @@ namespace WanderListAPI.Models
     public class UserReward
     {
         [ForeignKey("ApplicationUser")]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("Reward")]
         public Guid RewardId { get; set; }
+
+        //Navigation properties
+        public Reward Reward { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

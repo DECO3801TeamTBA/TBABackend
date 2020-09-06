@@ -45,15 +45,15 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9df462ce-9abf-416f-bc98-27328d8d11f0",
-                            ConcurrencyStamp = "5b192353-f878-4a7d-be44-6384fd500a17",
+                            Id = "8bf55483-1b96-47e0-a27e-82dd2a57b25d",
+                            ConcurrencyStamp = "b4887923-e9a8-4cf7-b33c-7c536c5cbbb1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "6906aacd-cc11-4a78-a0a0-5e2e884fd78b",
-                            ConcurrencyStamp = "d913a93d-fb11-4edf-ad51-81cba69526cd",
+                            Id = "6755cbff-38df-42f8-913c-05f53d4c8909",
+                            ConcurrencyStamp = "2628d70d-d03a-4edd-98ba-1d6113a55d39",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -144,13 +144,8 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
-                            RoleId = "9df462ce-9abf-416f-bc98-27328d8d11f0"
-                        },
-                        new
-                        {
-                            UserId = "9e383f17-4356-4e5f-a0b9-84e08eb1ca5d",
-                            RoleId = "6906aacd-cc11-4a78-a0a0-5e2e884fd78b"
+                            UserId = "09202325-98e1-4566-a668-8371049ef77a",
+                            RoleId = "6755cbff-38df-42f8-913c-05f53d4c8909"
                         });
                 });
 
@@ -185,7 +180,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ActivityId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180")
+                            ActivityId = new Guid("17dcf9ae-405b-4f54-8dbb-3108e437ae21")
                         });
                 });
 
@@ -264,35 +259,18 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fdcbc55e-7752-4df1-aaff-d8540221995d",
+                            Id = "09202325-98e1-4566-a668-8371049ef77a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4ebe985e-2eae-4d9d-82f0-227f7c3c3cf2",
-                            Email = "fake@fake.com",
-                            EmailConfirmed = false,
-                            FirstName = "JoeyJojo",
-                            LastName = "Shabadoo",
-                            LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEN4sP5JeSPQ6ji1hv1oXonc+SqzHQXCU1wfVgqYof+y9G6rg2LnsRCNlfZSM22LJkg==",
-                            PhoneNumberConfirmed = false,
-                            Points = 0,
-                            SecurityStamp = "2d2ce6ac-cde8-4d10-a5e9-e22742ccdb9f",
-                            TwoFactorEnabled = false,
-                            UserName = "wanderuser"
-                        },
-                        new
-                        {
-                            Id = "9e383f17-4356-4e5f-a0b9-84e08eb1ca5d",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "252bd55e-4195-4f53-ae87-c53017cde406",
+                            ConcurrencyStamp = "17e5f12d-f41b-4b86-9b2e-0c0a253569e0",
                             Email = "surfer69@scoobydoo.com",
                             EmailConfirmed = false,
                             FirstName = "Norville",
                             LastName = "Rogers",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEKZ80I3MkvhpytJXTPLAt8IIDwtxGgoOXbaIgk+Int9p+AB5j129JhNGCZYMKYmveA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENo4yhjA0Wchbt8kGlGM0QqJEuInmPEQzUmB7unETZpEiw/7Pnot2QpwDLULxCi80Q==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
-                            SecurityStamp = "a1a6b919-acb3-4bbb-ab34-ecc1bfef5126",
+                            SecurityStamp = "49f4c8ac-7dcb-4a56-8a1c-72f53f0a99bc",
                             TwoFactorEnabled = false,
                             UserName = "Shaggy"
                         });
@@ -332,35 +310,21 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("6dddafa9-b15e-42b4-bcfb-2fbbe5411d8a"),
-                            Address = "fake",
-                            Capacity = 200,
-                            Description = "fake",
-                            Lattitude = 15.51m,
-                            Longitude = 45.15m,
-                            Name = "Fakorama",
-                            Website = "www.fake.com"
+                            ContentId = new Guid("17dcf9ae-405b-4f54-8dbb-3108e437ae21"),
+                            Capacity = 125,
+                            Description = "Take a guided tour of the towns most mysterious attractions in a mystery inc truck",
+                            Lattitude = 0m,
+                            Longitude = 0m,
+                            Name = "Ride in the Mystery.inc truck"
                         },
                         new
                         {
-                            ContentId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180"),
-                            Capacity = 0,
+                            ContentId = new Guid("ed314bcc-a644-4bbc-b335-6a823141cf43"),
+                            Capacity = 50,
+                            Description = "The scooby themed holiday destination",
                             Lattitude = 0m,
-                            Longitude = 0m
-                        },
-                        new
-                        {
-                            ContentId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa"),
-                            Capacity = 0,
-                            Lattitude = 0m,
-                            Longitude = 0m
-                        },
-                        new
-                        {
-                            ContentId = new Guid("f0a1a865-9636-4e49-92fa-45108b39ccdf"),
-                            Capacity = 0,
-                            Lattitude = 0m,
-                            Longitude = 0m
+                            Longitude = 0m,
+                            Name = "Scooby Ville"
                         });
                 });
 
@@ -376,7 +340,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            DestinationId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa")
+                            DestinationId = new Guid("ed314bcc-a644-4bbc-b335-6a823141cf43")
                         });
                 });
 
@@ -400,27 +364,15 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("6dddafa9-b15e-42b4-bcfb-2fbbe5411d8a"),
-                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
-                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 661, DateTimeKind.Local).AddTicks(3795)
+                            ContentId = new Guid("17dcf9ae-405b-4f54-8dbb-3108e437ae21"),
+                            UserId = "09202325-98e1-4566-a668-8371049ef77a",
+                            Date = new DateTime(2020, 9, 5, 17, 37, 21, 38, DateTimeKind.Local).AddTicks(8156)
                         },
                         new
                         {
-                            ContentId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180"),
-                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
-                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 665, DateTimeKind.Local).AddTicks(2856)
-                        },
-                        new
-                        {
-                            ContentId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa"),
-                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
-                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 665, DateTimeKind.Local).AddTicks(2969)
-                        },
-                        new
-                        {
-                            ContentId = new Guid("f0a1a865-9636-4e49-92fa-45108b39ccdf"),
-                            UserId = "fdcbc55e-7752-4df1-aaff-d8540221995d",
-                            Date = new DateTime(2020, 9, 3, 18, 8, 46, 665, DateTimeKind.Local).AddTicks(2993)
+                            ContentId = new Guid("ed314bcc-a644-4bbc-b335-6a823141cf43"),
+                            UserId = "09202325-98e1-4566-a668-8371049ef77a",
+                            Date = new DateTime(2020, 9, 5, 17, 37, 21, 40, DateTimeKind.Local).AddTicks(4432)
                         });
                 });
 
@@ -505,7 +457,7 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            RewardId = new Guid("41e43295-8ba2-4c71-b909-ade5b96448d4"),
+                            RewardId = new Guid("0795d913-0ae8-48a7-a40a-d919333c12b4"),
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Burger King Coupon",
                             Value = "15% OFF"
@@ -533,9 +485,9 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
+                            ShortlistId = new Guid("5954527d-c91a-4752-815e-7ef85ed89631"),
                             ListName = "Scooby Doo Vacation",
-                            UserId = "9e383f17-4356-4e5f-a0b9-84e08eb1ca5d"
+                            UserId = "09202325-98e1-4566-a668-8371049ef77a"
                         });
                 });
 
@@ -559,41 +511,37 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("2bb50d1a-00d5-4b52-8575-a6c9015b0180"),
-                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
-                            Number = 1
+                            ContentId = new Guid("17dcf9ae-405b-4f54-8dbb-3108e437ae21"),
+                            ShortlistId = new Guid("5954527d-c91a-4752-815e-7ef85ed89631"),
+                            Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("04b3d79b-6edf-4524-a269-3d53a5bf0daa"),
-                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
-                            Number = 1
-                        },
-                        new
-                        {
-                            ContentId = new Guid("f0a1a865-9636-4e49-92fa-45108b39ccdf"),
-                            ShortlistId = new Guid("40a93fb8-2bc1-45be-b1f7-45be929ee473"),
-                            Number = 1
+                            ContentId = new Guid("ed314bcc-a644-4bbc-b335-6a823141cf43"),
+                            ShortlistId = new Guid("5954527d-c91a-4752-815e-7ef85ed89631"),
+                            Number = 0
                         });
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.UserReward", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<Guid>("RewardId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("UserId", "RewardId");
 
+                    b.HasIndex("RewardId");
+
                     b.ToTable("UserReward");
 
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("41e43295-8ba2-4c71-b909-ade5b96448d4"),
-                            RewardId = new Guid("fdcbc55e-7752-4df1-aaff-d8540221995d")
+                            UserId = "09202325-98e1-4566-a668-8371049ef77a",
+                            RewardId = new Guid("0795d913-0ae8-48a7-a40a-d919333c12b4")
                         });
                 });
 
@@ -712,6 +660,21 @@ namespace WanderListAPI.Migrations
                     b.HasOne("WanderListAPI.Models.Shortlist", "Shortlist")
                         .WithMany()
                         .HasForeignKey("ShortlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WanderListAPI.Models.UserReward", b =>
+                {
+                    b.HasOne("WanderListAPI.Models.Reward", "Reward")
+                        .WithMany()
+                        .HasForeignKey("RewardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WanderListAPI.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
