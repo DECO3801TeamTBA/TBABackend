@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#Ignore (extra) added by MidnightCodeMokey
+WanderListAPI/obj/
+
 # User-specific files
 *.rsuser
 *.suo

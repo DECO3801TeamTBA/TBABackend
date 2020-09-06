@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\John-Paul Smith\\Documents\\UQ\\DECO3801\\TBABackend\\WanderListTests\\WanderListTests.csproj": {}
+    "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListTests\\WanderListTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\John-Paul Smith\\Documents\\UQ\\DECO3801\\TBABackend\\WanderListTests\\WanderListTests.csproj": {
+    "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListAPI\\WanderListAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\John-Paul Smith\\Documents\\UQ\\DECO3801\\TBABackend\\WanderListTests\\WanderListTests.csproj",
-        "projectName": "WanderListTests",
-        "projectPath": "C:\\Users\\John-Paul Smith\\Documents\\UQ\\DECO3801\\TBABackend\\WanderListTests\\WanderListTests.csproj",
-        "packagesPath": "C:\\Users\\John-Paul Smith\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\John-Paul Smith\\Documents\\UQ\\DECO3801\\TBABackend\\WanderListTests\\obj\\",
+        "projectUniqueName": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListAPI\\WanderListAPI.csproj",
+        "projectName": "WanderListAPI",
+        "projectPath": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListAPI\\WanderListAPI.csproj",
+        "packagesPath": "C:\\Users\\Harlen_Natasha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\John-Paul Smith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Harlen_Natasha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -41,17 +38,35 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
-            "Microsoft.NET.Test.Sdk": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[16.4.0, )"
+              "version": "[3.1.7, )"
             },
-            "NUnit3TestAdapter": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.15.1, )"
+              "version": "[3.1.7, )"
             },
-            "nunit": {
+            "Microsoft.AspNetCore.Mvc.Versioning": {
               "target": "Package",
-              "version": "[3.12.0, )"
+              "version": "[4.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.5.1, )"
             }
           },
           "imports": [
@@ -65,11 +80,97 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListTests\\WanderListTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListTests\\WanderListTests.csproj",
+        "projectName": "WanderListTests",
+        "projectPath": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListTests\\WanderListTests.csproj",
+        "packagesPath": "C:\\Users\\Harlen_Natasha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListTests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Harlen_Natasha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListAPI\\WanderListAPI.csproj": {
+                "projectPath": "C:\\Users\\Harlen_Natasha\\Documents\\Uni\\2020\\Sem2\\DECO3801\\Code\\backend\\TBABackend\\WanderListAPI\\WanderListAPI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.4.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.14.5, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.1, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
