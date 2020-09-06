@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -63,32 +64,32 @@ namespace WanderListAPI.Controllers
 
         // GET api/<apiVersion>/<HistoryController>/user/5
         //[Authorize]
-        [HttpGet("{role}/{id}")]
-        public async Task<IActionResult> Get(string role, Guid id, [FromBody] DateTime start, [FromBody] DateTime end)
-        {
-            _logger.LogInformation($"GET History {role} {id}");
-            if (role == "user")
-            {
-                var histories = await _context.History
-                    .Where(hist => hist.UserId == id.ToString() && hist.Date >= start && hist.Date <= end)
-                    .ToListAsync();
-                return Ok(histories);
-            }
-            else if (role == "content")
-            {
-                var histories = await _context.History
-                    .Where(hist => hist.ContentId == id && hist.Date >= start && hist.Date <= end)
-                    .ToListAsync();
-                return Ok(histories);
-            }
-            else
-            {
-                return BadRequest(new Response()
-                {
-                    Message = $"Role {role} does not exist",
-                    Status = "404"
-                });
-            }
-        }
+        //[HttpGet("{role}/{id}")]
+        //public async Task<IActionResult> Get(string role, Guid id, [FromBody] HistoryRequest request)
+        //{
+        //    _logger.LogInformation($"GET History {role} {id}");
+        //    if (role == "user")
+        //    {
+        //        var histories = await _context.History
+        //            .Where(hist => hist.UserId == id.ToString() && hist.Date >= request.Start && hist.Date <= request.End)
+        //            .ToListAsync();
+        //        return Ok(histories);
+        //    }
+        //    else if (role == "content")
+        //    {
+        //        var histories = await _context.History
+        //            .Where(hist => hist.ContentId == id && hist.Date >= request.Start && hist.Date <= request.End)
+        //            .ToListAsync();
+        //        return Ok(histories);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(new Response()
+        //        {
+        //            Message = $"Role {role} does not exist",
+        //            Status = "404"
+        //        });
+        //    }
+        //}
     }
 }
