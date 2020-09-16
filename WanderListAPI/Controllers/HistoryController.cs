@@ -31,8 +31,8 @@ namespace WanderListAPI.Controllers
 
 
         // GET api/<apiVersion>/<HistoryController>/user/5
-        //[Authorize]
         [HttpGet("{role}/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get(string role, Guid id)

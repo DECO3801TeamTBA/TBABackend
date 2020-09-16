@@ -10,10 +10,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WanderListAPI.Models;
+using WanderListAPI.Utility;
 
 namespace JWTAuthentication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
@@ -30,6 +31,8 @@ namespace JWTAuthentication.Controllers
 
         [HttpPost]
         [Route("login")]
+        [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
@@ -58,11 +61,18 @@ namespace JWTAuthentication.Controllers
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
-                return Ok(new
+                return Ok(new LoginResponse
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo,
-                    user = new { user.Id, user.FirstName, user.LastName, user.Points, user.UserName}
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                    Expiration = token.ValidTo,
+                    User = new ResponseUser
+                    { 
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Points = user.Points,
+                        UserName = user.UserName
+                    }
                 });
             }
             return Unauthorized();
@@ -70,6 +80,8 @@ namespace JWTAuthentication.Controllers
 
         [HttpPost]
         [Route("register")]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
@@ -91,6 +103,8 @@ namespace JWTAuthentication.Controllers
 
         [HttpPost]
         [Route("register-admin")]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
