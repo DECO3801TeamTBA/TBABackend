@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<apiVersion>/<RewardController>
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(IEnumerable<Reward>),StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
@@ -41,6 +43,7 @@ namespace WanderListAPI.Controllers
 
         // GET api/<apiVersion>/<RewardController>/5
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(Response),StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(Reward),StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
@@ -61,6 +64,7 @@ namespace WanderListAPI.Controllers
 
         // POST api/<apiVersion>/<RewardController>
         [HttpPost]
+        [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Reward),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
@@ -85,6 +89,7 @@ namespace WanderListAPI.Controllers
 
         // PUT api/<apiVersion>/<RewardController>/5
         [HttpPut("{id}")]
+        [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
@@ -109,6 +114,7 @@ namespace WanderListAPI.Controllers
 
         // PUT api/<apiVersion>/<RewardController>
         [HttpPut]
+        [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
@@ -141,6 +147,7 @@ namespace WanderListAPI.Controllers
 
         // DELETE api/<apiVersion>/<RewardController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Response),StatusCodes.Status404NotFound)]
@@ -175,6 +182,7 @@ namespace WanderListAPI.Controllers
 
         // DELETE api/<apiVersion>/<RewardController>
         [HttpDelete]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete()

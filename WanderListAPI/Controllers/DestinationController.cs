@@ -29,7 +29,8 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<apiVersion>/<DestinationController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
+        [ProducesResponseType(typeof(List<Destination>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Destination all");
@@ -42,8 +43,9 @@ namespace WanderListAPI.Controllers
 
         // GET api/<apiVersion>/<DestinationController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Destination), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Destination {id}");
