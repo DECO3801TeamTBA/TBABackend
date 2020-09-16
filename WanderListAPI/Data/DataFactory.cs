@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WanderListAPI.Models;
@@ -146,6 +148,31 @@ namespace WanderListAPI.Data
             };
 
             return userReward;
+        }
+
+        public (Resource, ResourceMeta) CreateResourceWithMeta()
+        {
+            string picture1Path = "./Utility/TestImages/photo1.jpg";
+            using (var fileStream = new FileStream(picture1Path, FileMode.Open))
+            {
+                using (var memStream = new MemoryStream())
+                {
+                    var id = Guid.NewGuid();
+                    var resource = new Resource();
+                    var resourceMeta = new ResourceMeta();
+                    resource.ResourceId = id;
+                    resourceMeta.ResourceMetaId = id;
+                    fileStream.CopyTo(memStream); //using sync code after this to demonstrate that it will work either way
+                    resourceMeta.AddedOn = DateTime.Now;
+                    resourceMeta.OnDisk = false;
+                    resourceMeta.Description = "A picture of Brisbane";
+                    resourceMeta.FileName = Path.GetFileName(picture1Path);
+                    resourceMeta.Extension = Path.GetExtension(picture1Path);
+                    resourceMeta.MimeType = MimeTypes.GetMimeType(Path.GetFileName(picture1Path));
+                    resource.Data = memStream.ToArray();
+                    return (resource, resourceMeta);
+                }
+            }
         }
     }
 }

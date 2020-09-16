@@ -38,7 +38,10 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Resource with {id}");
-            var resourceMeta = await _context.ResourceMeta.FindAsync(id);
+            var resourceMeta = await _context.ResourceMeta
+                .Include(res => res.Resource)
+                .FirstOrDefaultAsync(res => res.ResourceMetaId == id);
+
             if (resourceMeta == default(ResourceMeta))
             {
                 return NotFound(new Response()

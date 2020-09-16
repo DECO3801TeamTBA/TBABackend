@@ -98,6 +98,10 @@ namespace WanderListAPI.Data
             // Reward stuff
             var reward = seed.CreateReward();
 
+            var (resource, resourceMeta) = seed.CreateResourceWithMeta();
+            modelBuilder.Entity<Resource>().HasData(resource); //is this sufficient?
+            modelBuilder.Entity<ResourceMeta>().HasData(resourceMeta);
+
             modelBuilder.Entity<Reward>().HasData(reward);
             modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(user.Id, reward.RewardId));
 
