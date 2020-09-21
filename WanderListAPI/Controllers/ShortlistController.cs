@@ -87,6 +87,7 @@ namespace WanderListAPI.Controllers
             var shortlistContent = await _context.ShortlistContent
                 .Include(scon => scon.Content)
                 .Where(scon => scon.ShortlistId == id)
+                .OrderBy(scon => scon.Number)
                 .Select(scon => scon.Content)
                 .ToListAsync();
 
