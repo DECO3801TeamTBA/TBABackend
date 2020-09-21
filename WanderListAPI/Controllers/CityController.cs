@@ -17,52 +17,55 @@ namespace WanderListAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class ResourceController : ControllerBase
+    public class CityController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ResourceController(WanderListDbContext context, ILogger logger)
+        public CityController(WanderListDbContext context, ILogger logger)
         {
-            _context = context;
             _logger = logger;
+            _context = context;
         }
 
-        // GET: api/<apiVersion>/<ResourceController>
+        // GET: api/<apiVersion>/<CityController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Resource>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<City>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            _logger.LogInformation($"GET Resource all");
-            var resource = await _context.Resource
+            _logger.LogInformation($"GET City all");
+            var city = await _context.City
+                .Include(cit => cit.Item)
+                .ThenInclude(i => i.CoverImage)
                 .ToListAsync();
 
-            return Ok(resource);
+            return Ok(city);
         }
 
-        // GET api/<apiVersion>/<ResourceController>/5
+        // GET api/<apiVersion>/<CityController>/5
         [HttpGet("{id}")]
-        [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Resource), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(City), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Resource with id {id}");
-            var resource = await _context.Resource
-                .Where(res => res.ResourceId == id)
+            _logger.LogInformation($"GET City with id {id}");
+            var city = await _context.City
+                .Include(cit => cit.Item)
+                .ThenInclude(i => i.CoverImage)
+                .Where(cit => cit.CityId == id)
                 .FirstOrDefaultAsync();
 
-            if (resource == default(Resource))
+            if (city == default(City))
             {
                 return NotFound(new Response()
                 {
-                    Message = $"No Resource exists with id {id}",
+                    Message = $"No City exists with id {id}",
                     Status = "404"
                 });
             }
 
-            return Ok(resource);
+            return Ok(city);
         }
     }
 }

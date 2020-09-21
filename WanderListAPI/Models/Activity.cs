@@ -12,9 +12,7 @@ namespace WanderListAPI.Models
         [ForeignKey("Content")]
         public Guid ActivityId { get; set; }
 
-        //activity specific stuff?
-
-        //Navigation property
+        // Navigation Properties i.e FKs to different tables
         public Content Content { get; set; }
     }
 }

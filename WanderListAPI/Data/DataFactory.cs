@@ -75,10 +75,10 @@ namespace WanderListAPI.Data
 
         public Activity CreateActivity(Content content)
         {
-            content.Name = "Ride in the Mystery.inc truck";
-            content.Description = "Take a guided tour of the towns most " +
-                "mysterious attractions in a mystery inc truck";
-            content.Capacity = 125;
+            //content.Name = "Ride in the Mystery.inc truck";
+            //content.Description = "Take a guided tour of the towns most " +
+            //    "mysterious attractions in a mystery inc truck";
+            //content.Capacity = 125;
 
             var activity = new Activity()
             {
@@ -90,9 +90,9 @@ namespace WanderListAPI.Data
 
         public Destination CreateDestination(Content content)
         {
-            content.Name = "Scooby Ville";
-            content.Description = "The scooby themed holiday destination";
-            content.Capacity = 50;
+            //content.Name = "Scooby Ville";
+            //content.Description = "The scooby themed holiday destination";
+            //content.Capacity = 50;
 
             var destination = new Destination()
             {
@@ -119,7 +119,7 @@ namespace WanderListAPI.Data
         {
             var shortlist = new Shortlist()
             {
-                UserId = userId.ToString(),
+                //UserId = userId.ToString(),
                 ShortlistId = Guid.NewGuid(),
                 ListName = "Scooby Doo Vacation"
             };

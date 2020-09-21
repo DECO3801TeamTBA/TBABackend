@@ -9,10 +9,8 @@ namespace WanderListAPI.Models
     public class Content
     {
         // Table Properties
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ForeignKey("Item")]
         public Guid ContentId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
         public decimal Lattitude { get; set; }
         public decimal Longitude { get; set; }
         public string Address { get; set; }
@@ -24,9 +22,6 @@ namespace WanderListAPI.Models
         public int EconomicRating { get; set; }
 
         // Navigation Properties i.e FKs to different tables
-        public City City { get; set; }
-        public ResourceMeta CoverImage { get; set; }
-        public List<ResourceMeta> ResourceMetas { get; set; }
-        public List<History> Histories { get; set; }
+        public Item Item { get; set; }
     }
 }

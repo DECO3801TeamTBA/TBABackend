@@ -10,10 +10,8 @@ namespace WanderListAPI.Models
     public class ResourceMeta
     {
         // Table Properties
-        [ForeignKey("Resource")]
+        [ForeignKey("Content")]
         public Guid ResourceMetaId { get; set; }
-        //  Naviagtion property 1:1 relationship, goes here before we lookup resourceMeta to find
-        //  actual resources
         public Resource Resource { get; set; }
         [Required]
         public string FileName { get; set; }

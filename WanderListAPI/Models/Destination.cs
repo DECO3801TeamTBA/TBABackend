@@ -8,13 +8,11 @@ namespace WanderListAPI.Models
 {
     public class Destination
     {
-
-        
         // Table Properties
         [ForeignKey("Content")]
         public Guid DestinationId { get; set; }
 
-        //destination specific stuff?
+        // Navigation Properties i.e FKs to different tables
         public Content Content { get; set; }
     }
 }

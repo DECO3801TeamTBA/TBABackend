@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
@@ -21,7 +20,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ActivityController(WanderListDbContext context, ILogger<Activity> logger)
+        public ActivityController(WanderListDbContext context, ILogger logger)
         {
             _logger = logger;
             _context = context;
@@ -36,33 +35,73 @@ namespace WanderListAPI.Controllers
             _logger.LogInformation($"GET Activity all");
             var activity = await _context.Activity
                 .Include(act => act.Content)
+                .ThenInclude(con => con.Item)
+                .ThenInclude(ite => ite.CoverImage)
                 .ToListAsync();
+
             return Ok(activity);
         }
 
 
         // GET api/<apiVersion>/<ActivityController>/5
-        [HttpGet("{activityId}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(Activity), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Activity {id}");
+            _logger.LogInformation($"GET Activity with id {id}");
             var activity = await _context.Activity
                 .Include(act => act.Content)
-                .Where(val => val.Content.ContentId == id)
+                .ThenInclude(con => con.Item)
+                .ThenInclude(ite => ite.CoverImage)
+                .Where(act => act.ActivityId == id)
                 .FirstOrDefaultAsync();
 
             if (activity == default(Activity))
             {
                 return NotFound(new Response()
                 {
-                    Message = $"No activity exists with id {id}",
+                    Message = $"No Activity exists with id {id}",
                     Status = "404"
                 });
             }
 
             return Ok(activity);
+        }
+    }
+
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/Activity")]
+    [ApiController]
+    public class ActivityResourceMetaController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger _logger;
+
+        public ActivityResourceMetaController(WanderListDbContext context, ILogger logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET api/<apiVersion>/Activity/5/Resource
+        [HttpGet("{id}/Resource")]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET Resource for Activity with id {id}");
+            var resource = await _context.ContentResourceMeta
+                .Include(ires => ires.ResourceMeta)
+                .Where(ires => ires.ItemId == id)
+                .OrderBy(ires => ires.Number)
+                .Select(ires => new {
+                    ires.ResourceMeta
+                })
+                .ToListAsync();
+
+            return Ok(resource);
         }
     }
 }

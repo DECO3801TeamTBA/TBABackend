@@ -22,9 +22,9 @@ namespace WanderListAPI.Controllers
     public class RewardController : ControllerBase
     {
         private readonly WanderListDbContext _context;
-        private readonly ILogger<Reward> _logger;
+        private readonly ILogger _logger;
 
-        public RewardController(WanderListDbContext context, ILogger<Reward> logger)
+        public RewardController(WanderListDbContext context, ILogger logger)
         {
             _context = context;
             _logger = logger;
@@ -33,10 +33,10 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<RewardController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(IEnumerable<Reward>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            _logger.LogInformation($"GET all Reward");
+            _logger.LogInformation($"GET Reward all");
             //If none exists, just return empty list.
             return Ok(await _context.Reward.ToListAsync());
         }
@@ -49,12 +49,15 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Reward with {id}");
-            var reward = await _context.Reward.FindAsync(id);
+            var reward = await _context.Reward
+                .Where(rew => rew.RewardId == id)
+                .FirstOrDefaultAsync();
+
             if (reward == default(Reward))
             {
                 return NotFound(new Response()
                 {
-                    Message = $"No reward exists with id {id}",
+                    Message = $"No Reward exists with id {id}",
                     Status = "404"
                 });
             }
@@ -206,41 +209,4 @@ namespace WanderListAPI.Controllers
 
 
     }
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/User")]
-    [ApiController]
-    public class UserRewardController : ControllerBase
-    {
-
-        private readonly WanderListDbContext _context;
-        private readonly ILogger<Reward> _logger;
-
-        public UserRewardController(WanderListDbContext context, ILogger<Reward> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
-        // GET api/<apiVersion>/<RewardController>/5
-        [HttpGet("{id}/Reward")]
-        [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            _logger.LogInformation($"GET Reward with {id}");
-            var rewards = await _context.UserReward.Join(_context.Reward,
-                ur => ur.RewardId,
-                r => r.RewardId,
-                (ur, r) => new { UserReward = ur, Reward = r })
-                .Where(urr => urr.UserReward.UserId == id.ToString())
-                .Select(urr => urr.Reward)
-                .ToListAsync();
-
-            return Ok(rewards);
-        }
-
-    }
-
-
-
 }

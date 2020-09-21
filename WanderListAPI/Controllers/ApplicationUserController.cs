@@ -78,4 +78,102 @@ namespace WanderListAPI.Controllers
             return Ok(user);
         }
     }
+
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [ApiController]
+    public class UserRewardController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger<Reward> _logger;
+
+        public UserRewardController(WanderListDbContext context, ILogger<Reward> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET api/<apiVersion>/ApplicationUser/5/Reward
+        [HttpGet("{id}/Reward")]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET Reward with {id}");
+            var rewards = await _context.UserReward.Join(_context.Reward,
+                ur => ur.RewardId,
+                r => r.RewardId,
+                (ur, r) => new { UserReward = ur, Reward = r })
+                .Where(urr => urr.UserReward.UserId == id.ToString())
+                .Select(urr => urr.Reward)
+                .ToListAsync();
+
+            return Ok(rewards);
+        }
+    }
+
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [ApiController]
+    public class ApplicationUserHistoryController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger<History> _logger;
+
+        public ApplicationUserHistoryController(WanderListDbContext context, ILogger<History> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET api/<apiVersion>/ApplicationUser/5/History
+        [HttpGet("{id}/History")]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET History user {id}");
+            var histories = await _context.History
+                    .Where(hist => hist.UserId == id.ToString())
+                    .Select(hist => new {
+                        hist.ContentId,
+                        hist.Date
+                    })
+                    .ToListAsync();
+
+            return Ok(histories);
+        }
+    }
+
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [ApiController]
+    public class ApplicationUserShortlistController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger<Shortlist> _logger;
+
+        public ApplicationUserShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET api/<apiVersion>/ApplicationUser/5/Shortlist
+        [HttpGet("{id}/Shortlist")]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET Shortlist user {id}");
+            var shortlists = await _context.UserShortlist
+                    .Where(var => var.UserId == var.ToString())
+                    .ToListAsync();
+
+            return Ok(shortlists);
+        }
+    }
 }

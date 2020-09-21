@@ -9,13 +9,11 @@ namespace WanderListAPI.Models
     public class City
     {
         // Table Properties
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ForeignKey("Item")]
         public Guid CityId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
         public string Country { get; set; }
 
         // Navigation Properties i.e FKs to different tables
-        public ResourceMeta CoverImage { get; set; }
+        public Item Item { get; set; }
     }
 }

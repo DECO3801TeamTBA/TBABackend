@@ -21,23 +21,76 @@ namespace WanderListAPI.Controllers
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
-        public ShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
+        public ShortlistController(WanderListDbContext context, ILogger logger)
         {
             _logger = logger;
             _context = context;
         }
 
+        // GET: api/<apiVersion>/<ShortlistController>
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get()
+        {
+            _logger.LogInformation($"GET Shortlist all");
+
+            return Ok(await _context.Shortlist.ToListAsync());
+        }
+
         // GET: api/<apiVersion>/<ShortlistController>/5
         [HttpGet("{id}")]
         [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET shortlists for user {id}");
+            _logger.LogInformation($"GET Shortlists with id {id}");
             var shortlist = await _context.Shortlist
-                    .Where(val => val.UserId == id.ToString())
-                    .ToListAsync();
+                    .Where(sho => sho.ShortlistId == id)
+                    .FirstOrDefaultAsync();
+
+            if (shortlist == default(Shortlist))
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No Shortlist exists with id {id}",
+                    Status = "404"
+                });
+            }
+
             return Ok(shortlist);
+        }
+    }
+
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [ApiController]
+    public class ShortlistContentController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger _logger;
+
+        public ShortlistContentController(WanderListDbContext context, ILogger logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET api/<apiVersion>/ApplicationUser/5/Content
+        [HttpGet("{id}/Content")]
+        [Authorize]
+        [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET content for shortlist with id {id}");
+            var shortlistContent = await _context.ShortlistContent
+                .Include(scon => scon.Content)
+                .Where(scon => scon.ShortlistId == id)
+                .Select(scon => scon.Content)
+                .ToListAsync();
+
+            return Ok(shortlistContent);
         }
     }
 }

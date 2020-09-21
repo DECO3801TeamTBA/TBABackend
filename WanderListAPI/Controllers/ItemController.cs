@@ -17,52 +17,53 @@ namespace WanderListAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class ResourceController : ControllerBase
+    public class ItemController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ResourceController(WanderListDbContext context, ILogger logger)
+        public ItemController(WanderListDbContext context, ILogger logger)
         {
-            _context = context;
             _logger = logger;
+            _context = context;
         }
 
-        // GET: api/<apiVersion>/<ResourceController>
+        // GET: api/<apiVersion>/<ItemController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Resource>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<Item>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            _logger.LogInformation($"GET Resource all");
-            var resource = await _context.Resource
+            _logger.LogInformation($"GET Item all");
+            var item = await _context.Item
+                .Include(ite => ite.CoverImage)
                 .ToListAsync();
 
-            return Ok(resource);
+            return Ok(item);
         }
 
-        // GET api/<apiVersion>/<ResourceController>/5
+        // GET api/<apiVersion>/<ItemController>/5
         [HttpGet("{id}")]
-        [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Resource), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Item), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Resource with id {id}");
-            var resource = await _context.Resource
-                .Where(res => res.ResourceId == id)
+            _logger.LogInformation($"GET Item with id {id}");
+            var item = await _context.Item
+                .Include(ite => ite.CoverImage)
+                .Where(ite => ite.ItemId == id)
                 .FirstOrDefaultAsync();
 
-            if (resource == default(Resource))
+            if (item == default(Item))
             {
                 return NotFound(new Response()
                 {
-                    Message = $"No Resource exists with id {id}",
+                    Message = $"No Item exists with id {id}",
                     Status = "404"
                 });
             }
 
-            return Ok(resource);
+            return Ok(item);
         }
     }
 }

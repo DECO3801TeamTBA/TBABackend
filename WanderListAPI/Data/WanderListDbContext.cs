@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WanderListAPI.Models;
+using WanderListAPI.Models.Junctions;
 
 namespace WanderListAPI.Data
 {
@@ -18,14 +19,18 @@ namespace WanderListAPI.Data
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<City> City { get; set; }
+        public DbSet<CityContent> CityContent { get; set; }
         public DbSet<Destination> Destination { get; set; }
         public DbSet<History> History { get; set; }
+        public DbSet<Item> Item { get; set; }
+        public DbSet<ContentResourceMeta> ContentResourceMeta { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
         public DbSet<Reward> Reward { get; set; }
         public DbSet<Shortlist> Shortlist { get; set; }
         public DbSet<ShortlistContent> ShortlistContent { get; set; }
         public DbSet<UserReward> UserReward { get; set; }
+        public DbSet<UserShortlist> UserShortlist { get; set; }
 
         public WanderListDbContext()
         {
