@@ -95,7 +95,7 @@ namespace WanderListAPI.Controllers
             _logger.LogInformation($"GET Resource for Destination with id {id}");
             var resource = await _context.ContentResourceMeta
                 .Include(ires => ires.ResourceMeta)
-                .Where(ires => ires.ItemId == id)
+                .Where(ires => ires.ContentId == id)
                 .OrderBy(ires => ires.Number)
                 .Select(ires => new {
                     ires.ResourceMeta

@@ -8,14 +8,14 @@ namespace WanderListAPI.Models.Junctions
 {
     public class ContentResourceMeta
     {
-        [ForeignKey("Item")]
-        public Guid ItemId { get; set; }
+        [ForeignKey("Content")]
+        public Guid ContentId { get; set; }
         [ForeignKey("ResourceMeta")]
         public Guid ResourceMetaId { get; set; }
         public int Number { get; set; }
 
         //Navigation properties
-        public Item Item { get; set; }
+        public Content Content { get; set; }
         public ResourceMeta ResourceMeta { get; set; }
     }
 }

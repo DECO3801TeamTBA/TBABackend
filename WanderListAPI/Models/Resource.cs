@@ -15,7 +15,7 @@ namespace WanderListAPI.Models
         //For the case that the resource is in the database as a blob
         public byte[] Data { get; set; }
 
-        public ResourceMeta ResourceMeta { get; set; }
+        //public ResourceMeta ResourceMeta { get; set; }
         //If the file is stored on disk
         public string FilePath { get; set; }
     }

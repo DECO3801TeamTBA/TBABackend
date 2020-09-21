@@ -17,13 +17,13 @@ namespace WanderListAPI.Data
         //Add DbSet<Entity> here
         public DbSet<Activity> Activity { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-        public DbSet<Content> Content { get; set; }
         public DbSet<City> City { get; set; }
+        public DbSet<Content> Content { get; set; }
         public DbSet<CityContent> CityContent { get; set; }
+        public DbSet<ContentResourceMeta> ContentResourceMeta { get; set; }
         public DbSet<Destination> Destination { get; set; }
         public DbSet<History> History { get; set; }
         public DbSet<Item> Item { get; set; }
-        public DbSet<ContentResourceMeta> ContentResourceMeta { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
         public DbSet<Reward> Reward { get; set; }
@@ -58,9 +58,12 @@ namespace WanderListAPI.Data
             //Additionally, some properties do not even require DataAnnotations (see EF Core docs)
 
             //Composite Keys here
+            modelBuilder.Entity<CityContent>().HasKey(ccont => new { ccont.CityId, ccont.ContentId });
+            modelBuilder.Entity<ContentResourceMeta>().HasKey(crmet => new { crmet.ContentId, crmet.ResourceMetaId });
             modelBuilder.Entity<History>().HasKey(hist => new { hist.ContentId, hist.UserId });
             modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ShortlistId });
             modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
+            modelBuilder.Entity<UserShortlist>().HasKey(us => new { us.UserId, us.ShortlistId });
 
 
             //Generate Data
@@ -71,48 +74,48 @@ namespace WanderListAPI.Data
             IdentityRole userRole = seed.CreateIdentityRole("User");
             ApplicationUser user = seed.CreateApplicationUser();
 
-            modelBuilder.Entity<IdentityRole>().HasData(adminRole);
-            modelBuilder.Entity<IdentityRole>().HasData(userRole);
-            modelBuilder.Entity<ApplicationUser>().HasData(user);
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            {
-                RoleId = userRole.Id,
-                UserId = user.Id
-            });
+            //modelBuilder.Entity<IdentityRole>().HasData(adminRole);
+            //modelBuilder.Entity<IdentityRole>().HasData(userRole);
+            //modelBuilder.Entity<ApplicationUser>().HasData(user);
+            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            //{
+            //    RoleId = userRole.Id,
+            //    UserId = user.Id
+            //});
 
-            // Content stuff
-            Content activityContent = seed.CreateContent();
-            Content destinationContent = seed.CreateContent();
-            Activity activity = seed.CreateActivity(activityContent);
-            Destination destination = seed.CreateDestination(destinationContent);
+            //// Content stuff
+            //Content activityContent = seed.CreateContent();
+            //Content destinationContent = seed.CreateContent();
+            //Activity activity = seed.CreateActivity(activityContent);
+            //Destination destination = seed.CreateDestination(destinationContent);
 
-            modelBuilder.Entity<Content>().HasData(activityContent);
-            modelBuilder.Entity<Content>().HasData(destinationContent);
-            modelBuilder.Entity<Activity>().HasData(activity);
-            modelBuilder.Entity<Destination>().HasData(destination);
+            //modelBuilder.Entity<Content>().HasData(activityContent);
+            //modelBuilder.Entity<Content>().HasData(destinationContent);
+            //modelBuilder.Entity<Activity>().HasData(activity);
+            //modelBuilder.Entity<Destination>().HasData(destination);
 
-            // Shortlist stuff
-            Shortlist shortlist = seed.CreateShortlist(user.Id);
+            //// Shortlist stuff
+            //Shortlist shortlist = seed.CreateShortlist(user.Id);
 
-            modelBuilder.Entity<Shortlist>().HasData(shortlist);
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
-                activity.ActivityId, 0));
-            modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
-                destination.DestinationId, 0));
+            //modelBuilder.Entity<Shortlist>().HasData(shortlist);
+            //modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
+            //    activity.ActivityId, 0));
+            //modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
+            //    destination.DestinationId, 0));
 
-            // Reward stuff
-            var reward = seed.CreateReward();
+            //// Reward stuff
+            //var reward = seed.CreateReward();
 
-            var (resource, resourceMeta) = seed.CreateResourceWithMeta();
-            modelBuilder.Entity<Resource>().HasData(resource); //is this sufficient?
-            modelBuilder.Entity<ResourceMeta>().HasData(resourceMeta);
+            //var (resource, resourceMeta) = seed.CreateResourceWithMeta();
+            //modelBuilder.Entity<Resource>().HasData(resource); //is this sufficient?
+            //modelBuilder.Entity<ResourceMeta>().HasData(resourceMeta);
 
-            modelBuilder.Entity<Reward>().HasData(reward);
-            modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(user.Id, reward.RewardId));
+            //modelBuilder.Entity<Reward>().HasData(reward);
+            //modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(user.Id, reward.RewardId));
 
-            // History stuff
-            modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, activity.ActivityId));
-            modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, destination.DestinationId));
+            //// History stuff
+            //modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, activity.ActivityId));
+            //modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, destination.DestinationId));
         }
     }
 }

@@ -34,21 +34,21 @@ namespace WanderListTests
             {
                 ContentId = Guid.NewGuid(),
                 Address = "testing1",
-                Name = "tryme1"
+                //Name = "tryme1"
             };
 
             var content2 = new Content()
             {
                 ContentId = Guid.NewGuid(),
                 Address = "testing2",
-                Name = "tryme2"
+                //Name = "tryme2"
             };
 
             var content3 = new Content()
             {
                 ContentId = Guid.NewGuid(),
                 Address = "testing3",
-                Name = "tryme3"
+                //Name = "tryme3"
             };
 
             context.Add(content1);
