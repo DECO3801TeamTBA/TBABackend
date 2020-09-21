@@ -23,7 +23,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ApplicationUserController(WanderListDbContext context, ILogger<ApplicationUser> logger)
+        public ApplicationUserController(WanderListDbContext context, ILogger logger)
         {
             _logger = logger;
             _context = context;
@@ -85,9 +85,9 @@ namespace WanderListAPI.Controllers
     public class UserRewardController : ControllerBase
     {
         private readonly WanderListDbContext _context;
-        private readonly ILogger<Reward> _logger;
+        private readonly ILogger _logger;
 
-        public UserRewardController(WanderListDbContext context, ILogger<Reward> logger)
+        public UserRewardController(WanderListDbContext context, ILogger logger)
         {
             _context = context;
             _logger = logger;
@@ -100,16 +100,14 @@ namespace WanderListAPI.Controllers
         [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Reward with {id}");
-            var rewards = await _context.UserReward.Join(_context.Reward,
-                ur => ur.RewardId,
-                r => r.RewardId,
-                (ur, r) => new { UserReward = ur, Reward = r })
-                .Where(urr => urr.UserReward.UserId == id.ToString())
-                .Select(urr => urr.Reward)
+            _logger.LogInformation($"GET Reward for User with id {id}");
+            var reward = await _context.UserReward
+                .Include(urew => urew.Reward)
+                .Where(urew => urew.UserId == id.ToString())
+                .Select(urew => urew.Reward)
                 .ToListAsync();
 
-            return Ok(rewards);
+            return Ok(reward);
         }
     }
 
@@ -134,16 +132,16 @@ namespace WanderListAPI.Controllers
         [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET History user {id}");
-            var histories = await _context.History
-                    .Where(hist => hist.UserId == id.ToString())
-                    .Select(hist => new {
-                        hist.ContentId,
-                        hist.Date
-                    })
-                    .ToListAsync();
+            _logger.LogInformation($"GET History for User with id {id}");
+            var history = await _context.History
+                .Where(hist => hist.UserId == id.ToString())
+                .Select(hist => new {
+                    hist.ContentId,
+                    hist.Date
+                })
+                .ToListAsync();
 
-            return Ok(histories);
+            return Ok(history);
         }
     }
 
@@ -168,12 +166,14 @@ namespace WanderListAPI.Controllers
         [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Shortlist user {id}");
-            var shortlists = await _context.UserShortlist
-                    .Where(var => var.UserId == var.ToString())
-                    .ToListAsync();
+            _logger.LogInformation($"GET Shortlist for User with id {id}");
+            var shortlist = await _context.UserShortlist
+                .Include(usho => usho.Shortlist)
+                .Where(usho => usho.UserId == id.ToString())
+                .Select(usho => usho.Shortlist)
+                .ToListAsync();
 
-            return Ok(shortlists);
+            return Ok(shortlist);
         }
     }
 }

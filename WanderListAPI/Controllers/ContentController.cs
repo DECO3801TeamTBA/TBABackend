@@ -75,6 +75,41 @@ namespace WanderListAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/Content")]
     [ApiController]
+    public class ContentResourceMetaController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger _logger;
+
+        public ContentResourceMetaController(WanderListDbContext context, ILogger logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET api/<apiVersion>/Content/5/Resource
+        [HttpGet("{id}/Resource")]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET Resource for Content with id {id}");
+            var resource = await _context.ContentResourceMeta
+                .Include(ires => ires.ResourceMeta)
+                .Where(ires => ires.ItemId == id)
+                .OrderBy(ires => ires.Number)
+                .Select(ires => new {
+                    ires.ResourceMeta
+                })
+                .ToListAsync();
+
+            return Ok(resource);
+        }
+    }
+
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/Content")]
+    [ApiController]
     public class ContentHistoryController : ControllerBase
     {
         private readonly WanderListDbContext _context;
