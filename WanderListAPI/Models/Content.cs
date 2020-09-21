@@ -18,9 +18,15 @@ namespace WanderListAPI.Models
         public string Address { get; set; }
         public string Website { get; set; }
         public int Capacity { get; set; }
+        public bool Featured { get; set; }
+        public int EnvironmentalRating { get; set; }
+        public int SocialRating { get; set; }
+        public int EconomicRating { get; set; }
 
         // Navigation Properties i.e FKs to different tables
-        public ICollection<ResourceMeta> ResourceMetas { get; set; }
-        public ICollection<History> Histories { get; set; }
+        public City City { get; set; }
+        public ResourceMeta CoverImage { get; set; }
+        public List<ResourceMeta> ResourceMetas { get; set; }
+        public List<History> Histories { get; set; }
     }
 }

@@ -17,11 +17,11 @@ namespace WanderListAPI.Data
         public DbSet<Activity> Activity { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Content> Content { get; set; }
+        public DbSet<City> City { get; set; }
         public DbSet<Destination> Destination { get; set; }
         public DbSet<History> History { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
-        //public DbSet<Restaurant> Restaurant { get; set; }
         public DbSet<Reward> Reward { get; set; }
         public DbSet<Shortlist> Shortlist { get; set; }
         public DbSet<ShortlistContent> ShortlistContent { get; set; }
