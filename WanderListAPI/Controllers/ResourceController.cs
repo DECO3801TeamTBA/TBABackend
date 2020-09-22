@@ -22,7 +22,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ResourceController(WanderListDbContext context, ILogger logger)
+        public ResourceController(WanderListDbContext context, ILogger<Resource> logger)
         {
             _context = context;
             _logger = logger;
@@ -45,15 +45,15 @@ namespace WanderListAPI.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Resource), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET Resource with id {id}");
-            var resource = await _context.Resource
-                .Where(res => res.ResourceId == id)
-                .FirstOrDefaultAsync();
+            _logger.LogInformation($"GET Resource with {id}");
+            var resourceMeta = await _context.ResourceMeta
+                .Include(res => res.Resource)
+                .FirstOrDefaultAsync(res => res.ResourceMetaId == id);
 
-            if (resource == default(Resource))
+            if (resourceMeta == default(ResourceMeta))
             {
                 return NotFound(new Response()
                 {
@@ -62,7 +62,12 @@ namespace WanderListAPI.Controllers
                 });
             }
 
-            return Ok(resource);
+            if (resourceMeta.OnDisk)
+            {
+                //Assuming virtual, havent decided yet, probably virtual....
+                return File(resourceMeta.Resource.FilePath, resourceMeta.MimeType);
+            }
+            return File(resourceMeta.Resource.Data, resourceMeta.MimeType);
         }
     }
 }

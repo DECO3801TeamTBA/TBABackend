@@ -20,7 +20,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ActivityController(WanderListDbContext context, ILogger logger)
+        public ActivityController(WanderListDbContext context, ILogger<Activity> logger)
         {
             _logger = logger;
             _context = context;
@@ -87,7 +87,6 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Activity/5/Resource
         [HttpGet("{id}/Resource")]
         [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {

@@ -22,7 +22,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public CityController(WanderListDbContext context, ILogger logger)
+        public CityController(WanderListDbContext context, ILogger<City> logger)
         {
             _logger = logger;
             _context = context;
@@ -67,5 +67,35 @@ namespace WanderListAPI.Controllers
 
             return Ok(city);
         }
+    }
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/City")]
+    [ApiController]
+    public class CityContentController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger _logger;
+
+        public CityContentController(WanderListDbContext context, ILogger<City> logger)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        [HttpGet("{id}/Content")]
+        [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            _logger.LogInformation($"GET Content of city with id {id}");
+            var contents = await _context.CityContent
+                .Include(city => city.Content)
+                .Where(city => city.CityId == id)
+                .Select(city => city.Content)
+                .ToListAsync();
+
+            return Ok(contents);
+        }
+
+
     }
 }
