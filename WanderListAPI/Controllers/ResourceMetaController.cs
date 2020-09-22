@@ -14,14 +14,14 @@ using WanderListAPI.Models;
 
 namespace WanderListAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ResourceMetaController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ResourceMetaController(WanderListDbContext context, ILogger logger)
+        public ResourceMetaController(WanderListDbContext context, ILogger<ResourceMeta> logger)
         {
             _context = context;
             _logger = logger;
@@ -45,42 +45,14 @@ namespace WanderListAPI.Controllers
                 {
                     //Assuming virtual, havent decided yet, probably virtual....
                     result.Add(File(element.Resource.FilePath, element.MimeType));
-                } else
+                }
+                else
                 {
                     result.Add(File(element.Resource.Data, element.MimeType));
                 }
             }
 
             return Ok(result);
-        }
-
-        // GET api/<apiVersion>/<ResourceMetaController>/5
-        [HttpGet("{id}")]
-        [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            _logger.LogInformation($"GET ResourceMeta with {id}");
-            var resourceMeta = await _context.ResourceMeta
-                .Include(res => res.Resource)
-                .FirstOrDefaultAsync(res => res.ResourceMetaId == id);
-
-            if (resourceMeta == default(ResourceMeta))
-            {
-                return NotFound(new Response()
-                {
-                    Message = $"No ResourceMeta exists with id {id}",
-                    Status = "404"
-                });
-            }
-
-            if (resourceMeta.OnDisk)
-            {
-                //Assuming virtual, havent decided yet, probably virtual....
-                return Ok(File(resourceMeta.Resource.FilePath, resourceMeta.MimeType));
-            }
-            return Ok(File(resourceMeta.Resource.Data, resourceMeta.MimeType));
         }
     }
 }

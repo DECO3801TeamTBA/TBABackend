@@ -21,7 +21,7 @@ namespace WanderListAPI.Controllers
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
-        public ShortlistController(WanderListDbContext context, ILogger logger)
+        public ShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
         {
             _logger = logger;
             _context = context;

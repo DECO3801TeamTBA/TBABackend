@@ -23,7 +23,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ContentController(WanderListDbContext context, ILogger logger)
+        public ContentController(WanderListDbContext context, ILogger<Content> logger)
         {
             _logger = logger;
             _context = context;
@@ -80,7 +80,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ContentResourceMetaController(WanderListDbContext context, ILogger logger)
+        public ContentResourceMetaController(WanderListDbContext context, ILogger<Content> logger)
         {
             _context = context;
             _logger = logger;
@@ -89,7 +89,6 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Content/5/Resource
         [HttpGet("{id}/Resource")]
         [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -98,9 +97,7 @@ namespace WanderListAPI.Controllers
                 .Include(ires => ires.ResourceMeta)
                 .Where(ires => ires.ContentId == id)
                 .OrderBy(ires => ires.Number)
-                .Select(ires => new {
-                    ires.ResourceMeta
-                })
+                .Select(ires => ires.ResourceMeta)
                 .ToListAsync();
 
             return Ok(resource);
@@ -115,7 +112,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ContentHistoryController(WanderListDbContext context, ILogger logger)
+        public ContentHistoryController(WanderListDbContext context, ILogger<Content> logger)
         {
             _context = context;
             _logger = logger;
@@ -124,8 +121,7 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Content/5/History
         [HttpGet("{id}/History")]
         [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET History for Content with id {id}");

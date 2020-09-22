@@ -54,9 +54,6 @@ namespace WanderListAPI.Data
             //call base class OnModelCreating to setup
             base.OnModelCreating(modelBuilder);
 
-            //Add fluentAPI calls here. Not necessary atm I think, since we're using DataAnnotations (see Models)
-            //Additionally, some properties do not even require DataAnnotations (see EF Core docs)
-
             //Composite Keys here
             modelBuilder.Entity<CityContent>().HasKey(ccont => new { ccont.CityId, ccont.ContentId });
             modelBuilder.Entity<ContentResourceMeta>().HasKey(crmet => new { crmet.ContentId, crmet.ResourceMetaId });
@@ -67,55 +64,76 @@ namespace WanderListAPI.Data
 
 
             //Generate Data
-            var seed = new DataFactory();
 
             // User stuff
-            IdentityRole adminRole = seed.CreateIdentityRole("Admin");
-            IdentityRole userRole = seed.CreateIdentityRole("User");
-            ApplicationUser user = seed.CreateApplicationUser();
+            IdentityRole adminRole = DataFactory.CreateIdentityRole("Admin");
+            IdentityRole userRole = DataFactory.CreateIdentityRole("User");
+            ApplicationUser user = DataFactory.CreateApplicationUser();
 
-            //modelBuilder.Entity<IdentityRole>().HasData(adminRole);
-            //modelBuilder.Entity<IdentityRole>().HasData(userRole);
-            //modelBuilder.Entity<ApplicationUser>().HasData(user);
-            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            //{
-            //    RoleId = userRole.Id,
-            //    UserId = user.Id
-            //});
+            modelBuilder.Entity<IdentityRole>().HasData(adminRole);
+            modelBuilder.Entity<IdentityRole>().HasData(userRole);
+            modelBuilder.Entity<ApplicationUser>().HasData(user);
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = userRole.Id,
+                UserId = user.Id
+            });
 
-            //// Content stuff
-            //Content activityContent = seed.CreateContent();
-            //Content destinationContent = seed.CreateContent();
-            //Activity activity = seed.CreateActivity(activityContent);
-            //Destination destination = seed.CreateDestination(destinationContent);
+            //Make a resource to be used for cover images
+            var (resource, resourceMeta) = DataFactory.CreateResourceWithMeta();
+            modelBuilder.Entity<Resource>().HasData(resource); //is this sufficient?
+            modelBuilder.Entity<ResourceMeta>().HasData(resourceMeta);
 
-            //modelBuilder.Entity<Content>().HasData(activityContent);
-            //modelBuilder.Entity<Content>().HasData(destinationContent);
-            //modelBuilder.Entity<Activity>().HasData(activity);
-            //modelBuilder.Entity<Destination>().HasData(destination);
+            //First make a city
+            var (city, cityItem) = DataFactory.CreateCityWithItem(resourceMeta.ResourceMetaId);
+            modelBuilder.Entity<Item>().HasData(cityItem);
+            modelBuilder.Entity<City>().HasData(city);
 
-            //// Shortlist stuff
-            //Shortlist shortlist = seed.CreateShortlist(user.Id);
+            //make a destination content with city connected
+            var (destination, destContent, destCity, destinationItem) =
+                DataFactory.CreateDestinationWithContentAndItem(
+                    resourceMeta.ResourceMetaId,
+                    city.CityId
+                );
+            var destinationResource = DataFactory.CreateContentResourceMeta
+                (resourceMeta.ResourceMetaId, destination.DestinationId, 0);
+            modelBuilder.Entity<Item>().HasData(destinationItem);
+            modelBuilder.Entity<Content>().HasData(destContent);
+            modelBuilder.Entity<Destination>().HasData(destination);
+            modelBuilder.Entity<CityContent>().HasData(destCity);
+            modelBuilder.Entity<ContentResourceMeta>().HasData(destinationResource);
 
-            //modelBuilder.Entity<Shortlist>().HasData(shortlist);
-            //modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
-            //    activity.ActivityId, 0));
-            //modelBuilder.Entity<ShortlistContent>().HasData(seed.CreateShortlistContent(shortlist.ShortlistId,
-            //    destination.DestinationId, 0));
 
-            //// Reward stuff
-            //var reward = seed.CreateReward();
+            // make an activity content with city connected
+            var (activity, actContent, actCity, activityItem) =
+                DataFactory.CreateActivityWithContentAndItem(
+                    resourceMeta.ResourceMetaId,
+                    city.CityId
+                );
+            var activityResource = DataFactory.CreateContentResourceMeta
+                (resourceMeta.ResourceMetaId, activity.ActivityId, 0);
+            modelBuilder.Entity<Item>().HasData(activityItem);
+            modelBuilder.Entity<Content>().HasData(actContent);
+            modelBuilder.Entity<Activity>().HasData(activity);
+            modelBuilder.Entity<CityContent>().HasData(actCity);
+            modelBuilder.Entity<ContentResourceMeta>().HasData(activityResource);
+            // Shortlist stuff
+            var (shortlist, usershortlist) = DataFactory.CreateShortlist(user.Id);
+            modelBuilder.Entity<Shortlist>().HasData(shortlist);
+            modelBuilder.Entity<UserShortlist>().HasData(usershortlist);
+            modelBuilder.Entity<ShortlistContent>().HasData(
+                DataFactory.CreateShortlistContent(shortlist.ShortlistId, activity.ActivityId, 1));
+            modelBuilder.Entity<ShortlistContent>().HasData(
+                DataFactory.CreateShortlistContent(shortlist.ShortlistId, destination.DestinationId, 2));
 
-            //var (resource, resourceMeta) = seed.CreateResourceWithMeta();
-            //modelBuilder.Entity<Resource>().HasData(resource); //is this sufficient?
-            //modelBuilder.Entity<ResourceMeta>().HasData(resourceMeta);
+            // Reward stuff
+            var reward = DataFactory.CreateReward();
+            modelBuilder.Entity<Reward>().HasData(reward);
+            modelBuilder.Entity<UserReward>().HasData(DataFactory.CreateUserReward(user.Id, reward.RewardId));
 
-            //modelBuilder.Entity<Reward>().HasData(reward);
-            //modelBuilder.Entity<UserReward>().HasData(seed.CreateUserReward(user.Id, reward.RewardId));
-
-            //// History stuff
-            //modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, activity.ActivityId));
-            //modelBuilder.Entity<History>().HasData(seed.CreateHistory(user.Id, destination.DestinationId));
+            // History stuff
+            modelBuilder.Entity<History>().HasData(DataFactory.CreateHistory(user.Id, activity.ActivityId));
+            modelBuilder.Entity<History>().HasData(DataFactory.CreateHistory(user.Id, destination.DestinationId));
         }
     }
 }

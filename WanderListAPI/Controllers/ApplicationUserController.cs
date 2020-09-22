@@ -23,7 +23,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ApplicationUserController(WanderListDbContext context, ILogger logger)
+        public ApplicationUserController(WanderListDbContext context, ILogger<ApplicationUser> logger)
         {
             _logger = logger;
             _context = context;
@@ -87,7 +87,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public UserRewardController(WanderListDbContext context, ILogger logger)
+        public UserRewardController(WanderListDbContext context, ILogger<ApplicationUser> logger)
         {
             _context = context;
             _logger = logger;
@@ -96,7 +96,6 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/ApplicationUser/5/Reward
         [HttpGet("{id}/Reward")]
         [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -128,7 +127,6 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/ApplicationUser/5/History
         [HttpGet("{id}/History")]
         [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -162,7 +160,6 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/ApplicationUser/5/Shortlist
         [HttpGet("{id}/Shortlist")]
         [Authorize]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {

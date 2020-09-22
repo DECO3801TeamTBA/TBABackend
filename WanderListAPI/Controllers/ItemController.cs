@@ -22,7 +22,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ItemController(WanderListDbContext context, ILogger logger)
+        public ItemController(WanderListDbContext context, ILogger<Item> logger)
         {
             _logger = logger;
             _context = context;
