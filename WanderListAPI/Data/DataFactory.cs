@@ -25,19 +25,19 @@ namespace WanderListAPI.Data
         }
 
         public static IdentityUserRole<string> CreateIdentityUserRole(
-            Guid userId, Guid roleId)
+            AppUser user, IdentityRole role)
         {
             var identityUserRole = new IdentityUserRole<string>()
             {
-                RoleId = roleId.ToString(),
-                UserId = userId.ToString()
+                RoleId = role.Id.ToString(),
+                UserId = user.Id
             };
 
             return identityUserRole;
         }
 
         public static AppUser CreateAppUser(string firstName,
-            string lastName)
+            string lastName, string UserName)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
 
@@ -48,28 +48,6 @@ namespace WanderListAPI.Data
                 Id = Guid.NewGuid().ToString(),
                 UserName = firstName,
                 NormalizedUserName = firstName.ToUpper(),
-                Email = email,
-                NormalizedEmail = email.ToUpper(),
-
-                //Need this?
-                PasswordHash =
-                    new PasswordHasher<AppUser>().HashPassword(null, "1234"),
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-
-            return user;
-        }
-
-        public static AppUser CreateApplicationUser(string firstName,
-            string lastName, string userName, string email)
-        {
-            var user = new AppUser()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Id = Guid.NewGuid().ToString(),
-                UserName = userName,
-                NormalizedUserName = userName.ToUpper(),
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
 
@@ -109,23 +87,26 @@ namespace WanderListAPI.Data
             return city;
         }
 
-        public static Content CreateContent()
+        public static Content CreateContent(Item item, int environmentRating, int socialRating, int economicRating)
         {
             var content = new Content()
             {
-                ContentId = Guid.NewGuid()
+                ContentId = item.ItemId,
+                EnvironmentalRating = environmentRating,
+                SocialRating = socialRating,
+                EconomicRating = economicRating
             };
 
             return content;
         }
 
-        public static Reward CreateReward()
+        public static Reward CreateReward(string name, string value)
         {
             var reward = new Reward()
             {
                 RewardId = Guid.NewGuid(),
-                Name = "Burger King Coupon",
-                Value = "15% OFF",
+                Name = name,
+                Value = value,
                 ExpiryDate = new DateTime()
             };
 
@@ -134,11 +115,6 @@ namespace WanderListAPI.Data
 
         public static Activity CreateActivity(Content content)
         {
-            //content.Name = "Ride in the Mystery.inc truck";
-            //content.Description = "Take a guided tour of the towns most " +
-            //    "mysterious attractions in a mystery inc truck";
-            //content.Capacity = 125;
-
             var activity = new Activity()
             {
                 ActivityId = content.ContentId
@@ -149,10 +125,6 @@ namespace WanderListAPI.Data
 
         public static Destination CreateDestination(Content content)
         {
-            //content.Name = "Scooby Ville";
-            //content.Description = "The scooby themed holiday destination";
-            //content.Capacity = 50;
-
             var destination = new Destination()
             {
                 DestinationId = content.ContentId
@@ -161,12 +133,12 @@ namespace WanderListAPI.Data
             return destination;
         }
 
-        public static History CreateHistory(string userId, Guid contentId)
+        public static History CreateHistory(AppUser user, Content content)
         {
             var history = new History()
             {
-                UserId = userId.ToString(),
-                ContentId = contentId,
+                UserId = user.Id,
+                ContentId = content.ContentId,
                 Date = DateTime.Now
             };
 
@@ -174,42 +146,36 @@ namespace WanderListAPI.Data
         }
 
 
-        public static (Shortlist, UserShortlist) CreateShortlist(string userId)
+        //public static (Shortlist, UserShortlist) CreateShortlist(string name)
+        public static Shortlist CreateShortlist(string name)
         {
-            var id = Guid.NewGuid();
             var shortlist = new Shortlist()
             {
-                ShortlistId = id,
-                ListName = "Scooby Doo Vacation"
+                ShortlistId = Guid.NewGuid(),
+                ListName = name
             };
 
-            var userShortlist = new UserShortlist()
-            {
-                ShortlistId = id,
-                UserId = userId
-            };
-            return (shortlist, userShortlist);
+            return shortlist;
         }
 
-        public static ShortlistContent CreateShortlistContent(Guid listId,
-            Guid contentId, int number)
+        public static ShortlistContent CreateShortlistContent(Shortlist list, Content content, int num)
         {
             var shortlistContent = new ShortlistContent()
             {
-                ShortlistId = listId,
-                ContentId = contentId,
-                Number = number
+                ShortlistId = list.ShortlistId,
+                ContentId = content.ContentId,
+                Number = num
             };
 
             return shortlistContent;
         }
 
-        public static UserReward CreateUserReward(string userId, Guid rewardId)
+        public static UserReward CreateUserReward(AppUser user, Reward reward)
         {
             var userReward = new UserReward()
             {
-                UserId = userId,
-                RewardId = rewardId
+                UserId = user.Id,
+                RewardId = reward.RewardId
             };
 
             return userReward;
