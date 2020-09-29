@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 namespace WanderListAPI.Controllers
 {
@@ -29,7 +30,7 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ActivityController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Activity>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Activity all");
@@ -37,6 +38,7 @@ namespace WanderListAPI.Controllers
                 .Include(act => act.Content)
                 .ThenInclude(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .Select(ite => new ItemBriefResponse(ite))
                 .ToListAsync();
 
             return Ok(activity);

@@ -24,7 +24,8 @@ namespace WanderListAPI.Data
             return identityRole;
         }
 
-        public static IdentityUserRole<string> CreateIdentityUserRole(Guid userId, Guid roleId)
+        public static IdentityUserRole<string> CreateIdentityUserRole(
+            Guid userId, Guid roleId)
         {
             var identityUserRole = new IdentityUserRole<string>()
             {
@@ -35,22 +36,77 @@ namespace WanderListAPI.Data
             return identityUserRole;
         }
 
-        public static ApplicationUser CreateApplicationUser()
+        public static AppUser CreateAppUser(string firstName,
+            string lastName)
         {
-            var user = new ApplicationUser()
+            string email = firstName + '.' + lastName + "@pretend.com";
+
+            var user = new AppUser()
             {
-                FirstName = "Norville",
-                LastName = "Rogers",
+                FirstName = firstName,
+                LastName = lastName,
                 Id = Guid.NewGuid().ToString(),
-                UserName = "Shaggy",
-                NormalizedUserName = "SHAGGY",
-                NormalizedEmail = "SURFER69@SCOOBYDOO.COM",
-                Email = "surfer69@scoobydoo.com",
-                PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "1234"),
+                UserName = firstName,
+                NormalizedUserName = firstName.ToUpper(),
+                Email = email,
+                NormalizedEmail = email.ToUpper(),
+
+                //Need this?
+                PasswordHash =
+                    new PasswordHasher<AppUser>().HashPassword(null, "1234"),
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
             return user;
+        }
+
+        public static AppUser CreateApplicationUser(string firstName,
+            string lastName, string userName, string email)
+        {
+            var user = new AppUser()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Id = Guid.NewGuid().ToString(),
+                UserName = userName,
+                NormalizedUserName = userName.ToUpper(),
+                Email = email,
+                NormalizedEmail = email.ToUpper(),
+
+                //Need this?
+                PasswordHash =
+                    new PasswordHasher<AppUser>().HashPassword(null, "1234"),
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            return user;
+        }
+
+        public static Item CreateItem(string name, string description,
+            ResourceMeta coverImage)
+        {
+            var item = new Item()
+            {
+                ItemId = Guid.NewGuid(),
+                Name = name,
+                Description = description,
+                CoverImageId = coverImage.ResourceMetaId,
+                CoverImage = coverImage
+            };
+
+            return item;
+        }
+
+        public static City CreateCity(Item item, string country)
+        {
+            var city = new City()
+            {
+                CityId = item.ItemId,
+                Country = country,
+                Item = item
+            };
+
+            return city;
         }
 
         public static Content CreateContent()
@@ -135,7 +191,8 @@ namespace WanderListAPI.Data
             return (shortlist, userShortlist);
         }
 
-        public static ShortlistContent CreateShortlistContent(Guid listId, Guid contentId, int number)
+        public static ShortlistContent CreateShortlistContent(Guid listId,
+            Guid contentId, int number)
         {
             var shortlistContent = new ShortlistContent()
             {
@@ -168,13 +225,16 @@ namespace WanderListAPI.Data
             var resourceMeta = new ResourceMeta();
             resource.ResourceId = id;
             resourceMeta.ResourceMetaId = id;
-            fileStream.CopyTo(memStream); //using sync code after this to demonstrate that it will work either way
+            fileStream
+                .CopyTo(
+                    memStream); //using sync code after this to demonstrate that it will work either way
             resourceMeta.AddedOn = DateTime.Now;
             resourceMeta.OnDisk = false;
             resourceMeta.Description = "A picture of Brisbane";
             resourceMeta.FileName = Path.GetFileName(picture1Path);
             resourceMeta.Extension = Path.GetExtension(picture1Path);
-            resourceMeta.MimeType = MimeTypes.GetMimeType(Path.GetFileName(picture1Path));
+            resourceMeta.MimeType =
+                MimeTypes.GetMimeType(Path.GetFileName(picture1Path));
             resource.Data = memStream.ToArray();
             return (resource, resourceMeta);
         }
@@ -195,10 +255,11 @@ namespace WanderListAPI.Data
                 Country = "Australia"
             };
             return (city, item);
-
         }
 
-        public static (Activity, Content, CityContent, Item) CreateActivityWithContentAndItem(Guid coverId, Guid cityId)
+        public static (Activity, Content, CityActivity, Item)
+            CreateActivityWithContentAndItem(Guid coverId,
+                Guid cityId)
         {
             var id = Guid.NewGuid();
             var item = new Item()
@@ -221,7 +282,7 @@ namespace WanderListAPI.Data
                 Capacity = 1500,
                 Website = "www.dontdotit.com"
             };
-            var cityContent = new CityContent()
+            var cityContent = new CityActivity()
             {
                 ContentId = id,
                 CityId = cityId
@@ -233,7 +294,10 @@ namespace WanderListAPI.Data
 
             return (activity, content, cityContent, item);
         }
-        public static (Destination, Content, CityContent, Item) CreateDestinationWithContentAndItem(Guid coverId, Guid cityId)
+
+        public static (Destination, Content, CityActivity, Item)
+            CreateDestinationWithContentAndItem(Guid coverId,
+                Guid cityId)
         {
             var id = Guid.NewGuid();
             var item = new Item()
@@ -256,7 +320,7 @@ namespace WanderListAPI.Data
                 Capacity = 12,
                 Website = "www.bobshouse.com"
             };
-            var cityContent = new CityContent()
+            var cityContent = new CityActivity()
             {
                 ContentId = id,
                 CityId = cityId
@@ -269,7 +333,8 @@ namespace WanderListAPI.Data
             return (destination, content, cityContent, item);
         }
 
-        public static ContentResourceMeta CreateContentResourceMeta(Guid resourceMetaId,
+        public static ContentResourceMeta CreateContentResourceMeta(
+            Guid resourceMetaId,
             Guid contentId, int number)
         {
             var contentResourceMeta = new ContentResourceMeta()

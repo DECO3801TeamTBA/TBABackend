@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -88,7 +89,7 @@ namespace WanderListAPI.Controllers
                 .Include(scon => scon.Content)
                 .Where(scon => scon.ShortlistId == id)
                 .OrderBy(scon => scon.Number)
-                .Select(scon => scon.Content)
+                .Select(scon => new ItemBriefResponse(scon.Content))
                 .ToListAsync();
 
             return Ok(shortlistContent);

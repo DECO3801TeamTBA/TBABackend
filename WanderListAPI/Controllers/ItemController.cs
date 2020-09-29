@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,12 +32,13 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ItemController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Item>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Item all");
             var item = await _context.Item
                 .Include(ite => ite.CoverImage)
+                .Select(ite => new ItemBriefResponse(ite))
                 .ToListAsync();
 
             return Ok(item);

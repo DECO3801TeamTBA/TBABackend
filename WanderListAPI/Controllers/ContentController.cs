@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,13 +33,14 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ContentController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Content all");
             var content = await _context.Content
                 .Include(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .Select(ite => new ItemBriefResponse(ite))
                 .ToListAsync();
 
             return Ok(content);
@@ -121,16 +123,13 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Content/5/History
         [HttpGet("{id}/History")]
         [Authorize]
-        [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ContentHistoryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET History for Content with id {id}");
             var history = await _context.History
                     .Where(hist => hist.ContentId == id)
-                    .Select(hist => new {
-                        hist.Date,
-                        hist.ContentId
-                    })
+                    .Select(hist => new ContentHistoryResponse(hist))
                     .ToListAsync();
 
             return Ok(history);
