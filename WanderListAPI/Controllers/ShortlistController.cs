@@ -66,7 +66,7 @@ namespace WanderListAPI.Controllers
         [HttpPost]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(Reward), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Shortlist), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] Shortlist shortlist)
         {
