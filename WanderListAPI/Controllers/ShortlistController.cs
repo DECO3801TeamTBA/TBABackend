@@ -89,7 +89,7 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/Shortlist")]
     [ApiController]
     public class ShortlistContentController : ControllerBase
     {
@@ -118,5 +118,30 @@ namespace WanderListAPI.Controllers
 
             return Ok(shortlistContent);
         }
+
+        [HttpPost("{id}/Content")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post(Guid id, [FromBody] List<ShortlistContent> shortlistContents)
+        {
+            _logger.LogInformation($"POST ShortlistContent with Shortlist id: {id}");
+            try
+            {
+                _context.ShortlistContent.AddRange(shortlistContents);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return CreatedAtAction(nameof(Post), new { id = id.ToString() }, shortlistContents);
+        }
+
     }
 }
