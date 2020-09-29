@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -60,6 +61,30 @@ namespace WanderListAPI.Controllers
             }
 
             return Ok(shortlist);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Shortlist), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post([FromBody] Shortlist shortlist)
+        {
+            _logger.LogInformation($"POST Shortlist");
+            try
+            {
+                _context.Shortlist.Add(shortlist);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return CreatedAtAction(nameof(Post), new { id = shortlist.ShortlistId }, shortlist);
         }
     }
 
