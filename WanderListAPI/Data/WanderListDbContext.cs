@@ -56,13 +56,16 @@ namespace WanderListAPI.Data
             base.OnModelCreating(modelBuilder);
 
             //Composite Keys here
-            modelBuilder.Entity<CityActivity>().HasKey(ccont => new { ccont.CityId, ccont.ContentId });
+            modelBuilder.Entity<CityActivity>().HasKey(ccont => new { ccont.CityId, ccont.ActivityId });
+            modelBuilder.Entity<CityDestination>().HasKey(ccont => new { ccont.CityId, ccont.DestinationId });
             modelBuilder.Entity<ContentResourceMeta>().HasKey(crmet => new { crmet.ContentId, crmet.ResourceMetaId });
             modelBuilder.Entity<History>().HasKey(hist => new { hist.ContentId, hist.UserId });
             modelBuilder.Entity<ShortlistContent>().HasKey(slc => new { slc.ContentId, slc.ShortlistId });
             modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
             modelBuilder.Entity<UserShortlist>().HasKey(us => new { us.UserId, us.ShortlistId });
 
+            var seed = new DataSeed();
+            seed.addData(modelBuilder);
 
             //Generate Data
 

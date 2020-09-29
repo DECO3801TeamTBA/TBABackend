@@ -65,7 +65,7 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/Shortlist")]
     [ApiController]
     public class ShortlistContentController : ControllerBase
     {
@@ -78,7 +78,7 @@ namespace WanderListAPI.Controllers
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/Content
+        // GET api/<apiVersion>/Shortlist/5/Content
         [HttpGet("{id}/Content")]
         [Authorize]
         [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]

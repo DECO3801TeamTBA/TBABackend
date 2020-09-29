@@ -24,19 +24,7 @@ namespace WanderListAPI.Data
             return identityRole;
         }
 
-        public static IdentityUserRole<string> CreateIdentityUserRole(
-            AppUser user, IdentityRole role)
-        {
-            var identityUserRole = new IdentityUserRole<string>()
-            {
-                RoleId = role.Id.ToString(),
-                UserId = user.Id
-            };
-
-            return identityUserRole;
-        }
-
-        public static AppUser CreateAppUser(string firstName,
+        public static AppUser CreateUser(string firstName,
             string lastName, string UserName)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
@@ -75,6 +63,14 @@ namespace WanderListAPI.Data
             return item;
         }
 
+        public static Item CreateItem(string name, string description,
+            string fileName, string fileDescription)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+
+            return CreateItem(name, description, resourceMeta);
+        }
+
         public static City CreateCity(Item item, string country)
         {
             var city = new City()
@@ -87,7 +83,18 @@ namespace WanderListAPI.Data
             return city;
         }
 
-        public static Content CreateContent(Item item, int environmentRating, int socialRating, int economicRating)
+        public static City CreateCity(string name, string description,
+            string country,
+            string fileName, string fileDescription)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta);
+
+            return CreateCity(item, country);
+        }
+
+        public static Content CreateContent(Item item, int environmentRating,
+            int socialRating, int economicRating)
         {
             var content = new Content()
             {
@@ -98,6 +105,17 @@ namespace WanderListAPI.Data
             };
 
             return content;
+        }
+
+        public static Content CreateContent(string name, string description,
+            string fileName, string fileDescription, int environmentRating,
+            int socialRating, int economicRating)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta);
+
+            return CreateContent(item, environmentRating, socialRating,
+                economicRating);
         }
 
         public static Reward CreateReward(string name, string value)
@@ -117,36 +135,48 @@ namespace WanderListAPI.Data
         {
             var activity = new Activity()
             {
-                ActivityId = content.ContentId
+                ActivityId = content.ContentId,
+                Content = content
             };
 
             return activity;
+        }
+
+        public static Activity CreateActivity(string name, string description,
+            string fileName, string fileDescription, int environmentRating,
+            int socialRating, int economicRating)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta);
+            var content = CreateContent(item, environmentRating, socialRating,
+                economicRating);
+
+            return CreateActivity(content);
         }
 
         public static Destination CreateDestination(Content content)
         {
             var destination = new Destination()
             {
-                DestinationId = content.ContentId
+                DestinationId = content.ContentId,
+                Content = content
             };
 
             return destination;
         }
 
-        public static History CreateHistory(AppUser user, Content content)
+        public static Destination CreateDestination(string name,
+            string description, string fileName, string fileDescription,
+            int environmentRating, int socialRating, int economicRating)
         {
-            var history = new History()
-            {
-                UserId = user.Id,
-                ContentId = content.ContentId,
-                Date = DateTime.Now
-            };
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta);
+            var content = CreateContent(item, environmentRating, socialRating,
+                economicRating);
 
-            return history;
+            return CreateDestination(content);
         }
 
-
-        //public static (Shortlist, UserShortlist) CreateShortlist(string name)
         public static Shortlist CreateShortlist(string name)
         {
             var shortlist = new Shortlist()
@@ -158,16 +188,123 @@ namespace WanderListAPI.Data
             return shortlist;
         }
 
-        public static ShortlistContent CreateShortlistContent(Shortlist list, Content content, int num)
+        public static Resource CreateResource(string fileName)
         {
-            var shortlistContent = new ShortlistContent()
+            var filePath = "./Resources/Images/" + fileName;
+            using var fileStream = new FileStream(filePath, FileMode.Open);
+            using var memStream = new MemoryStream();
+            fileStream.CopyTo(memStream);
+
+            var resource = new Resource()
             {
-                ShortlistId = list.ShortlistId,
-                ContentId = content.ContentId,
-                Number = num
+                ResourceId = Guid.NewGuid(),
+                FilePath = filePath,
+                Data = memStream.ToArray()
             };
 
-            return shortlistContent;
+            return resource;
+        }
+
+        public static ResourceMeta CreateResourceMeta(Resource resource,
+            string description)
+        {
+            var fileName = Path.GetFileName(resource.FilePath);
+
+            var resourceMeta = new ResourceMeta()
+            {
+                ResourceMetaId = resource.ResourceId,
+                AddedOn = DateTime.Now,
+                OnDisk = false,
+                Description = description,
+                FileName = fileName,
+                Extension = Path.GetExtension(resource.FilePath),
+                // Length?
+                MimeType = MimeTypes.GetMimeType(fileName),
+                Resource = resource
+            };
+
+            return resourceMeta;
+        }
+
+        public static ResourceMeta CreateResourceMeta(string fileName,
+            string description)
+        {
+            var resource = CreateResource(fileName);
+
+            return CreateResourceMeta(resource, description);
+        }
+
+        // Junctions
+        public static CityActivity CreateCityActivity(City city, Activity activity)
+        {
+            return new CityActivity()
+            {
+                CityId = city.CityId,
+                ActivityId = activity.ActivityId,
+                City = city,
+                Activity = activity
+            };
+        }
+
+        public static CityDestination CreateCityDestination(City city, Destination destination)
+        {
+            return new CityDestination()
+            {
+                CityId = city.CityId,
+                DestinationId = destination.DestinationId,
+                City = city,
+                Destination = destination
+            };
+        }
+
+        public static ContentResourceMeta CreateContentResourceMeta(Content content, ResourceMeta resourceMeta, int num)
+        {
+            return new ContentResourceMeta()
+            {
+                ContentId = content.ContentId,
+                ResourceMetaId = resourceMeta.ResourceMetaId,
+                Number = num,
+                Content = content,
+                ResourceMeta = resourceMeta
+            };
+        }
+
+        public static History CreateHistory(AppUser user, Content content)
+        {
+            var history = new History()
+            {
+                UserId = user.Id,
+                ContentId = content.ContentId,
+                Date = DateTime.Now,
+                User = user,
+                Content = content
+            };
+
+            return history;
+        }
+
+        public static IdentityUserRole<string> CreateIdentityUserRole(
+            AppUser user, IdentityRole role)
+        {
+            var identityUserRole = new IdentityUserRole<string>()
+            {
+                RoleId = role.Id.ToString(),
+                UserId = user.Id,
+            };
+
+            return identityUserRole;
+        }
+
+        public static ShortlistContent CreateShortlistContent(Shortlist shortlist, Content content, int num)
+        {
+            return new ShortlistContent()
+            {
+                ShortlistId = shortlist.ShortlistId,
+                ContentId = content.ContentId,
+                Number = num,
+                Shortlist = shortlist,
+                Content = content
+            };
         }
 
         public static UserReward CreateUserReward(AppUser user, Reward reward)
@@ -175,141 +312,23 @@ namespace WanderListAPI.Data
             var userReward = new UserReward()
             {
                 UserId = user.Id,
-                RewardId = reward.RewardId
+                RewardId = reward.RewardId,
+                AppUser = user,
+                Reward = reward
             };
 
             return userReward;
         }
 
-        public static (Resource, ResourceMeta) CreateResourceWithMeta()
+        public static UserShortlist CreateUserShortlist(AppUser user, Shortlist shortlist)
         {
-            string picture1Path = "./Utility/TestImages/photo1.jpg";
-            using var fileStream = new FileStream(picture1Path, FileMode.Open);
-            using var memStream = new MemoryStream();
-            var id = Guid.NewGuid();
-            var resource = new Resource();
-            var resourceMeta = new ResourceMeta();
-            resource.ResourceId = id;
-            resourceMeta.ResourceMetaId = id;
-            fileStream
-                .CopyTo(
-                    memStream); //using sync code after this to demonstrate that it will work either way
-            resourceMeta.AddedOn = DateTime.Now;
-            resourceMeta.OnDisk = false;
-            resourceMeta.Description = "A picture of Brisbane";
-            resourceMeta.FileName = Path.GetFileName(picture1Path);
-            resourceMeta.Extension = Path.GetExtension(picture1Path);
-            resourceMeta.MimeType =
-                MimeTypes.GetMimeType(Path.GetFileName(picture1Path));
-            resource.Data = memStream.ToArray();
-            return (resource, resourceMeta);
-        }
-
-        public static (City, Item) CreateCityWithItem(Guid coverId)
-        {
-            var id = Guid.NewGuid();
-            var item = new Item()
+            return new UserShortlist()
             {
-                ItemId = id,
-                CoverImageId = coverId,
-                Description = "Brissy yeah!",
-                Name = "Brisbane"
+                UserId = user.Id,
+                ShortlistId = shortlist.ShortlistId,
+                AppUser = user,
+                Shortlist = shortlist
             };
-            var city = new City
-            {
-                CityId = id,
-                Country = "Australia"
-            };
-            return (city, item);
-        }
-
-        public static (Activity, Content, CityActivity, Item)
-            CreateActivityWithContentAndItem(Guid coverId,
-                Guid cityId)
-        {
-            var id = Guid.NewGuid();
-            var item = new Item()
-            {
-                ItemId = id,
-                CoverImageId = coverId,
-                Description = "You'd have to be nuts!",
-                Name = "Swimming the Brisbane River"
-            };
-            var content = new Content()
-            {
-                ContentId = id,
-                Featured = true,
-                Address = "123 The Way Street, Brisbane, 9999",
-                EconomicRating = 5,
-                SocialRating = 2,
-                EnvironmentalRating = 4,
-                Longitude = 15.2M,
-                Lattitude = 15.2M,
-                Capacity = 1500,
-                Website = "www.dontdotit.com"
-            };
-            var cityContent = new CityActivity()
-            {
-                ContentId = id,
-                CityId = cityId
-            };
-            var activity = new Activity()
-            {
-                ActivityId = id
-            };
-
-            return (activity, content, cityContent, item);
-        }
-
-        public static (Destination, Content, CityActivity, Item)
-            CreateDestinationWithContentAndItem(Guid coverId,
-                Guid cityId)
-        {
-            var id = Guid.NewGuid();
-            var item = new Item()
-            {
-                ItemId = id,
-                CoverImageId = coverId,
-                Description = "All are welcome",
-                Name = "Bob's House"
-            };
-            var content = new Content()
-            {
-                ContentId = id,
-                Featured = true,
-                Address = "125 The Way Street, Brisbane, 9997",
-                EconomicRating = 5,
-                SocialRating = 5,
-                EnvironmentalRating = 3,
-                Longitude = 15.4M,
-                Lattitude = 15.2M,
-                Capacity = 12,
-                Website = "www.bobshouse.com"
-            };
-            var cityContent = new CityActivity()
-            {
-                ContentId = id,
-                CityId = cityId
-            };
-            var destination = new Destination()
-            {
-                DestinationId = id
-            };
-
-            return (destination, content, cityContent, item);
-        }
-
-        public static ContentResourceMeta CreateContentResourceMeta(
-            Guid resourceMetaId,
-            Guid contentId, int number)
-        {
-            var contentResourceMeta = new ContentResourceMeta()
-            {
-                Number = number,
-                ContentId = contentId,
-                ResourceMetaId = resourceMetaId
-            };
-            return contentResourceMeta;
         }
     }
 }

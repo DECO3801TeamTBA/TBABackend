@@ -8,7 +8,7 @@ namespace WanderListAPI.Models.Junctions
         [ForeignKey("City")]
         public Guid CityId { get; set; }
         [ForeignKey("Destination")]
-        public Guid ContentId { get; set; }
+        public Guid DestinationId { get; set; }
 
         //Navigation properties
         public City City { get; set; }
