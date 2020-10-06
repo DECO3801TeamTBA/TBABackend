@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using WanderListAPI.Models;
 using WanderListAPI.Models.Junctions;
@@ -87,6 +88,11 @@ namespace WanderListAPI.Data
                 //resourceMetas.Add(city.Item.CoverImage);
                 //resources.Add(city.Item.CoverImage.Resource);
                 DataFactory.Clean(city);
+            }
+
+            foreach (AppUser user in users)
+            {
+                Console.WriteLine(user + "\n");
             }
 
             modelBuilder.Entity<IdentityRole>().HasData(identityRoles);

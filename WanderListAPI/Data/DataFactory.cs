@@ -94,15 +94,14 @@ namespace WanderListAPI.Data
         public static Content CreateContent(Item item, int environmentRating,
             int socialRating, int economicRating)
         {
-            var content = new Content()
+            return new Content()
             {
                 ContentId = item.ItemId,
+                Item = item,
                 EnvironmentalRating = environmentRating,
                 SocialRating = socialRating,
                 EconomicRating = economicRating
             };
-
-            return content;
         }
 
         public static Content CreateContent(string name, string description,
@@ -208,7 +207,7 @@ namespace WanderListAPI.Data
         {
             var fileName = Path.GetFileName(resource.FilePath);
 
-            var resourceMeta = new ResourceMeta()
+            return new ResourceMeta()
             {
                 ResourceMetaId = resource.ResourceId,
                 AddedOn = DateTime.Now,
@@ -220,8 +219,6 @@ namespace WanderListAPI.Data
                 MimeType = MimeTypes.GetMimeType(fileName),
                 Resource = resource
             };
-
-            return resourceMeta;
         }
 
         public static ResourceMeta CreateResourceMeta(string fileName,
@@ -336,25 +333,55 @@ namespace WanderListAPI.Data
 
         public static void Clean(Activity activity)
         {
-            //activity.Content.Item.CoverImage.Resource = null;
-            //activity.Content.Item.CoverImage = null;
-            activity.Content.Item = null;
-            activity.Content = null;
+            if (activity.Content != null)
+            {
+                Clean(activity.Content);
+                activity.Content = null;
+            }
         }
 
         public static void Clean(Destination destination)
         {
-            //destination.Content.Item.CoverImage.Resource = null;
-            //destination.Content.Item.CoverImage = null;
-            destination.Content.Item = null;
-            destination.Content = null;
+            if (destination.Content != null)
+            {
+                Clean(destination.Content);
+                destination.Content = null;
+            }
         }
 
         public static void Clean(City city)
         {
-            //city.Item.CoverImage.Resource = null;
-            //city.Item.CoverImage = null;
-            city.Item = null;
+            if (city.Item != null)
+            {
+                Clean(city.Item);
+                city.Item = null;
+            }
+        }
+
+        public static void Clean(Content content)
+        {
+            if (content.Item != null)
+            {
+                Clean(content.Item);
+                content.Item = null;
+            }
+        }
+
+        public static void Clean(Item item)
+        {
+            if (item.CoverImage != null)
+            {
+                Clean(item.CoverImage);
+                item.CoverImage = null;
+            }
+        }
+
+        public static void Clean(ResourceMeta resourceMeta)
+        {
+            if (resourceMeta.Resource != null)
+            {
+                resourceMeta.Resource = null;
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace WanderListAPI.Models
 {
@@ -16,5 +17,10 @@ namespace WanderListAPI.Models
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public int Points { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }
