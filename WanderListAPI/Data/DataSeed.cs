@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MimeKit;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using WanderListAPI.Models;
 using WanderListAPI.Models.Junctions;
 
@@ -13,103 +8,110 @@ namespace WanderListAPI.Data
 {
     public class DataSeed
     {
-        private List<AppUser> Users;
-        private List<City> Cities;
-        private List<Activity> Activities;
-        private List<Destination> Destinations;
-        private List<Reward> Rewards;
-        private List<Shortlist> Shortlists;
-        private List<IdentityRole> IdentityRoles;
+        private List<AppUser> users;
+        private List<City> cities;
+        private List<Activity> activities;
+        private List<Destination> destinations;
+        private List<Reward> rewards;
+        private List<Shortlist> shortlists;
+        private List<IdentityRole> identityRoles;
 
         // Junction Tables
-        private List<CityActivity> CityActivities;
-        private List<CityDestination> CityDestinations;
-        private List<ContentResourceMeta> ContentResourceMetas;
-        private List<History> Histories;
-        private List<ShortlistContent> ShortlistContent;
-        private List<UserReward> UserRewards;
-        private List<UserShortlist> UserShortlists;
-        private List<IdentityUserRole<string>> IdentityUserRoles;
+        private List<CityActivity> cityActivities;
+        private List<CityDestination> cityDestinations;
+        private List<ContentResourceMeta> contentResourceMetas;
+        private List<History> histories;
+        private List<ShortlistContent> shortlistContent;
+        private List<UserReward> userRewards;
+        private List<UserShortlist> userShortlists;
+        private List<IdentityUserRole<string>> identityUserRoles;
 
         public DataSeed()
         {
             // Initialise Junction table lists
-            CityActivities = new List<CityActivity>();
-            CityDestinations = new List<CityDestination>();
-            ContentResourceMetas = new List<ContentResourceMeta>();
-            Histories = new List<History>();
-            ShortlistContent = new List<ShortlistContent>();
-            UserRewards = new List<UserReward>();
-            UserShortlists = new List<UserShortlist>();
+            cityActivities = new List<CityActivity>();
+            cityDestinations = new List<CityDestination>();
+            contentResourceMetas = new List<ContentResourceMeta>();
+            histories = new List<History>();
+            shortlistContent = new List<ShortlistContent>();
+            userRewards = new List<UserReward>();
+            userShortlists = new List<UserShortlist>();
+            identityUserRoles = new List<IdentityUserRole<string>>();
 
             // Data
-            IdentityRoles = GenerateIdentityRoles();
+            identityRoles = GenerateIdentityRoles();
             // Needs to happen after GenerateIdentityRoles()
-            Users = GenerateUsers();
-            Cities = GenerateCities();
-            Shortlists = GenerateShortlists();
+            users = GenerateUsers();
+            cities = GenerateCities();
+            shortlists = GenerateShortlists();
             // Needs to Happen After Cities
-            Activities = GenerateActivities();
-            Destinations = GenerateDestinations();
+            activities = GenerateActivities();
+            destinations = GenerateDestinations();
             // Needs to happen after users
-            Rewards = GenerateRewards();
+            rewards = GenerateRewards();
         }
 
-        public void addData(ModelBuilder modelBuilder)
+        public void AddData(ModelBuilder modelBuilder)
         {
-            foreach (AppUser user in Users)
+            foreach (AppUser user in users)
             {
                 modelBuilder.Entity<AppUser>().HasData(user);
             }
 
-            var Items = new List<Item>();
-            var Content = new List<Content>();
-            var Resources = new List<Resource>();
-            var ResourceMetas = new List<ResourceMeta>();
+            var items = new List<Item>();
+            var content = new List<Content>();
+            var resources = new List<Resource>();
+            var resourceMetas = new List<ResourceMeta>();
 
-            foreach (Activity activity in Activities)
+            foreach (Activity activity in activities)
             {
-                Content.Add(activity.Content);
-                Items.Add(activity.Content.Item);
-                ResourceMetas.Add(activity.Content.Item.CoverImage);
-                Resources.Add(activity.Content.Item.CoverImage.Resource);
+                content.Add(activity.Content);
+                items.Add(activity.Content.Item);
+                //resourceMetas.Add(activity.Content.Item.CoverImage);
+                //resources.Add(activity.Content.Item.CoverImage.Resource);
+                DataFactory.Clean(activity);
             }
 
-            foreach (Destination destination in Destinations)
+            foreach (Destination destination in destinations)
             {
-                Content.Add(destination.Content);
-                Items.Add(destination.Content.Item);
-                ResourceMetas.Add(destination.Content.Item.CoverImage);
-                Resources.Add(destination.Content.Item.CoverImage.Resource);
+                content.Add(destination.Content);
+                items.Add(destination.Content.Item);
+                //resourceMetas.Add(destination.Content.Item.CoverImage);
+                //resources.Add(destination.Content.Item.CoverImage.Resource);
+                DataFactory.Clean(destination);
             }
 
-            foreach (City city in Cities)
+            foreach (City city in cities)
             {
-                Items.Add(city.Item);
-                ResourceMetas.Add(city.Item.CoverImage);
-                Resources.Add(city.Item.CoverImage.Resource);
+                items.Add(city.Item);
+                //resourceMetas.Add(city.Item.CoverImage);
+                //resources.Add(city.Item.CoverImage.Resource);
+                DataFactory.Clean(city);
             }
 
-            modelBuilder.Entity<IdentityRole>().HasData(IdentityRoles);
-            modelBuilder.Entity<AppUser>().HasData(Users);
-            modelBuilder.Entity<Item>().HasData(Items);
-            modelBuilder.Entity<City>().HasData(Cities);
-            modelBuilder.Entity<Content>().HasData(Content);
-            modelBuilder.Entity<Activity>().HasData(Activities);
-            modelBuilder.Entity<Destination>().HasData(Destinations);
-            modelBuilder.Entity<ResourceMeta>().HasData(ResourceMetas);
-            modelBuilder.Entity<Resource>().HasData(Resources);
-            modelBuilder.Entity<Reward>().HasData(Rewards);
-            modelBuilder.Entity<Shortlist>().HasData(Shortlists);
+            modelBuilder.Entity<IdentityRole>().HasData(identityRoles);
+            modelBuilder.Entity<AppUser>().HasData(users);
+            //modelBuilder.Entity<Item>().HasData(items);
+            modelBuilder.Entity<City>().HasData(cities);
+            //modelBuilder.Entity<Content>().HasData(content);
+            modelBuilder.Entity<Activity>().HasData(activities);
+            modelBuilder.Entity<Destination>().HasData(destinations);
+            //modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
+            //modelBuilder.Entity<Resource>().HasData(resources);
+            modelBuilder.Entity<Reward>().HasData(rewards);
+            modelBuilder.Entity<Shortlist>().HasData(shortlists);
 
             // Junctions
-            modelBuilder.Entity<CityActivity>().HasData(CityActivities);
-            modelBuilder.Entity<CityDestination>().HasData(CityDestinations);
-            modelBuilder.Entity<ContentResourceMeta>().HasData(ContentResourceMetas);
-            modelBuilder.Entity<History>().HasData(Histories);
-            modelBuilder.Entity<ShortlistContent>().HasData(ShortlistContent);
-            modelBuilder.Entity<UserReward>().HasData(UserRewards);
-            modelBuilder.Entity<UserShortlist>().HasData(UserShortlists);
+            modelBuilder.Entity<CityActivity>().HasData(cityActivities);
+            modelBuilder.Entity<CityDestination>().HasData(cityDestinations);
+            modelBuilder.Entity<ContentResourceMeta>()
+                .HasData(contentResourceMetas);
+            modelBuilder.Entity<History>().HasData(histories);
+            modelBuilder.Entity<ShortlistContent>().HasData(shortlistContent);
+            modelBuilder.Entity<UserReward>().HasData(userRewards);
+            modelBuilder.Entity<UserShortlist>().HasData(userShortlists);
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasData((identityUserRoles));
         }
 
         public List<IdentityRole> GenerateIdentityRoles()
@@ -132,9 +134,9 @@ namespace WanderListAPI.Data
                 DataFactory.CreateUser("Velma", "Dinkley", "Velma")
             };
 
-            Join(users[0], IdentityRoles[1]);
-            Join(users[1], IdentityRoles[0]);
-            Join(users[2], IdentityRoles[0]);
+            Join(users[0], identityRoles[1]);
+            Join(users[1], identityRoles[0]);
+            Join(users[2], identityRoles[0]);
 
             return users;
         }
@@ -148,9 +150,9 @@ namespace WanderListAPI.Data
                 DataFactory.CreateShortlist("Ghost Sightings")
             };
 
-            Join(Users[0], shortlists[0]);
-            Join(Users[0], shortlists[1]);
-            Join(Users[2], shortlists[2]);
+            Join(users[0], shortlists[0]);
+            Join(users[0], shortlists[1]);
+            Join(users[2], shortlists[2]);
 
             return shortlists;
         }
@@ -159,9 +161,12 @@ namespace WanderListAPI.Data
         {
             var cities = new List<City>()
             {
-                DataFactory.CreateCity("Brisbane", "Captial of QLD", "Australia", "Brisbane.jfif", "Brisbane"),
-                DataFactory.CreateCity("Sydney", "Slow fall into hell", "Australia", "Sydney.jfif", "Sydney"),
-                DataFactory.CreateCity("Melbourne", "Land of the dead", "Australia", "Melbourne.jfif", "Melbourne"),
+                DataFactory.CreateCity("Brisbane", "Captial of QLD",
+                    "Australia", "Brisbane.jfif", "Brisbane"),
+                DataFactory.CreateCity("Sydney", "Slow fall into hell",
+                    "Australia", "Sydney.jfif", "Sydney"),
+                DataFactory.CreateCity("Melbourne", "Land of the dead",
+                    "Australia", "Melbourne.jfif", "Melbourne"),
             };
 
             return cities;
@@ -171,23 +176,31 @@ namespace WanderListAPI.Data
         {
             var activities = new List<Activity>()
             {
-                DataFactory.CreateActivity("Pub Crawl", "Tour Brisbanes best bars and clubs in a night of fun",
-                    "PubCrawl.jfif", "PubCrawl",3, 5, 5),
-                DataFactory.CreateActivity("Uni tour", "Visit Brisbanes best universities",
+                DataFactory.CreateActivity("Pub Crawl",
+                    "Tour Brisbanes best bars and clubs in a night of fun",
+                    "PubCrawl.jfif", "PubCrawl", 3, 5, 5),
+                DataFactory.CreateActivity("Uni tour",
+                    "Visit Brisbanes best universities",
                     "UniTour.jfif", "UniTour", 3, 5, 5),
-                DataFactory.CreateActivity("Catch Covid", "Do the world a favor and remove yourself from this earth",
+                DataFactory.CreateActivity("Catch Covid",
+                    "Do the world a favor and remove yourself from this earth",
                     "Covid.png", "Covid", 5, 5, 5)
             };
 
             // CityActivities
-            Join(Cities[0], activities[0]);
-            Join(Cities[0], activities[1]);
-            Join(Cities[3], activities[2]);
+            Join(cities[0], activities[0]);
+            Join(cities[0], activities[1]);
+            Join(cities[2], activities[2]);
 
             // ShortlistContent
-            Join(Shortlists[1], activities[0].Content, 1);
-            Join(Shortlists[1], activities[1].Content, 2);
-            Join(Shortlists[2], activities[2].Content, 1);
+            Join(shortlists[1], activities[0].Content, 1);
+            Join(shortlists[1], activities[1].Content, 2);
+            Join(shortlists[2], activities[2].Content, 1);
+
+            // History
+            Join(users[0], activities[0].Content);
+            Join(users[1], activities[0].Content);
+            Join(users[2], activities[1].Content);
 
             return activities;
         }
@@ -198,20 +211,28 @@ namespace WanderListAPI.Data
             {
                 DataFactory.CreateDestination("UQ", "The best uni in brisbane",
                     "UQ.jfif", "UQ", 5, 5, 5),
-                DataFactory.CreateDestination("South Brisbane Cemetery", "Super spooooky at night",
-                    "SouthBrisbaneCemetery.jfif", "SouthBrisbaneCemetery", 4, 3, 5),
-                DataFactory.CreateDestination("Sydney Opera House", "Australia's most famouse landmark",
+                DataFactory.CreateDestination("South Brisbane Cemetery",
+                    "Super spooooky at night",
+                    "SouthBrisbaneCemetery.jfif", "SouthBrisbaneCemetery", 4, 3,
+                    5),
+                DataFactory.CreateDestination("Sydney Opera House",
+                    "Australia's most famouse landmark",
                     "OperaHouse.jfif", "OperaHouse", 5, 5, 5)
             };
 
-            // CityActivities
-            Join(Cities[0], destinations[0]);
-            Join(Cities[0], destinations[1]);
-            Join(Cities[3], destinations[2]);
+            // CityDestinantions
+            Join(cities[0], destinations[0]);
+            Join(cities[0], destinations[1]);
+            Join(cities[1], destinations[2]);
 
             // ShortlistContent
-            Join(Shortlists[0], destinations[1].Content, 2);
-            Join(Shortlists[2], destinations[2].Content, 1);
+            Join(shortlists[0], destinations[1].Content, 2);
+            Join(shortlists[2], destinations[2].Content, 1);
+
+            // History
+            Join(users[2], destinations[0].Content);
+            Join(users[0], destinations[1].Content);
+            Join(users[1], destinations[1].Content);
 
             return destinations;
         }
@@ -220,52 +241,64 @@ namespace WanderListAPI.Data
         {
             var rewards = new List<Reward>()
             {
-                DataFactory.CreateReward("Covid Bonus", "Buy 1 get 2 FREE")
+                DataFactory.CreateReward("Covid Bonus", "Buy 1 get 2 FREE"),
+                DataFactory.CreateReward("Uni Tour Discount",
+                    "15% Off your next tour"),
+                DataFactory.CreateReward("Drink Discount",
+                    "$5 OFF a jug of beer with any meal purchase")
             };
 
-            Join(Users[1], rewards[0]);
+            Join(users[0], rewards[0]);
+            Join(users[0], rewards[1]);
+            Join(users[2], rewards[2]);
 
             return rewards;
         }
 
         public void Join(AppUser user, IdentityRole role)
         {
-            IdentityUserRoles.Add(DataFactory.CreateIdentityUserRole(user, role));
+            identityUserRoles.Add(
+                DataFactory.CreateIdentityUserRole(user, role));
         }
 
         public void Join(City city, Activity activity)
         {
-            CityActivities.Add(DataFactory.CreateCityActivity(city, activity));
+            cityActivities.Add(DataFactory.CreateCityActivity(city, activity));
         }
 
         public void Join(City city, Destination destination)
         {
-            CityDestinations.Add(DataFactory.CreateCityDestination(city, destination));
+            cityDestinations.Add(
+                DataFactory.CreateCityDestination(city, destination));
         }
 
         public void Join(Content content, ResourceMeta resourceMeta, int num)
         {
-            ContentResourceMetas.Add(DataFactory.CreateContentResourceMeta(content, resourceMeta, num));
+            contentResourceMetas.Add(
+                DataFactory.CreateContentResourceMeta(content, resourceMeta,
+                    num));
         }
 
-        public void Join(Content content, AppUser user)
+        public void Join(AppUser user, Content content)
         {
-            Histories.Add(DataFactory.CreateHistory(user, content));
+            histories.Add(DataFactory.CreateHistory(user, content));
         }
 
         public void Join(Shortlist shortlist, Content content, int num)
         {
-            ShortlistContent.Add(DataFactory.CreateShortlistContent(shortlist, content, num));
+            shortlistContent.Add(
+                DataFactory.CreateShortlistContent(shortlist, content, num));
         }
 
         public void Join(AppUser user, Shortlist shortlist)
         {
-            UserShortlists.Add(DataFactory.CreateUserShortlist(user, shortlist));
+            userShortlists.Add(
+                DataFactory.CreateUserShortlist(user, shortlist));
         }
 
         public void Join(AppUser user, Reward reward)
         {
-            UserRewards.Add(DataFactory.CreateUserReward(user, reward));
+            userRewards.Add(DataFactory.CreateUserReward(user, reward));
         }
     }
 }

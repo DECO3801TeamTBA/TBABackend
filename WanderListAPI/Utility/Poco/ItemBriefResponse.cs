@@ -7,7 +7,7 @@ namespace WanderListAPI.Utility.Poco
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public ResourceMeta CoverImage { get; set; }
+        public ResourceResponse CoverImage { get; set; }
 
         public ItemBriefResponse(Activity activity)
         {
@@ -16,7 +16,7 @@ namespace WanderListAPI.Utility.Poco
             var item = activity.Content.Item;
 
             Name = item.Name;
-            CoverImage = item.CoverImage;
+            CoverImage = new ResourceResponse(item.CoverImage);
         }
         
         public ItemBriefResponse(Content content)
@@ -26,7 +26,7 @@ namespace WanderListAPI.Utility.Poco
             var item = content.Item;
 
             Name = item.Name;
-            CoverImage = item.CoverImage;
+            CoverImage = new ResourceResponse(item.CoverImage);
         }
         
         public ItemBriefResponse(Destination destination)
@@ -36,7 +36,7 @@ namespace WanderListAPI.Utility.Poco
             var item = destination.Content.Item;
 
             Name = item.Name;
-            CoverImage = item.CoverImage;
+            CoverImage = new ResourceResponse(item.CoverImage);
         }
         
         public ItemBriefResponse(Item item)
@@ -44,7 +44,7 @@ namespace WanderListAPI.Utility.Poco
             Id = item.ItemId;
 
             Name = item.Name;
-            CoverImage = item.CoverImage;
+            CoverImage = new ResourceResponse(item.CoverImage);
         }
     }
 }

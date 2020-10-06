@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MimeKit;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using WanderListAPI.Models;
 using WanderListAPI.Models.Junctions;
 
@@ -25,7 +23,7 @@ namespace WanderListAPI.Data
         }
 
         public static AppUser CreateUser(string firstName,
-            string lastName, string UserName)
+            string lastName, string userName)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
 
@@ -235,7 +233,8 @@ namespace WanderListAPI.Data
         }
 
         // Junctions
-        public static CityActivity CreateCityActivity(City city, Activity activity)
+        public static CityActivity CreateCityActivity(City city,
+            Activity activity)
         {
             return new CityActivity()
             {
@@ -246,7 +245,8 @@ namespace WanderListAPI.Data
             };
         }
 
-        public static CityDestination CreateCityDestination(City city, Destination destination)
+        public static CityDestination CreateCityDestination(City city,
+            Destination destination)
         {
             return new CityDestination()
             {
@@ -257,7 +257,8 @@ namespace WanderListAPI.Data
             };
         }
 
-        public static ContentResourceMeta CreateContentResourceMeta(Content content, ResourceMeta resourceMeta, int num)
+        public static ContentResourceMeta CreateContentResourceMeta(
+            Content content, ResourceMeta resourceMeta, int num)
         {
             return new ContentResourceMeta()
             {
@@ -288,14 +289,15 @@ namespace WanderListAPI.Data
         {
             var identityUserRole = new IdentityUserRole<string>()
             {
-                RoleId = role.Id.ToString(),
-                UserId = user.Id,
+                RoleId = role.Id,
+                UserId = user.Id
             };
 
             return identityUserRole;
         }
 
-        public static ShortlistContent CreateShortlistContent(Shortlist shortlist, Content content, int num)
+        public static ShortlistContent CreateShortlistContent(
+            Shortlist shortlist, Content content, int num)
         {
             return new ShortlistContent()
             {
@@ -320,7 +322,8 @@ namespace WanderListAPI.Data
             return userReward;
         }
 
-        public static UserShortlist CreateUserShortlist(AppUser user, Shortlist shortlist)
+        public static UserShortlist CreateUserShortlist(AppUser user,
+            Shortlist shortlist)
         {
             return new UserShortlist()
             {
@@ -329,6 +332,29 @@ namespace WanderListAPI.Data
                 AppUser = user,
                 Shortlist = shortlist
             };
+        }
+
+        public static void Clean(Activity activity)
+        {
+            //activity.Content.Item.CoverImage.Resource = null;
+            //activity.Content.Item.CoverImage = null;
+            activity.Content.Item = null;
+            activity.Content = null;
+        }
+
+        public static void Clean(Destination destination)
+        {
+            //destination.Content.Item.CoverImage.Resource = null;
+            //destination.Content.Item.CoverImage = null;
+            destination.Content.Item = null;
+            destination.Content = null;
+        }
+
+        public static void Clean(City city)
+        {
+            //city.Item.CoverImage.Resource = null;
+            //city.Item.CoverImage = null;
+            city.Item = null;
         }
     }
 }

@@ -38,6 +38,7 @@ namespace WanderListAPI.Controllers
             _logger.LogInformation($"GET Item all");
             var item = await _context.Item
                 .Include(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Select(ite => new ItemBriefResponse(ite))
                 .ToListAsync();
 
@@ -47,16 +48,18 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/<ItemController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Item), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ItemResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Item with id {id}");
             var item = await _context.Item
                 .Include(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Where(ite => ite.ItemId == id)
+                .Select(ite => new ItemResponse(ite))
                 .FirstOrDefaultAsync();
 
-            if (item == default(Item))
+            if (item == default(ItemResponse))
             {
                 return NotFound(new Response()
                 {

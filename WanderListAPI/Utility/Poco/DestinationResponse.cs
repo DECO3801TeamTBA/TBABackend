@@ -18,7 +18,7 @@ namespace WanderListAPI.Utility.Poco
         public int AverageRating { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ResourceMeta CoverImage { get; set; }
+        public ResourceResponse CoverImage { get; set; }
         
         public DestinationResponse(Destination destination)
         {
@@ -41,7 +41,7 @@ namespace WanderListAPI.Utility.Poco
 
             Name = item.Name;
             Description = item.Description;
-            CoverImage = item.CoverImage;
+            CoverImage = new ResourceResponse(item.CoverImage);
         }
     }
 }

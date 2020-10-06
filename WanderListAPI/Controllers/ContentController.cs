@@ -40,7 +40,8 @@ namespace WanderListAPI.Controllers
             var content = await _context.Content
                 .Include(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
-                .Select(ite => new ItemBriefResponse(ite))
+                .ThenInclude(resm => resm.Resource)
+                .Select(con => new ItemBriefResponse(con))
                 .ToListAsync();
 
             return Ok(content);
@@ -51,17 +52,19 @@ namespace WanderListAPI.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Content), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ContentResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Content with id {id}");
             var content = await _context.Content
                 .Include(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Where(con => con.ContentId == id)
+                .Select(con => new ContentResponse(con))
                 .FirstOrDefaultAsync();
 
-            if (content == default(Content))
+            if (content == default(ContentResponse))
             {
                 return NotFound(new Response()
                 {
@@ -91,15 +94,16 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Content/5/Resource
         [HttpGet("{id}/Resource")]
         [Authorize]
-        [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ResourceResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Resource for Content with id {id}");
             var resource = await _context.ContentResourceMeta
                 .Include(ires => ires.ResourceMeta)
+                .ThenInclude(resm => resm.Resource)
                 .Where(ires => ires.ContentId == id)
                 .OrderBy(ires => ires.Number)
-                .Select(ires => ires.ResourceMeta)
+                .Select(ires => new ResourceResponse(ires.ResourceMeta))
                 .ToListAsync();
 
             return Ok(resource);

@@ -39,6 +39,7 @@ namespace WanderListAPI.Controllers
             var city = await _context.City
                 .Include(cit => cit.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Select(cit => new CityResponse(cit))
                 .ToListAsync();
 
@@ -55,6 +56,7 @@ namespace WanderListAPI.Controllers
             var city = await _context.City
                 .Include(cit => cit.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Where(cit => cit.CityId == id)
                 .Select(cit => new CityResponse(cit))
                 .FirstOrDefaultAsync();
@@ -86,7 +88,7 @@ namespace WanderListAPI.Controllers
         }
 
         [HttpGet("{id}/Content")]
-        [ProducesResponseType(typeof(List<List<ItemBriefResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CityContentResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Content of city with id {id}");
@@ -106,7 +108,7 @@ namespace WanderListAPI.Controllers
                 .Select(cdes => new ItemBriefResponse(cdes.Destination))
                 .ToListAsync();
 
-            return Ok(new {activities, destinations});
+            return Ok(new CityContentResponse(activities, destinations));
         }
     }
 }

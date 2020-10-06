@@ -38,6 +38,7 @@ namespace WanderListAPI.Controllers
                 .Include(des => des.Content)
                 .ThenInclude(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Select(ite => new ItemBriefResponse(ite))
                 .ToListAsync();
 
@@ -48,7 +49,7 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/<DestinationController>/5
         [HttpGet("{id}")]
         [Authorize]
-        [ProducesResponseType(typeof(Destination), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DestinationResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Destination {id}");
@@ -56,10 +57,12 @@ namespace WanderListAPI.Controllers
                 .Include(des => des.Content)
                 .ThenInclude(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Where(des => des.DestinationId == id)
+                .Select(des => new DestinationResponse(des))
                 .FirstOrDefaultAsync();
 
-            if (destination == default(Destination))
+            if (destination == default(DestinationResponse))
             {
                 return NotFound(new Response()
                 {
@@ -69,40 +72,6 @@ namespace WanderListAPI.Controllers
             }
 
             return Ok(destination);
-        }
-    }
-
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/Destination")]
-    [ApiController]
-    public class DestinationResourceMetaController : ControllerBase
-    {
-        private readonly WanderListDbContext _context;
-        private readonly ILogger _logger;
-
-        public DestinationResourceMetaController(WanderListDbContext context, ILogger logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
-
-        // GET api/<apiVersion>/Destination/5/Resource
-        [HttpGet("{id}/Resource")]
-        [Authorize]
-        [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            _logger.LogInformation($"GET Resource for Destination with id {id}");
-            var resource = await _context.ContentResourceMeta
-                .Include(ires => ires.ResourceMeta)
-                .Where(ires => ires.ContentId == id)
-                .OrderBy(ires => ires.Number)
-                .Select(ires => new {
-                    ires.ResourceMeta
-                })
-                .ToListAsync();
-
-            return Ok(resource);
         }
     }
 }

@@ -1,11 +1,14 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WanderListAPI.Models;
 
 namespace WanderListAPI.Utility.Poco
 {
-    public class ActivityResponse
+    public class ContentResponse
     {
-        public Guid ActivityId { get; set; }
+        public Guid ContentId { get; set; }
         public decimal Lattitude { get; set; }
         public decimal Longitude { get; set; }
         public string Address { get; set; }
@@ -20,12 +23,9 @@ namespace WanderListAPI.Utility.Poco
         public string Description { get; set; }
         public ResourceResponse CoverImage { get; set; }
 
-        public ActivityResponse(Activity activity)
+        public ContentResponse(Content content)
         {
-            ActivityId = activity.ActivityId;
-
-            var content = activity.Content;
-
+            ContentId = content.ContentId;
             Lattitude = content.Lattitude;
             Longitude = content.Longitude;
             Address = content.Address;

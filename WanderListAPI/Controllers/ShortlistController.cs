@@ -43,7 +43,7 @@ namespace WanderListAPI.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Shortlist), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Shortlists with id {id}");
@@ -81,7 +81,7 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Shortlist/5/Content
         [HttpGet("{id}/Content")]
         [Authorize]
-        [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET content for shortlist with id {id}");

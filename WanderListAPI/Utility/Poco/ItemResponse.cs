@@ -1,23 +1,18 @@
-using System;
+﻿using System;
 using WanderListAPI.Models;
 
 namespace WanderListAPI.Utility.Poco
 {
-    public class CityResponse
+    public class ItemResponse
     {
-        public Guid CityId { get; set; }
-        public string Country { get; set; }
+        public Guid ItemId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public ResourceResponse CoverImage { get; set; }
 
-        public CityResponse(City city)
+        public ItemResponse(Item item)
         {
-            CityId = city.CityId;
-            Country = city.Country;
-
-            var item = city.Item;
-
+            ItemId = item.ItemId;
             Name = item.Name;
             Description = item.Description;
             CoverImage = new ResourceResponse(item.CoverImage);

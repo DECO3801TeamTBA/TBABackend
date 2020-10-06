@@ -68,7 +68,7 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/User")]
     [ApiController]
     public class UserRewardController : ControllerBase
     {
@@ -81,7 +81,7 @@ namespace WanderListAPI.Controllers
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/Reward
+        // GET api/<apiVersion>/User/5/Reward
         [HttpGet("{id}/Reward")]
         [Authorize]
         [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
@@ -99,20 +99,20 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/User")]
     [ApiController]
-    public class ApplicationUserHistoryController : ControllerBase
+    public class UserHistoryController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger<History> _logger;
 
-        public ApplicationUserHistoryController(WanderListDbContext context, ILogger<History> logger)
+        public UserHistoryController(WanderListDbContext context, ILogger<History> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/History
+        // GET api/<apiVersion>/User/5/History
         [HttpGet("{id}/History")]
         [Authorize]
         [ProducesResponseType(typeof(List<UserHistoryResponse>), StatusCodes.Status200OK)]
@@ -129,20 +129,20 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/User")]
     [ApiController]
-    public class ApplicationUserShortlistController : ControllerBase
+    public class UserShortlistController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger<Shortlist> _logger;
 
-        public ApplicationUserShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
+        public UserShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/Shortlist
+        // GET api/<apiVersion>/User/5/Shortlist
         [HttpGet("{id}/Shortlist")]
         [Authorize]
         [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
