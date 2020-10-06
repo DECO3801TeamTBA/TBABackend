@@ -54,11 +54,6 @@ namespace WanderListAPI.Data
 
         public void AddData(ModelBuilder modelBuilder)
         {
-            foreach (AppUser user in users)
-            {
-                modelBuilder.Entity<AppUser>().HasData(user);
-            }
-
             var items = new List<Item>();
             var content = new List<Content>();
             var resources = new List<Resource>();
@@ -68,8 +63,8 @@ namespace WanderListAPI.Data
             {
                 content.Add(activity.Content);
                 items.Add(activity.Content.Item);
-                //resourceMetas.Add(activity.Content.Item.CoverImage);
-                //resources.Add(activity.Content.Item.CoverImage.Resource);
+                resourceMetas.Add(activity.Content.Item.CoverImage);
+                resources.Add(activity.Content.Item.CoverImage.Resource);
                 DataFactory.Clean(activity);
             }
 
@@ -77,33 +72,28 @@ namespace WanderListAPI.Data
             {
                 content.Add(destination.Content);
                 items.Add(destination.Content.Item);
-                //resourceMetas.Add(destination.Content.Item.CoverImage);
-                //resources.Add(destination.Content.Item.CoverImage.Resource);
+                resourceMetas.Add(destination.Content.Item.CoverImage);
+                resources.Add(destination.Content.Item.CoverImage.Resource);
                 DataFactory.Clean(destination);
             }
 
             foreach (City city in cities)
             {
                 items.Add(city.Item);
-                //resourceMetas.Add(city.Item.CoverImage);
-                //resources.Add(city.Item.CoverImage.Resource);
+                resourceMetas.Add(city.Item.CoverImage);
+                resources.Add(city.Item.CoverImage.Resource);
                 DataFactory.Clean(city);
-            }
-
-            foreach (AppUser user in users)
-            {
-                Console.WriteLine(user + "\n");
             }
 
             modelBuilder.Entity<IdentityRole>().HasData(identityRoles);
             modelBuilder.Entity<AppUser>().HasData(users);
-            //modelBuilder.Entity<Item>().HasData(items);
+            modelBuilder.Entity<Item>().HasData(items);
             modelBuilder.Entity<City>().HasData(cities);
-            //modelBuilder.Entity<Content>().HasData(content);
+            modelBuilder.Entity<Content>().HasData(content);
             modelBuilder.Entity<Activity>().HasData(activities);
             modelBuilder.Entity<Destination>().HasData(destinations);
-            //modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
-            //modelBuilder.Entity<Resource>().HasData(resources);
+            modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
+            modelBuilder.Entity<Resource>().HasData(resources);
             modelBuilder.Entity<Reward>().HasData(rewards);
             modelBuilder.Entity<Shortlist>().HasData(shortlists);
 

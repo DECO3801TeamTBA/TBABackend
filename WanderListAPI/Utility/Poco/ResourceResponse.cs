@@ -17,23 +17,31 @@ namespace WanderListAPI.Utility.Poco
         public Guid ResourceId { get; set; }
         public string FileName { get; set; }
         public string Description { get; set; }
-        public FileResult ResourceFile { get; set; }
 
         public ResourceResponse(ResourceMeta resourceMeta)
         {
-            var resource = resourceMeta.Resource;
-            ResourceId = resource.ResourceId;
+            ResourceId = resourceMeta.ResourceMetaId;
             FileName = resourceMeta.FileName;
             Description = resourceMeta.Description;
+        }
+
+        public static FileResult GetFile(ResourceMeta resourceMeta)
+        {
+            if (resourceMeta == null)
+            {
+                return null;
+            }
+
+            var resource = resourceMeta.Resource;
 
             if (resourceMeta.OnDisk)
             {
                 //Assuming virtual, havent decided yet, probably virtual....
-                ResourceFile = new VirtualFileResult(resource.FilePath, resourceMeta.MimeType);
+                return new VirtualFileResult(resource.FilePath, resourceMeta.MimeType);
             }
             else
             {
-                ResourceFile = new FileContentResult(resource.Data, resourceMeta.MimeType);
+                return new FileContentResult(resource.Data, resourceMeta.MimeType);
             }
         }
     }

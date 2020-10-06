@@ -236,9 +236,7 @@ namespace WanderListAPI.Data
             return new CityActivity()
             {
                 CityId = city.CityId,
-                ActivityId = activity.ActivityId,
-                City = city,
-                Activity = activity
+                ActivityId = activity.ActivityId
             };
         }
 
@@ -248,9 +246,7 @@ namespace WanderListAPI.Data
             return new CityDestination()
             {
                 CityId = city.CityId,
-                DestinationId = destination.DestinationId,
-                City = city,
-                Destination = destination
+                DestinationId = destination.DestinationId
             };
         }
 
@@ -261,9 +257,7 @@ namespace WanderListAPI.Data
             {
                 ContentId = content.ContentId,
                 ResourceMetaId = resourceMeta.ResourceMetaId,
-                Number = num,
-                Content = content,
-                ResourceMeta = resourceMeta
+                Number = num
             };
         }
 
@@ -273,9 +267,7 @@ namespace WanderListAPI.Data
             {
                 UserId = user.Id,
                 ContentId = content.ContentId,
-                Date = DateTime.Now,
-                User = user,
-                Content = content
+                Date = DateTime.Now
             };
 
             return history;
@@ -300,9 +292,7 @@ namespace WanderListAPI.Data
             {
                 ShortlistId = shortlist.ShortlistId,
                 ContentId = content.ContentId,
-                Number = num,
-                Shortlist = shortlist,
-                Content = content
+                Number = num
             };
         }
 
@@ -311,9 +301,7 @@ namespace WanderListAPI.Data
             var userReward = new UserReward()
             {
                 UserId = user.Id,
-                RewardId = reward.RewardId,
-                AppUser = user,
-                Reward = reward
+                RewardId = reward.RewardId
             };
 
             return userReward;
@@ -325,9 +313,7 @@ namespace WanderListAPI.Data
             return new UserShortlist()
             {
                 UserId = user.Id,
-                ShortlistId = shortlist.ShortlistId,
-                AppUser = user,
-                Shortlist = shortlist
+                ShortlistId = shortlist.ShortlistId
             };
         }
 

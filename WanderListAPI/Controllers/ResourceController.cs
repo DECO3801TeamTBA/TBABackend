@@ -31,13 +31,13 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ResourceMetaController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<ResourceResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<FileResult>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET ResourceMeta all");
             var resource = await _context.ResourceMeta
                 .Include(res => res.Resource)
-                .Select(res => new ResourceResponse(res))
+                .Select(res => ResourceResponse.GetFile(res))
                 .ToListAsync();
 
             return Ok(resource);
@@ -46,17 +46,17 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ResourceMetaController>/5
         [HttpGet("{id}")]
         [Authorize]
-        [ProducesResponseType(typeof(ResourceResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET ResourceMeta all");
             var resource = await _context.ResourceMeta
                 .Include(res => res.Resource)
                 .Where(res => res.ResourceMetaId == id)
-                .Select(res => new ResourceResponse(res))
+                .Select(res => ResourceResponse.GetFile(res))
                 .FirstOrDefaultAsync();
 
-            if (resource == default(ResourceResponse))
+            if (resource == default(FileResult))
             {
                 return NotFound(new Response()
                 {
