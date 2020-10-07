@@ -18,6 +18,7 @@ namespace WanderListAPI.Data
         public DbSet<Destination> Destination { get; set; }
         public DbSet<History> History { get; set; }
         public DbSet<Item> Item { get; set; }
+        public DbSet<QR> QR { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<ResourceMeta> ResourceMeta { get; set; }
         public DbSet<Reward> Reward { get; set; }

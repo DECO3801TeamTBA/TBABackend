@@ -229,6 +229,16 @@ namespace WanderListAPI.Data
             return CreateResourceMeta(resource, description);
         }
 
+        public static QR CreateQR(Content content)
+        {
+            return new QR()
+            {
+                QRId = Guid.NewGuid(),
+                Expirey = DateTime.Now.AddMonths(3),
+                ContentId = content.ContentId
+            };
+        }
+
         // Junctions
         public static CityActivity CreateCityActivity(City city,
             Activity activity)
@@ -274,7 +284,7 @@ namespace WanderListAPI.Data
         }
 
         public static IdentityUserRole<string> CreateIdentityUserRole(
-            AppUser user, IdentityRole role)
+            AppUser user, IdentityRole<string> role)
         {
             var identityUserRole = new IdentityUserRole<string>()
             {

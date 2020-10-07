@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WanderListAPI.Models;
 using WanderListAPI.Models.Junctions;
 
@@ -9,23 +10,24 @@ namespace WanderListAPI.Data
 {
     public class DataSeed
     {
-        private List<AppUser> users;
-        private List<City> cities;
-        private List<Activity> activities;
-        private List<Destination> destinations;
-        private List<Reward> rewards;
-        private List<Shortlist> shortlists;
-        private List<IdentityRole> identityRoles;
+        private Dictionary<string, Activity> activities;
+        private Dictionary<string, City> cities;
+        private Dictionary<string, Destination> destinations;
+        private Dictionary<string, IdentityRole> identityRoles;
+        private List<QR> qrCodes;
+        private Dictionary<string, Reward> rewards;
+        private Dictionary<string, Shortlist> shortlists;
+        private Dictionary<string, AppUser> users;
 
         // Junction Tables
         private List<CityActivity> cityActivities;
         private List<CityDestination> cityDestinations;
         private List<ContentResourceMeta> contentResourceMetas;
         private List<History> histories;
+        private List<IdentityUserRole<string>> identityUserRoles;
         private List<ShortlistContent> shortlistContent;
         private List<UserReward> userRewards;
         private List<UserShortlist> userShortlists;
-        private List<IdentityUserRole<string>> identityUserRoles;
 
         public DataSeed()
         {
@@ -39,17 +41,16 @@ namespace WanderListAPI.Data
             userShortlists = new List<UserShortlist>();
             identityUserRoles = new List<IdentityUserRole<string>>();
 
+            
             // Data
-            identityRoles = GenerateIdentityRoles();
-            // Needs to happen after GenerateIdentityRoles()
-            users = GenerateUsers();
             cities = GenerateCities();
-            shortlists = GenerateShortlists();
-            // Needs to Happen After Cities
-            activities = GenerateActivities();
-            destinations = GenerateDestinations();
-            // Needs to happen after users
-            rewards = GenerateRewards();
+            identityRoles = GenerateIdentityRoles();
+            users = GenerateUsers(identityRoles);
+            shortlists = GenerateShortlists(users);
+            rewards = GenerateRewards(users);
+            activities = GenerateActivities(cities, shortlists, users);
+            destinations = GenerateDestinations(cities, shortlists, users);
+            qrCodes = GenerateQRCodes(activities, destinations);
         }
 
         public void AddData(ModelBuilder modelBuilder)
@@ -59,7 +60,7 @@ namespace WanderListAPI.Data
             var resources = new List<Resource>();
             var resourceMetas = new List<ResourceMeta>();
 
-            foreach (Activity activity in activities)
+            foreach (Activity activity in activities.Values)
             {
                 content.Add(activity.Content);
                 items.Add(activity.Content.Item);
@@ -68,7 +69,7 @@ namespace WanderListAPI.Data
                 DataFactory.Clean(activity);
             }
 
-            foreach (Destination destination in destinations)
+            foreach (Destination destination in destinations.Values)
             {
                 content.Add(destination.Content);
                 items.Add(destination.Content.Item);
@@ -77,7 +78,7 @@ namespace WanderListAPI.Data
                 DataFactory.Clean(destination);
             }
 
-            foreach (City city in cities)
+            foreach (City city in cities.Values)
             {
                 items.Add(city.Item);
                 resourceMetas.Add(city.Item.CoverImage);
@@ -85,19 +86,23 @@ namespace WanderListAPI.Data
                 DataFactory.Clean(city);
             }
 
-            modelBuilder.Entity<IdentityRole>().HasData(identityRoles);
-            modelBuilder.Entity<AppUser>().HasData(users);
+            // Add Dictionaries
+            modelBuilder.Entity<IdentityRole>().HasData(identityRoles.Values);
+            modelBuilder.Entity<AppUser>().HasData(users.Values);
+            modelBuilder.Entity<City>().HasData(cities.Values);
+            modelBuilder.Entity<Activity>().HasData(activities.Values);
+            modelBuilder.Entity<Destination>().HasData(destinations.Values);
+            modelBuilder.Entity<Reward>().HasData(rewards.Values);
+            modelBuilder.Entity<Shortlist>().HasData(shortlists.Values);
+
+            // Add Lists
+            modelBuilder.Entity<QR>().HasData(qrCodes);
             modelBuilder.Entity<Item>().HasData(items);
-            modelBuilder.Entity<City>().HasData(cities);
             modelBuilder.Entity<Content>().HasData(content);
-            modelBuilder.Entity<Activity>().HasData(activities);
-            modelBuilder.Entity<Destination>().HasData(destinations);
             modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
             modelBuilder.Entity<Resource>().HasData(resources);
-            modelBuilder.Entity<Reward>().HasData(rewards);
-            modelBuilder.Entity<Shortlist>().HasData(shortlists);
 
-            // Junctions
+            // Add Junctions
             modelBuilder.Entity<CityActivity>().HasData(cityActivities);
             modelBuilder.Entity<CityDestination>().HasData(cityDestinations);
             modelBuilder.Entity<ContentResourceMeta>()
@@ -110,148 +115,162 @@ namespace WanderListAPI.Data
                 .HasData((identityUserRoles));
         }
 
-        public List<IdentityRole> GenerateIdentityRoles()
+        public Dictionary<string, IdentityRole> GenerateIdentityRoles()
         {
-            var identityRoles = new List<IdentityRole>()
+            return new Dictionary<string, IdentityRole>()
             {
-                DataFactory.CreateIdentityRole("User"),
-                DataFactory.CreateIdentityRole("Admin")
+                {"User", DataFactory.CreateIdentityRole("User")},
+                {"Admin", DataFactory.CreateIdentityRole("Admin")}
             };
-
-            return identityRoles;
         }
 
-        public List<AppUser> GenerateUsers()
+        public Dictionary<string, AppUser> GenerateUsers(Dictionary<string, IdentityRole> identityRoles)
         {
-            var users = new List<AppUser>()
+            var users = new Dictionary<string, AppUser>()
             {
-                DataFactory.CreateUser("Norville", "Rogers", "Shaggy"),
-                DataFactory.CreateUser("Scoobert", "Doo", "Scooby"),
-                DataFactory.CreateUser("Velma", "Dinkley", "Velma")
+                {"Shaggy", DataFactory.CreateUser("Norville", "Rogers", "Shaggy")},
+                {"Scooby", DataFactory.CreateUser("Scoobert", "Doo", "Scooby")},
+                {"Velma", DataFactory.CreateUser("Velma", "Dinkley", "Velma")}
             };
 
-            Join(users[0], identityRoles[1]);
-            Join(users[1], identityRoles[0]);
-            Join(users[2], identityRoles[0]);
+            Join(users["Shaggy"], identityRoles["Admin"]);
+            Join(users["Scooby"], identityRoles["User"]);
+            Join(users["Velma"], identityRoles["User"]);
 
             return users;
         }
 
-        public List<Shortlist> GenerateShortlists()
+        public Dictionary<string, Shortlist> GenerateShortlists(Dictionary<string, AppUser> users)
         {
-            var shortlists = new List<Shortlist>()
+            var shortlists = new Dictionary<string, Shortlist>()
             {
-                DataFactory.CreateShortlist("Shag Spots"),
-                DataFactory.CreateShortlist("Good burger spots"),
-                DataFactory.CreateShortlist("Ghost Sightings")
+                {"Shag Spots", DataFactory.CreateShortlist("Shag Spots") },
+                {"Good burger spots", DataFactory.CreateShortlist("Good burger spots") },
+                {"Ghost Sightings", DataFactory.CreateShortlist("Ghost Sightings") }
             };
 
-            Join(users[0], shortlists[0]);
-            Join(users[0], shortlists[1]);
-            Join(users[2], shortlists[2]);
+            Join(users["Shaggy"], shortlists["Shag Spots"]);
+            Join(users["Scooby"], shortlists["Good burger spots"]);
+            Join(users["Velma"], shortlists["Ghost Sightings"]);
 
             return shortlists;
         }
 
-        public List<City> GenerateCities()
+        public Dictionary<string, City> GenerateCities()
         {
-            var cities = new List<City>()
+            return new Dictionary<string, City>()
             {
-                DataFactory.CreateCity("Brisbane", "Captial of QLD",
-                    "Australia", "Brisbane.jfif", "Brisbane"),
-                DataFactory.CreateCity("Sydney", "Slow fall into hell",
-                    "Australia", "Sydney.jfif", "Sydney"),
-                DataFactory.CreateCity("Melbourne", "Land of the dead",
-                    "Australia", "Melbourne.jfif", "Melbourne"),
+                {"Brisbane", DataFactory.CreateCity("Brisbane", "Captial of QLD",
+                    "Australia", "Brisbane.jfif", "Brisbane")},
+                {"Sydney", DataFactory.CreateCity("Sydney", "Slow descent into hell",
+                    "Australia", "Sydney.jfif", "Sydney")},
+                {"Melbourne", DataFactory.CreateCity("Melbourne", "Land of the dead",
+                    "Australia", "Melbourne.jfif", "Melbourne")}
             };
-
-            return cities;
         }
 
-        public List<Activity> GenerateActivities()
+        public Dictionary<string, Activity> GenerateActivities(Dictionary<string, City> cities, 
+            Dictionary<string, Shortlist> shortlists, Dictionary<string, AppUser> users)
         {
-            var activities = new List<Activity>()
+            var activities = new Dictionary<string, Activity>()
             {
-                DataFactory.CreateActivity("Pub Crawl",
+                {"Pub Crawl", DataFactory.CreateActivity("Pub Crawl",
                     "Tour Brisbanes best bars and clubs in a night of fun",
-                    "PubCrawl.jfif", "PubCrawl", 3, 5, 5),
-                DataFactory.CreateActivity("Uni tour",
+                    "PubCrawl.jfif", "PubCrawl", 3, 5, 5)},
+                {"Uni tour", DataFactory.CreateActivity("Uni tour",
                     "Visit Brisbanes best universities",
-                    "UniTour.jfif", "UniTour", 3, 5, 5),
-                DataFactory.CreateActivity("Catch Covid",
+                    "UniTour.jfif", "UniTour", 3, 5, 5)},
+                {"Catch Covid", DataFactory.CreateActivity("Catch Covid",
                     "Do the world a favor and remove yourself from this earth",
-                    "Covid.png", "Covid", 5, 5, 5)
+                    "Covid.png", "Covid", 5, 5, 5)}
             };
 
             // CityActivities
-            Join(cities[0], activities[0]);
-            Join(cities[0], activities[1]);
-            Join(cities[2], activities[2]);
+            Join(cities["Brisbane"], activities["Pub Crawl"]);
+            Join(cities["Brisbane"], activities["Uni tour"]);
+            Join(cities["Melbourne"], activities["Catch Covid"]);
 
             // ShortlistContent
-            Join(shortlists[1], activities[0].Content, 1);
-            Join(shortlists[1], activities[1].Content, 2);
-            Join(shortlists[2], activities[2].Content, 1);
+            Join(shortlists["Good burger spots"], activities["Pub Crawl"].Content, 1);
+            Join(shortlists["Good burger spots"], activities["Uni tour"].Content, 2);
+            Join(shortlists["Ghost Sightings"], activities["Catch Covid"].Content, 1);
 
             // History
-            Join(users[0], activities[0].Content);
-            Join(users[1], activities[0].Content);
-            Join(users[2], activities[1].Content);
+            Join(users["Shaggy"], activities["Pub Crawl"].Content);
+            Join(users["Scooby"], activities["Pub Crawl"].Content);
+            Join(users["Velma"], activities["Uni tour"].Content);
 
             return activities;
         }
 
-        public List<Destination> GenerateDestinations()
+        public Dictionary<string, Destination> GenerateDestinations(Dictionary<string, City> cities,
+            Dictionary<string, Shortlist> shortlists, Dictionary<string, AppUser> users)
         {
-            var destinations = new List<Destination>()
+            var destinations = new Dictionary<string, Destination>()
             {
-                DataFactory.CreateDestination("UQ", "The best uni in brisbane",
-                    "UQ.jfif", "UQ", 5, 5, 5),
-                DataFactory.CreateDestination("South Brisbane Cemetery",
+                {"UQ", DataFactory.CreateDestination("UQ", "The best uni in brisbane",
+                    "UQ.jfif", "UQ", 5, 5, 5)},
+                {"South Brisbane Cemetery", DataFactory.CreateDestination("South Brisbane Cemetery",
                     "Super spooooky at night",
                     "SouthBrisbaneCemetery.jfif", "SouthBrisbaneCemetery", 4, 3,
-                    5),
-                DataFactory.CreateDestination("Sydney Opera House",
+                    5)},
+                {"Sydney Opera House", DataFactory.CreateDestination("Sydney Opera House",
                     "Australia's most famouse landmark",
-                    "OperaHouse.jfif", "OperaHouse", 5, 5, 5)
+                    "OperaHouse.jfif", "OperaHouse", 5, 5, 5)}
             };
 
             // CityDestinantions
-            Join(cities[0], destinations[0]);
-            Join(cities[0], destinations[1]);
-            Join(cities[1], destinations[2]);
+            Join(cities["Brisbane"], destinations["UQ"]);
+            Join(cities["Brisbane"], destinations["South Brisbane Cemetery"]);
+            Join(cities["Sydney"], destinations["Sydney Opera House"]);
 
             // ShortlistContent
-            Join(shortlists[0], destinations[1].Content, 2);
-            Join(shortlists[2], destinations[2].Content, 1);
+            Join(shortlists["Good burger spots"], destinations["UQ"].Content, 3);
+            Join(shortlists["Ghost Sightings"], destinations["South Brisbane Cemetery"].Content, 2);
+            Join(shortlists["Shag Spots"], destinations["Sydney Opera House"].Content, 1);
 
             // History
-            Join(users[2], destinations[0].Content);
-            Join(users[0], destinations[1].Content);
-            Join(users[1], destinations[1].Content);
+            Join(users["Shaggy"], destinations["South Brisbane Cemetery"].Content);
+            Join(users["Scooby"], destinations["South Brisbane Cemetery"].Content);
+            Join(users["Velma"], destinations["UQ"].Content);
 
             return destinations;
         }
 
-        public List<Reward> GenerateRewards()
+        public Dictionary<string, Reward> GenerateRewards(Dictionary<string, AppUser> users)
         {
-            var rewards = new List<Reward>()
+            var rewards = new Dictionary<string, Reward>()
             {
-                DataFactory.CreateReward("Covid Bonus", "Buy 1 get 2 FREE"),
-                DataFactory.CreateReward("Uni Tour Discount",
-                    "15% Off your next tour"),
-                DataFactory.CreateReward("Drink Discount",
-                    "$5 OFF a jug of beer with any meal purchase")
+                {"Covid Bonus", DataFactory.CreateReward("Covid Bonus", "Buy 1 get 2 FREE")},
+                {"Uni Tour Discount", DataFactory.CreateReward("Uni Tour Discount",
+                    "15% Off your next tour")},
+                {"Drink Discount", DataFactory.CreateReward("Drink Discount",
+                    "$5 OFF a jug of beer with any meal purchase")}
             };
 
-            Join(users[0], rewards[0]);
-            Join(users[0], rewards[1]);
-            Join(users[2], rewards[2]);
+            Join(users["Shaggy"], rewards["Covid Bonus"]);
+            Join(users["Velma"], rewards["Uni Tour Discount"]);
+            Join(users["Shaggy"], rewards["Drink Discount"]);
 
             return rewards;
         }
 
-        public void Join(AppUser user, IdentityRole role)
+        public List<QR> GenerateQRCodes(Dictionary<string, Activity> activities, Dictionary<string, Destination> destinations)
+        {
+            var qrCodes = new List<QR>();
+            foreach (Activity activity in activities.Values) {
+                qrCodes.Add(DataFactory.CreateQR(activity.Content));
+            }
+
+            foreach (Destination destination in destinations.Values)
+            {
+                qrCodes.Add(DataFactory.CreateQR(destination.Content));
+            }
+
+            return qrCodes;
+        }
+
+        public void Join(AppUser user, IdentityRole<string> role)
         {
             identityUserRoles.Add(
                 DataFactory.CreateIdentityUserRole(user, role));
