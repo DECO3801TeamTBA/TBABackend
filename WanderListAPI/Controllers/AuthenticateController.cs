@@ -18,11 +18,11 @@ namespace JWTAuthentication.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<AppUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticateController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticateController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -88,7 +88,7 @@ namespace JWTAuthentication.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            ApplicationUser user = new ApplicationUser()
+            AppUser user = new AppUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -111,7 +111,7 @@ namespace JWTAuthentication.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            ApplicationUser user = new ApplicationUser()
+            AppUser user = new AppUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),

@@ -55,7 +55,7 @@ namespace WanderListAPI
                     .ServerVersion(new Version(8, 0, 21), ServerType.MySql)
             ));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<WanderListDbContext>()
                 .AddDefaultTokenProviders();
 

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utility\Poko\" />
+    <Folder Include="Resources\Images\" />
     <Folder Include="Utility\TestImages\" />
   </ItemGroup>
 

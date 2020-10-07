@@ -15,6 +15,6 @@ namespace WanderListAPI.Models
 
         //Navigation properties
         public Reward Reward { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public AppUser AppUser { get; set; }
     }
 }

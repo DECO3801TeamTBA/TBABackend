@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,12 +32,14 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ItemController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Item>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Item all");
             var item = await _context.Item
                 .Include(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
+                .Select(ite => new ItemBriefResponse(ite))
                 .ToListAsync();
 
             return Ok(item);
@@ -45,16 +48,18 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/<ItemController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Item), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ItemResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Item with id {id}");
             var item = await _context.Item
                 .Include(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Where(ite => ite.ItemId == id)
+                .Select(ite => new ItemResponse(ite))
                 .FirstOrDefaultAsync();
 
-            if (item == default(Item))
+            if (item == default(ItemResponse))
             {
                 return NotFound(new Response()
                 {

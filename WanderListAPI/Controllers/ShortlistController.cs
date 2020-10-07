@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,7 +44,7 @@ namespace WanderListAPI.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Shortlist), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Shortlists with id {id}");
@@ -102,10 +103,10 @@ namespace WanderListAPI.Controllers
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/Content
+        // GET api/<apiVersion>/Shortlist/5/Content
         [HttpGet("{id}/Content")]
         [Authorize]
-        [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET content for shortlist with id {id}");
@@ -113,7 +114,7 @@ namespace WanderListAPI.Controllers
                 .Include(scon => scon.Content)
                 .Where(scon => scon.ShortlistId == id)
                 .OrderBy(scon => scon.Number)
-                .Select(scon => scon.Content)
+                .Select(scon => new ItemBriefResponse(scon.Content))
                 .ToListAsync();
 
             return Ok(shortlistContent);

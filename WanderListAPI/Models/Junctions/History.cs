@@ -18,6 +18,6 @@ namespace WanderListAPI.Models
 
         // Navigation Properties
         public virtual Content Content { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual AppUser User { get; set; }
     }
 }

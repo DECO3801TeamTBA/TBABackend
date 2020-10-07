@@ -14,7 +14,7 @@ namespace WanderListAPI.Models.Junctions
         public Guid ShortlistId { get; set; }
 
         //Navigation properties
-        public ApplicationUser ApplicationUser { get; set; }
+        public AppUser AppUser { get; set; }
         public Shortlist Shortlist { get; set; }
     }
 }
