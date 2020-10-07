@@ -96,6 +96,7 @@ namespace WanderListAPI.Controllers
                 .Include(cact => cact.Activity)
                 .ThenInclude(act => act.Content)
                 .ThenInclude(con => con.Item)
+                .ThenInclude(item => item.CoverImage)
                 .Where(cact => cact.CityId == id)
                 .Select(cact => new ItemBriefResponse(cact.Activity))
                 .ToListAsync();
@@ -104,6 +105,7 @@ namespace WanderListAPI.Controllers
                 .Include(cdes => cdes.Destination)
                 .ThenInclude(des => des.Content)
                 .ThenInclude(con => con.Item)
+                .ThenInclude(item => item.CoverImage)
                 .Where(cdes => cdes.CityId == id)
                 .Select(cdes => new ItemBriefResponse(cdes.Destination))
                 .ToListAsync();
