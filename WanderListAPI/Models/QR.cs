@@ -10,7 +10,7 @@ namespace WanderListAPI.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid QRId { get; set; }
-        public DateTime Expirey { get; set; }
+        public DateTime Expiry { get; set; }
         [ForeignKey("ResourceMeta")]
         public Guid ContentId { get; set; }
 
