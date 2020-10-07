@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace WanderListAPI.Models
 {
@@ -30,5 +31,10 @@ namespace WanderListAPI.Models
         //Maybe this won't be needed but we may need to have both
         //disk and db stored files
         public bool OnDisk { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

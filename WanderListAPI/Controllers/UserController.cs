@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,12 +19,12 @@ namespace WanderListAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class ApplicationUserController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ApplicationUserController(WanderListDbContext context, ILogger<ApplicationUser> logger)
+        public UserController(WanderListDbContext context, ILogger<AppUser> logger)
         {
             _logger = logger;
             _context = context;
@@ -31,42 +32,29 @@ namespace WanderListAPI.Controllers
 
         // GET: api/<apiVersion>/<ApplicationUserController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UserResponseBrief>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Users all");
             var users = await _context.ApplicationUser
-                .Select(val => new { 
-                    val.UserName, 
-                    val.FirstName, 
-                    val.LastName, 
-                    val.Email, 
-                    val.PhoneNumber, 
-                    val.Points})
+                .Select(use => new UserResponseBrief(use))
                 .ToListAsync();
             return Ok(users);
         }
 
         // GET api/<apiVersion>/<ApplicationUserController>/5
         [HttpGet("{userid}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserResponseBrief), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserResponseBrief), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int id)
         {
             _logger.LogInformation($"GET Users {id}");
             var user = await _context.ApplicationUser
-                .Where(val => val.Id == id.ToString())
-                .Select(val => new {
-                    val.UserName,
-                    val.FirstName,
-                    val.LastName,
-                    val.Email,
-                    val.PhoneNumber,
-                    val.Points
-                })
+                .Where(use => use.Id == id.ToString())
+                .Select(use => new UserResponseBrief(use))
                 .FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user == default(UserResponseBrief))
             {
                 return NotFound(new Response()
                 {
@@ -80,20 +68,20 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/User")]
     [ApiController]
     public class UserRewardController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public UserRewardController(WanderListDbContext context, ILogger<ApplicationUser> logger)
+        public UserRewardController(WanderListDbContext context, ILogger<AppUser> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/Reward
+        // GET api/<apiVersion>/User/5/Reward
         [HttpGet("{id}/Reward")]
         [Authorize]
         [ProducesResponseType(typeof(List<Reward>), StatusCodes.Status200OK)]
@@ -111,32 +99,29 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/User")]
     [ApiController]
-    public class ApplicationUserHistoryController : ControllerBase
+    public class UserHistoryController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger<History> _logger;
 
-        public ApplicationUserHistoryController(WanderListDbContext context, ILogger<History> logger)
+        public UserHistoryController(WanderListDbContext context, ILogger<History> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/History
+        // GET api/<apiVersion>/User/5/History
         [HttpGet("{id}/History")]
         [Authorize]
-        [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UserHistoryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET History for User with id {id}");
             var history = await _context.History
                 .Where(hist => hist.UserId == id.ToString())
-                .Select(hist => new {
-                    hist.ContentId,
-                    hist.Date
-                })
+                .Select(hist => new UserHistoryResponse(hist))
                 .ToListAsync();
 
             return Ok(history);
@@ -144,20 +129,20 @@ namespace WanderListAPI.Controllers
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/ApplicationUser")]
+    [Route("api/v{version:apiVersion}/User")]
     [ApiController]
-    public class ApplicationUserShortlistController : ControllerBase
+    public class UserShortlistController : ControllerBase
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger<Shortlist> _logger;
 
-        public ApplicationUserShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
+        public UserShortlistController(WanderListDbContext context, ILogger<Shortlist> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET api/<apiVersion>/ApplicationUser/5/Shortlist
+        // GET api/<apiVersion>/User/5/Shortlist
         [HttpGet("{id}/Shortlist")]
         [Authorize]
         [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]

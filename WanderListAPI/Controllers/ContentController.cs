@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,13 +33,15 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<ContentController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<Content>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Content all");
             var content = await _context.Content
                 .Include(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
+                .Select(con => new ItemBriefResponse(con))
                 .ToListAsync();
 
             return Ok(content);
@@ -49,17 +52,19 @@ namespace WanderListAPI.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Content), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ContentResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Content with id {id}");
             var content = await _context.Content
                 .Include(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
+                .ThenInclude(resm => resm.Resource)
                 .Where(con => con.ContentId == id)
+                .Select(con => new ContentResponse(con))
                 .FirstOrDefaultAsync();
 
-            if (content == default(Content))
+            if (content == default(ContentResponse))
             {
                 return NotFound(new Response()
                 {
@@ -89,15 +94,16 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Content/5/Resource
         [HttpGet("{id}/Resource")]
         [Authorize]
-        [ProducesResponseType(typeof(List<ResourceMeta>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ResourceResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Resource for Content with id {id}");
             var resource = await _context.ContentResourceMeta
                 .Include(ires => ires.ResourceMeta)
+                .ThenInclude(resm => resm.Resource)
                 .Where(ires => ires.ContentId == id)
                 .OrderBy(ires => ires.Number)
-                .Select(ires => ires.ResourceMeta)
+                .Select(ires => new ResourceResponse(ires.ResourceMeta))
                 .ToListAsync();
 
             return Ok(resource);
@@ -121,16 +127,13 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/Content/5/History
         [HttpGet("{id}/History")]
         [Authorize]
-        [ProducesResponseType(typeof(List<History>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ContentHistoryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET History for Content with id {id}");
             var history = await _context.History
                     .Where(hist => hist.ContentId == id)
-                    .Select(hist => new {
-                        hist.Date,
-                        hist.ContentId
-                    })
+                    .Select(hist => new ContentHistoryResponse(hist))
                     .ToListAsync();
 
             return Ok(history);
