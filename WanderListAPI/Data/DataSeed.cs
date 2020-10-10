@@ -60,6 +60,13 @@ namespace WanderListAPI.Data
             var resources = new List<Resource>();
             var resourceMetas = new List<ResourceMeta>();
 
+            foreach (AppUser user in users.Values)
+            {
+                resourceMetas.Add(user.ProfilePic);
+                resources.Add(user.ProfilePic.Resource);
+                DataFactory.Clean(user);
+            }
+
             foreach (Activity activity in activities.Values)
             {
                 content.Add(activity.Content);
@@ -130,12 +137,10 @@ namespace WanderListAPI.Data
             {
                 {"Shaggy", DataFactory.CreateUser("Norville", "Rogers", "Shaggy")},
                 {"Scooby", DataFactory.CreateUser("Scoobert", "Doo", "Scooby")},
-                {"Velma", DataFactory.CreateUser("Velma", "Dinkley", "Velma")}
             };
 
             Join(users["Shaggy"], identityRoles["Admin"]);
             Join(users["Scooby"], identityRoles["User"]);
-            Join(users["Velma"], identityRoles["User"]);
 
             return users;
         }
@@ -161,11 +166,11 @@ namespace WanderListAPI.Data
             return new Dictionary<string, City>()
             {
                 {"Brisbane", DataFactory.CreateCity("Brisbane", "Captial of QLD",
-                    "Australia", "Brisbane.jfif", "Brisbane")},
+                    "Australia", "https://www.youtube.com/watch?v=nDHlEG48b-M", -27.46794, 153.02809, "Brisbane.jfif", "Brisbane")},
                 {"Sydney", DataFactory.CreateCity("Sydney", "Slow descent into hell",
-                    "Australia", "Sydney.jfif", "Sydney")},
+                    "Australia", "https://www.youtube.com/watch?v=Yc7r_bbt00M", -33.86785, 151.20732, "Sydney.jfif", "Sydney")},
                 {"Melbourne", DataFactory.CreateCity("Melbourne", "Land of the dead",
-                    "Australia", "Melbourne.jfif", "Melbourne")}
+                    "Australia", "https://www.youtube.com/watch?v=Rzn5WGnS350", -37.814, 144.96332, "Melbourne.jfif", "Melbourne")}
             };
         }
 
@@ -176,13 +181,13 @@ namespace WanderListAPI.Data
             {
                 {"Pub Crawl", DataFactory.CreateActivity("Pub Crawl",
                     "Tour Brisbanes best bars and clubs in a night of fun",
-                    "PubCrawl.jfif", "PubCrawl", 3, 5, 5)},
+                    "PubCrawl.jfif", "PubCrawl", 3, 5, 5, -27.470568, 153.024866)},
                 {"Uni tour", DataFactory.CreateActivity("Uni tour",
                     "Visit Brisbanes best universities",
-                    "UniTour.jfif", "UniTour", 3, 5, 5)},
+                    "UniTour.jfif", "UniTour", 3, 5, 5, -27.477119, 153.028372)},
                 {"Catch Covid", DataFactory.CreateActivity("Catch Covid",
                     "Do the world a favor and remove yourself from this earth",
-                    "Covid.png", "Covid", 5, 5, 5)}
+                    "Covid.png", "Covid", 5, 5, 5, -33.86785, 151.20732)}
             };
 
             // CityActivities
@@ -209,14 +214,14 @@ namespace WanderListAPI.Data
             var destinations = new Dictionary<string, Destination>()
             {
                 {"UQ", DataFactory.CreateDestination("UQ", "The best uni in brisbane",
-                    "UQ.jfif", "UQ", 5, 5, 5)},
+                    "UQ.jfif", "UQ", 5, 5, 5,-27.497408, 153.013680)},
                 {"South Brisbane Cemetery", DataFactory.CreateDestination("South Brisbane Cemetery",
                     "Super spooooky at night",
                     "SouthBrisbaneCemetery.jfif", "SouthBrisbaneCemetery", 4, 3,
-                    5)},
+                    5, -27.498973, 153.027120)},
                 {"Sydney Opera House", DataFactory.CreateDestination("Sydney Opera House",
                     "Australia's most famouse landmark",
-                    "OperaHouse.jfif", "OperaHouse", 5, 5, 5)}
+                    "OperaHouse.jfif", "OperaHouse", 5, 5, 5, -33.856651, 151.215276)}
             };
 
             // CityDestinantions

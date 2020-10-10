@@ -11,8 +11,6 @@ namespace WanderListAPI.Models
         // Table Properties
         [ForeignKey("Item")]
         public Guid ContentId { get; set; }
-        public decimal Lattitude { get; set; }
-        public decimal Longitude { get; set; }
         public string Address { get; set; }
         public string Website { get; set; }
         public int Capacity { get; set; }

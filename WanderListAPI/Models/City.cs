@@ -12,6 +12,7 @@ namespace WanderListAPI.Models
         [ForeignKey("Item")]
         public Guid CityId { get; set; }
         public string Country { get; set; }
+        public string Video { get; set; }
 
         // Navigation Properties i.e FKs to different tables
         public Item Item { get; set; }
