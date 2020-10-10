@@ -15,7 +15,8 @@ using WanderListAPI.Utility.Poco;
 
 namespace WanderListAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class QRController : ControllerBase
     {
@@ -52,7 +53,7 @@ namespace WanderListAPI.Controllers
                 });
 
                 // Check QR is not expired
-            } else if (qr.Expirey < DateTime.Now)
+            } else if (qr.Expiry < DateTime.Now)
             {
                 return BadRequest(new Response()
                 {
@@ -100,6 +101,7 @@ namespace WanderListAPI.Controllers
             };
             _context.History.Add(history);
 
+            await _context.SaveChangesAsync();
             return Ok(new Response()
             {
                 Message = $"QR code {qrCode} has bee verified",

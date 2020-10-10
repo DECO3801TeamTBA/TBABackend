@@ -43,20 +43,19 @@ namespace WanderListAPI.Controllers
             return Ok(resource);
         }
 
-        // GET: api/<apiVersion>/<ResourceMetaController>/5
+        // GET api/<apiVersion>/<ResourceController>/5
         [HttpGet("{id}")]
         [Authorize]
-        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            _logger.LogInformation($"GET ResourceMeta all");
-            var resource = await _context.ResourceMeta
+            _logger.LogInformation($"GET Resource with {id}");
+            var resourceMeta = await _context.ResourceMeta
                 .Include(res => res.Resource)
-                .Where(res => res.ResourceMetaId == id)
-                .Select(res => ResourceResponse.GetFile(res))
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(res => res.ResourceMetaId == id);
 
-            if (resource == default(FileResult))
+            if (resourceMeta == default(ResourceMeta))
             {
                 return NotFound(new Response()
                 {
@@ -65,7 +64,12 @@ namespace WanderListAPI.Controllers
                 });
             }
 
-            return Ok(resource);
+            if (resourceMeta.OnDisk)
+            {
+                //Assuming virtual, havent decided yet, probably virtual....
+                return File(resourceMeta.Resource.FilePath, resourceMeta.MimeType);
+            }
+            return File(resourceMeta.Resource.Data, resourceMeta.MimeType);
         }
     }
 }
