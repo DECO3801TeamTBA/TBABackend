@@ -234,7 +234,7 @@ namespace WanderListAPI.Data
             return new QR()
             {
                 QRId = Guid.NewGuid(),
-                Expirey = DateTime.Now.AddMonths(3),
+                Expiry = DateTime.Now.AddMonths(3),
                 ContentId = content.ContentId
             };
         }
