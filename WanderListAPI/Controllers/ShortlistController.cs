@@ -112,6 +112,7 @@ namespace WanderListAPI.Controllers
             _logger.LogInformation($"GET content for shortlist with id {id}");
             var shortlistContent = await _context.ShortlistContent
                 .Include(scon => scon.Content)
+                .ThenInclude(con => con.Item)
                 .Where(scon => scon.ShortlistId == id)
                 .OrderBy(scon => scon.Number)
                 .Select(scon => new ItemBriefResponse(scon.Content))
