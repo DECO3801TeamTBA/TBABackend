@@ -97,7 +97,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public ShortlistContentController(WanderListDbContext context, ILogger logger)
+        public ShortlistContentController(WanderListDbContext context, ILogger<ShortlistContent> logger)
         {
             _context = context;
             _logger = logger;
@@ -113,6 +113,7 @@ namespace WanderListAPI.Controllers
             var shortlistContent = await _context.ShortlistContent
                 .Include(scon => scon.Content)
                 .ThenInclude(con => con.Item)
+                .ThenInclude(ite => ite.CoverImage)
                 .Where(scon => scon.ShortlistId == id)
                 .OrderBy(scon => scon.Number)
                 .Select(scon => new ItemBriefResponse(scon.Content))
