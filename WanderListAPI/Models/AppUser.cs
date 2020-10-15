@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WanderListAPI.Models
 {
@@ -17,6 +18,11 @@ namespace WanderListAPI.Models
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public int Points { get; set; }
+
+        [ForeignKey("ResourceMeta")]
+        public Guid CoverImageId { get; set; }
+        //Navigation properties
+        public ResourceMeta ProfilePic { get; set; }
 
         public override string ToString()
         {
