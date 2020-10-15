@@ -31,16 +31,15 @@ namespace WanderListAPI.Controllers
 
         // POST api/<QRController>/5
         // GET api/<apiVersion>/<ApplicationUserController>/5
-        [HttpGet("{qrCode}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost]
-        public async Task<IActionResult> Post(Guid qrCode, [FromBody] Guid userId)
+        public async Task<IActionResult> Post([FromBody] QRRequest request)
         {
-            _logger.LogInformation($"GET QR with id {qrCode}");
+            _logger.LogInformation($"GET QR with id {request.QRCode}");
             var qr = await _context.QR
-                .Where(q => q.QRId == qrCode)
+                .Where(q => q.QRId == request.QRCode)
                 .FirstOrDefaultAsync();
 
             // Check QR exists
@@ -48,7 +47,7 @@ namespace WanderListAPI.Controllers
             {
                 return NotFound(new Response()
                 {
-                    Message = $"No QR code {qrCode}",
+                    Message = $"No QR code {request.QRCode}",
                     Status = "404"
                 });
 
@@ -57,14 +56,14 @@ namespace WanderListAPI.Controllers
             {
                 return BadRequest(new Response()
                 {
-                    Message = $"QR code {qrCode} has expired",
+                    Message = $"QR code {request.QRCode} has expired",
                     Status = "400"
                 });
             }
 
-            _logger.LogInformation($"GET Users {userId}");
+            _logger.LogInformation($"GET Users {request.UserId}");
             var user = await _context.ApplicationUser
-                .Where(use => use.Id == userId.ToString())
+                .Where(use => use.Id == request.UserId.ToString())
                 .FirstOrDefaultAsync();
 
             // Check User exists
@@ -72,14 +71,14 @@ namespace WanderListAPI.Controllers
             {
                 return NotFound(new Response()
                 {
-                    Message = $"No user exists with id {userId}",
+                    Message = $"No user exists with id {request.UserId}",
                     Status = "404"
                 });
             }
 
-            _logger.LogInformation($"GET History for QR code {qrCode} and User with id {userId}");
+            _logger.LogInformation($"GET History for QR code {request.QRCode} and User with id {request.UserId}");
             var history = await _context.History
-                .Where(hist => hist.UserId == userId.ToString() && hist.ContentId == qr.ContentId)
+                .Where(hist => hist.UserId == request.UserId.ToString() && hist.ContentId == qr.ContentId)
                 .FirstOrDefaultAsync();
 
             // Check user has not already visited content
@@ -87,7 +86,7 @@ namespace WanderListAPI.Controllers
             {
                 return BadRequest(new Response()
                 {
-                    Message = $"User with id {userId} has already been to this location",
+                    Message = $"User with id {request.UserId} has already been to this location",
                     Status = "400"
                 });
             }
@@ -97,15 +96,15 @@ namespace WanderListAPI.Controllers
             {
                 ContentId = qr.ContentId,
                 Date = DateTime.Now,
-                UserId = userId.ToString()
+                UserId = request.UserId.ToString()
             };
             _context.History.Add(history);
 
             await _context.SaveChangesAsync();
             return Ok(new Response()
             {
-                Message = $"QR code {qrCode} has bee verified",
-                Status = "201"
+                Message = $"QR code {request.QRCode} has been verified",
+                Status = "200"
             });
         }
     }
