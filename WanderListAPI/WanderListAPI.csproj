@@ -30,6 +30,9 @@
     <None Update="Resources\Images\Covid.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Images\DefaultUser.jfif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Images\Melbourne.jfif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
