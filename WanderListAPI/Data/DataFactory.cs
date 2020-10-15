@@ -27,7 +27,7 @@ namespace WanderListAPI.Data
             string lastName, string userName)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
-            ResourceMeta profile= CreateResourceMeta("DefaultUser", "User profile pic");
+            ResourceMeta profile= CreateResourceMeta("DefaultUser.jfif", "User profile pic");
 
             var user = new AppUser()
             {

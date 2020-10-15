@@ -9,8 +9,8 @@ namespace WanderListAPI.Utility.Poco
     public class ContentResponse
     {
         public Guid ContentId { get; set; }
-        public decimal Lattitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Lattitude { get; set; }
+        public double Longitude { get; set; }
         public string Address { get; set; }
         public string Website { get; set; }
         public int Capacity { get; set; }
@@ -26,8 +26,8 @@ namespace WanderListAPI.Utility.Poco
         public ContentResponse(Content content)
         {
             ContentId = content.ContentId;
-            Lattitude = content.Lattitude;
-            Longitude = content.Longitude;
+            Lattitude = content.Item.Lattitude;
+            Longitude = content.Item.Longitude;
             Address = content.Address;
             Website = content.Website;
             Capacity = content.Capacity;

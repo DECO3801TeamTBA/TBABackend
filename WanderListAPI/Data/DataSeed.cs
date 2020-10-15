@@ -156,7 +156,7 @@ namespace WanderListAPI.Data
 
             Join(users["Shaggy"], shortlists["Shag Spots"]);
             Join(users["Scooby"], shortlists["Good burger spots"]);
-            Join(users["Velma"], shortlists["Ghost Sightings"]);
+            //Join(users["Velma"], shortlists["Ghost Sightings"]);
 
             return shortlists;
         }
@@ -203,7 +203,7 @@ namespace WanderListAPI.Data
             // History
             Join(users["Shaggy"], activities["Pub Crawl"].Content);
             Join(users["Scooby"], activities["Pub Crawl"].Content);
-            Join(users["Velma"], activities["Uni tour"].Content);
+            //Join(users["Velma"], activities["Uni tour"].Content);
 
             return activities;
         }
@@ -237,7 +237,7 @@ namespace WanderListAPI.Data
             // History
             Join(users["Shaggy"], destinations["South Brisbane Cemetery"].Content);
             Join(users["Scooby"], destinations["South Brisbane Cemetery"].Content);
-            Join(users["Velma"], destinations["UQ"].Content);
+            //Join(users["Velma"], destinations["UQ"].Content);
 
             return destinations;
         }
@@ -254,7 +254,7 @@ namespace WanderListAPI.Data
             };
 
             Join(users["Shaggy"], rewards["Covid Bonus"]);
-            Join(users["Velma"], rewards["Uni Tour Discount"]);
+            //Join(users["Velma"], rewards["Uni Tour Discount"]);
             Join(users["Shaggy"], rewards["Drink Discount"]);
 
             return rewards;
