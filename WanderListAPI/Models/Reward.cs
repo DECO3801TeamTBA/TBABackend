@@ -15,5 +15,11 @@ namespace WanderListAPI.Models
         public string Description { get; set; }
         public string Value { get; set; }
         public DateTime ExpiryDate { get; set; }
+        [ForeignKey("City")]
+        public Guid CityId { get; set; }
+        public int CountThreshold { get; set; }
+
+        //Navigation properties
+        public City City { get; set; }
     }
 }

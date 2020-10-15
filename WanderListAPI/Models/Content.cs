@@ -18,8 +18,11 @@ namespace WanderListAPI.Models
         public int EnvironmentalRating { get; set; }
         public int SocialRating { get; set; }
         public int EconomicRating { get; set; }
+        [ForeignKey("City")]
+        public Guid CityId { get; set; }
 
-        // Navigation Properties i.e FKs to different tables
+        //Navigation properties
         public Item Item { get; set; }
+        public City City { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WanderListAPI.Data;
 using WanderListAPI.Models;
+using WanderListAPI.Models.Junctions;
 using WanderListAPI.Utility.Poco;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -100,6 +101,41 @@ namespace WanderListAPI.Controllers
                 UserId = userId.ToString()
             };
             _context.History.Add(history);
+
+            // Update CityUser
+            var cityId = await _context.Content
+                .Where(con => con.ContentId == qr.ContentId)
+                .Select(con => con.CityId)
+                .FirstOrDefaultAsync();
+            var cityUser = await _context.CityUser
+                .Where(cuse => cuse.CityId == cityId)
+                .FirstOrDefaultAsync();
+
+            if (cityUser == default(CityUser))
+            {
+                _context.CityUser.Add(new CityUser()
+                {
+                    CityId = cityId,
+                    UserId = userId.ToString(),
+                    Count = 1
+                });
+            } else
+            {
+                cityUser.Count++;
+            }
+
+            // Update UserRewards
+            var newRewards = await _context.Reward
+                .Where(rew => rew.CityId == cityId && rew.CountThreshold == cityUser.Count)
+                .ToListAsync();
+            foreach (Reward reward in newRewards)
+            {
+                _context.UserReward.Add(new UserReward()
+                {
+                    UserId = userId.ToString(),
+                    RewardId = reward.RewardId
+                });
+            }
 
             await _context.SaveChangesAsync();
             return Ok(new Response()

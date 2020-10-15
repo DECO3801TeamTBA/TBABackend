@@ -73,6 +73,7 @@ namespace WanderListAPI.Controllers
             return Ok(city);
         }
     }
+
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/City")]
     [ApiController]
@@ -92,22 +93,20 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Content of city with id {id}");
-            var activities = await _context.CityActivity
-                .Include(cact => cact.Activity)
-                .ThenInclude(act => act.Content)
+            var activities = await _context.Activity
+                .Include(act => act.Content)
                 .ThenInclude(con => con.Item)
                 .ThenInclude(item => item.CoverImage)
-                .Where(cact => cact.CityId == id)
-                .Select(cact => new ItemBriefResponse(cact.Activity))
+                .Where(act => act.Content.CityId == id)
+                .Select(act => new ItemBriefResponse(act))
                 .ToListAsync();
-            
-            var destinations = await _context.CityDestination
-                .Include(cdes => cdes.Destination)
-                .ThenInclude(des => des.Content)
+
+            var destinations = await _context.Activity
+                .Include(des => des.Content)
                 .ThenInclude(con => con.Item)
                 .ThenInclude(item => item.CoverImage)
-                .Where(cdes => cdes.CityId == id)
-                .Select(cdes => new ItemBriefResponse(cdes.Destination))
+                .Where(des => des.Content.CityId == id)
+                .Select(des => new ItemBriefResponse(des))
                 .ToListAsync();
 
             return Ok(new CityContentResponse(activities, destinations));

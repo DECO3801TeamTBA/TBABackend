@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace WanderListAPI.Models.Junctions
 {
-    public class UserShortlist
+    public class CityUser
     {
-        [ForeignKey("ApplicationUser")]
+        [ForeignKey("City")]
+        public Guid CityId { get; set; }
+        [ForeignKey("AppUser")]
         public string UserId { get; set; }
-        [ForeignKey("Shortlist")]
-        public Guid ShortlistId { get; set; }
+        public int Count { get; set; }
 
         //Navigation properties
-        public AppUser AppUser { get; set; }
-        public Shortlist Shortlist { get; set; }
+        public City City { get; set; }
+        public AppUser User { get; set; }
     }
 }
