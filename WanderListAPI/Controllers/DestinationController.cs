@@ -30,7 +30,7 @@ namespace WanderListAPI.Controllers
         // GET: api/<apiVersion>/<DestinationController>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<DestinationResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Destination all");
@@ -39,7 +39,7 @@ namespace WanderListAPI.Controllers
                 .ThenInclude(con => con.Item)
                 .ThenInclude(ite => ite.CoverImage)
                 .ThenInclude(resm => resm.Resource)
-                .Select(ite => new ItemBriefResponse(ite))
+                .Select(ite => new DestinationResponse(ite))
                 .ToListAsync();
 
             return Ok(destination);
