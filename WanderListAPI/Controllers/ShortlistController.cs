@@ -52,6 +52,13 @@ namespace WanderListAPI.Controllers
                     .Where(sho => sho.ShortlistId == id)
                     .FirstOrDefaultAsync();
 
+            var contents = await _context.ShortlistContent
+                .Include(sl => sl.Content)
+                .ThenInclude(c => c.Item)
+                .ThenInclude(i => i.CoverImage)
+                .Where(sl => sl.ShortlistId == id)
+                .ToListAsync();
+
             if (shortlist == default(Shortlist))
             {
                 return NotFound(new Response()
@@ -61,7 +68,12 @@ namespace WanderListAPI.Controllers
                 });
             }
 
-            return Ok(shortlist);
+            return Ok(new ShortlistResponse()
+            {
+                ShortlistId = shortlist.ShortlistId,
+                ListName = shortlist.ListName,
+                CoverImage = contents.Count > 0 ? new ResourceResponse(contents[0].Content.Item.CoverImage) : null 
+            });
         }
 
         [HttpPost]
