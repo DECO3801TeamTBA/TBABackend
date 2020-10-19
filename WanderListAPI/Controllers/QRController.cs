@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -115,7 +113,7 @@ namespace WanderListAPI.Controllers
                 _context.CityUser.Add(new CityUser()
                 {
                     CityId = cityId,
-                    UserId = userId.ToString(),
+                    UserId = request.UserId.ToString(),
                     Count = 1
                 });
             } else
@@ -131,7 +129,7 @@ namespace WanderListAPI.Controllers
             {
                 _context.UserReward.Add(new UserReward()
                 {
-                    UserId = userId.ToString(),
+                    UserId = request.UserId.ToString(),
                     RewardId = reward.RewardId
                 });
             }

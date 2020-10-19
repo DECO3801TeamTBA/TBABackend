@@ -64,6 +64,7 @@ namespace WanderListAPI.Controllers
             return Ok(shortlist);
         }
 
+        // POST: api/<apiVersion>/<ShortlistController>/5
         [HttpPost]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -87,7 +88,45 @@ namespace WanderListAPI.Controllers
             }
             return CreatedAtAction(nameof(Post), new { id = shortlist.ShortlistId }, shortlist);
         }
-    }
+
+        // PUT: api/<apiVersion>/<ShortlistController>/5
+        [HttpPut]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Shortlist), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody] Shortlist shortlist)
+        {
+            _logger.LogInformation($"PUT Shortlist");
+            var sL = await _context.Shortlist.
+                Where(shor => shor.ShortlistId == shortlist.ShortlistId).
+                FirstOrDefaultAsync();
+
+            if (sL != default(Shortlist))
+            {
+                return BadRequest(new Response()
+                {
+                    Message = $"Shortlist with id {shortlist.ShortlistId} already exists",
+                    Status = "400"
+                });
+            }
+
+            try
+            {
+                _context.Shortlist.Update(shortlist);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+
+            return CreatedAtAction(nameof(Put), new { id = shortlist.ShortlistId }, shortlist);
+        }
 
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/Shortlist")]
