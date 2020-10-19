@@ -69,7 +69,8 @@ namespace WanderListAPI.Data
                 SocialRating = socialRating,
                 EconomicRating = economicRating,
                 CityId = city.CityId,
-                City = city
+                City = city,
+                Capacity = 5
             };
         }
 

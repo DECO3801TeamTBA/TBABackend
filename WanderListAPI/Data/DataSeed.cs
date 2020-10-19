@@ -86,7 +86,7 @@ namespace WanderListAPI.Data
             foreach (City city in cities.Values)
             {
                 items.Add(city.Item);
-                Console.WriteLine(city);
+                //Console.WriteLine(city);
                 resourceMetas.Add(city.Item.CoverImage);
                 resources.Add(city.Item.CoverImage.Resource);
                 DataFactory.Clean(city);
