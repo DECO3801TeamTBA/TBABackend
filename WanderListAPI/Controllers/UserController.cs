@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -202,7 +203,8 @@ namespace WanderListAPI.Controllers
             var contentLookup = contents.ToLookup(slc => slc.ShortlistId);
 
             var result = new List<ShortlistResponse>();
-            shortlists.ForEach(s => {
+            shortlists.ForEach(s =>
+            {
                 var content = contentLookup[s.ShortlistId];
                 result.Add(new ShortlistResponse()
                 {
@@ -211,11 +213,65 @@ namespace WanderListAPI.Controllers
                     CoverImage = content.Any() ? new ResourceResponse(content.First().Content.Item.CoverImage) : null
                 });
             });
-
-            
-
-
             return Ok(result);
+        }
+    }
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/User")]
+    [ApiController]
+    public class UserResourceController : ControllerBase
+    {
+        private readonly WanderListDbContext _context;
+        private readonly ILogger<Resource> _logger;
+
+        public UserResourceController(WanderListDbContext context, ILogger<Resource> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+        [HttpPost("{id}/Resource")]
+        [Authorize]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Post(Guid id, [FromForm] IFormFile photo)
+        {
+            _logger.LogInformation($"GET Set user photo");
+
+            var user = await _context.AppUser
+                .FirstOrDefaultAsync(u => u.Id == id.ToString());
+
+            if (user == default(AppUser))
+            {
+                return NotFound(new Response()
+                {
+                    Status = "404",
+                    Message = "A user with that id does not exist"
+                });
+            }
+
+            using var ms = new MemoryStream();
+            await photo.CopyToAsync(ms);
+            var resource = new Resource()
+            {
+                Data = ms.ToArray(),
+                FilePath = ""
+            };
+            var resourceMeta = new ResourceMeta()
+            {
+                Resource = resource,
+                AddedOn = DateTime.Now,
+                Description = "User avatar",
+                Extension = Path.GetExtension(photo.FileName),
+                FileName = photo.FileName,
+                Length = photo.Length,
+                MimeType = photo.ContentType,
+                OnDisk = false
+            };
+
+            _context.Resource.Add(resource);
+            user.ProfilePic = resourceMeta;
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
