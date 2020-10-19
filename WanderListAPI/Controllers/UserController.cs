@@ -184,15 +184,38 @@ namespace WanderListAPI.Controllers
         // GET api/<apiVersion>/User/5/Shortlist
         [HttpGet("{id}/Shortlist")]
         [Authorize]
-        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ShortlistResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Shortlist for User with id {id}");
             var shortlists = await _context.Shortlist
                 .Where(shor => shor.UserId == id.ToString())
                 .ToListAsync();
+            var shortlistIds = shortlists.Select(sl => sl.ShortlistId).ToList();
+            var contents = await _context.ShortlistContent
+                .Include(sl => sl.Content)
+                .ThenInclude(c => c.Item)
+                .ThenInclude(i => i.CoverImage)
+                .Where(slc => shortlistIds.Contains(slc.ShortlistId))
+                .ToListAsync();
 
-            return Ok(shortlists);
+            var contentLookup = contents.ToLookup(slc => slc.ShortlistId);
+
+            var result = new List<ShortlistResponse>();
+            shortlists.ForEach(s => {
+                var content = contentLookup[s.ShortlistId];
+                result.Add(new ShortlistResponse()
+                {
+                    ShortlistId = s.ShortlistId,
+                    ListName = s.ListName,
+                    CoverImage = content.Any() ? new ResourceResponse(content.First().Content.Item.CoverImage) : null
+                });
+            });
+
+            
+
+
+            return Ok(result);
         }
     }
 }
