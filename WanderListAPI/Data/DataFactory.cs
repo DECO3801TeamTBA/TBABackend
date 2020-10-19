@@ -225,7 +225,7 @@ namespace WanderListAPI.Data
         }
 
         public static AppUser CreateUser(string firstName,
-            string lastName, string userName)
+            string lastName, string userName, int points)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
             ResourceMeta profile= CreateResourceMeta("DefaultUser", "User profile pic");
@@ -241,6 +241,7 @@ namespace WanderListAPI.Data
                 NormalizedEmail = email.ToUpper(),
                 CoverImageId = Guid.NewGuid(),
                 ProfilePic = profile,
+                Points = points,
 
                 //Need this?
                 PasswordHash =

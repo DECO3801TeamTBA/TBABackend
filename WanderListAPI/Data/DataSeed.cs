@@ -132,12 +132,18 @@ namespace WanderListAPI.Data
         {
             var users = new Dictionary<string, AppUser>()
             {
-                {"Shaggy", DataFactory.CreateUser("Norville", "Rogers", "Shaggy")},
-                {"Scooby", DataFactory.CreateUser("Scoobert", "Doo", "Scooby")},
+                {"Shaggy", DataFactory.CreateUser("Norville", "Rogers", "Shaggy", 100)},
+                {"Scooby", DataFactory.CreateUser("Scoobert", "Doo", "Scooby", 500)},
+                {"Velma", DataFactory.CreateUser("Velma", "Dinkley", "Velma", 400)},
+                {"Fred", DataFactory.CreateUser("Fred", "Jones", "Fred", 375)},
+                {"Daphne", DataFactory.CreateUser("Daphne", "Blakeo", "Daphne", 400)},
             };
 
-            Join(users["Shaggy"], identityRoles["Admin"]);
+            Join(users["Shaggy"], identityRoles["User"]);
             Join(users["Scooby"], identityRoles["User"]);
+            Join(users["Velma"], identityRoles["User"]);
+            Join(users["Fred"], identityRoles["User"]);
+            Join(users["Daphne"], identityRoles["User"]);
 
             return users;
         }
@@ -191,7 +197,7 @@ namespace WanderListAPI.Data
             // History
             Join(users["Shaggy"], activities["Pub Crawl"].Content);
             Join(users["Scooby"], activities["Pub Crawl"].Content);
-            Join(users["Scooby"], activities["Uni tour"].Content);
+            Join(users["Shaggy"], activities["Uni tour"].Content);
 
             return activities;
         }
