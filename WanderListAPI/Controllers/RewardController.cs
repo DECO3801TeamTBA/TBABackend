@@ -206,7 +206,5 @@ namespace WanderListAPI.Controllers
             }
             return NoContent();
         }
-
-
     }
 }
