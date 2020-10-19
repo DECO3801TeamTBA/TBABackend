@@ -11,8 +11,7 @@ namespace WanderListAPI.Data
         public DbSet<Activity> Activity { get; set; }
         public DbSet<AppUser> ApplicationUser { get; set; }
         public DbSet<City> City { get; set; }
-        public DbSet<CityActivity> CityActivity { get; set; }
-        public DbSet<CityDestination> CityDestination { get; set; }
+        public DbSet<CityUser> CityUser { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<ContentResourceMeta> ContentResourceMeta { get; set; }
         public DbSet<Destination> Destination { get; set; }
@@ -25,7 +24,6 @@ namespace WanderListAPI.Data
         public DbSet<Shortlist> Shortlist { get; set; }
         public DbSet<ShortlistContent> ShortlistContent { get; set; }
         public DbSet<UserReward> UserReward { get; set; }
-        public DbSet<UserShortlist> UserShortlist { get; set; }
 
         public WanderListDbContext()
         {
@@ -50,10 +48,8 @@ namespace WanderListAPI.Data
             base.OnModelCreating(modelBuilder);
 
             //Composite Keys here
-            modelBuilder.Entity<CityActivity>().HasKey(ccont =>
-                new {ccont.CityId, ccont.ActivityId});
-            modelBuilder.Entity<CityDestination>().HasKey(ccont =>
-                new {ccont.CityId, ccont.DestinationId});
+            modelBuilder.Entity<CityUser>().HasKey(cuse => new { cuse.CityId, 
+                cuse.UserId });
             modelBuilder.Entity<ContentResourceMeta>().HasKey(crmet =>
                 new {crmet.ContentId, crmet.ResourceMetaId});
             modelBuilder.Entity<History>()
@@ -62,8 +58,6 @@ namespace WanderListAPI.Data
                 new {slc.ContentId, slc.ShortlistId});
             modelBuilder.Entity<UserReward>()
                 .HasKey(ur => new {ur.UserId, ur.RewardId});
-            modelBuilder.Entity<UserShortlist>()
-                .HasKey(us => new {us.UserId, us.ShortlistId});
 
             //Generate Data
             var seed = new DataSeed();

@@ -149,13 +149,11 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Shortlist for User with id {id}");
-            var shortlist = await _context.UserShortlist
-                .Include(usho => usho.Shortlist)
-                .Where(usho => usho.UserId == id.ToString())
-                .Select(usho => usho.Shortlist)
+            var shortlists = await _context.Shortlist
+                .Where(shor => shor.UserId == id.ToString())
                 .ToListAsync();
 
-            return Ok(shortlist);
+            return Ok(shortlists);
         }
     }
 }

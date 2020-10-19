@@ -76,14 +76,51 @@ namespace WanderListAPI.Controllers
             });
         }
 
+        // POST api/<apiVersion>/<ShortlistController>
         [HttpPost]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(Shortlist), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] Shortlist shortlist)
+        public async Task<IActionResult> Post([FromBody] IEnumerable<Shortlist> shortlists)
         {
-            _logger.LogInformation($"POST Shortlist");
+            _logger.LogInformation($"POST Shortlists");
+            if (shortlists.Count() == 0)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = "No shortlists to add",
+                    Status = "400"
+                });
+            }
+            try
+            {
+                _context.Shortlist.AddRange(shortlists);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+
+            //Todo change null to something meaningful
+            return CreatedAtAction(nameof(Post), null , shortlists);
+        }
+
+        //POST api/<apiVersion>/<ShortlistController>/5
+        [HttpPost("{id}")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post(Guid id, [FromBody] Shortlist shortlist)
+        {
+            _logger.LogInformation($"POST Shortlist with id {id}");
+
             try
             {
                 _context.Shortlist.Add(shortlist);
@@ -97,12 +134,129 @@ namespace WanderListAPI.Controllers
                     Status = "400"
                 });
             }
-            return CreatedAtAction(nameof(Post), new { id = shortlist.ShortlistId }, shortlist);
+
+            return CreatedAtAction(nameof(Post), new { id }, shortlist);
+        }
+
+        // PUT api/<apiVersion>/<ShortlistController>
+        [HttpPut]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody] IEnumerable<Shortlist> shortlists)
+        {
+            _logger.LogInformation($"PUT Shortlists");
+            if (shortlists.Count() == 0)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = "No shortlists to update",
+                    Status = "400"
+                });
+            }
+            try
+            {
+                _context.Shortlist.UpdateRange(shortlists);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
+
+        // PUT api/<apiVersion>/<ShortlistController>/5
+        [HttpPut("{id}")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put(Guid id, [FromBody] Shortlist shortlist)
+        {
+            _logger.LogInformation($"PUT Shortlist Content with {id}");
+            try
+            {
+                _context.Shortlist.Update(shortlist);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
+
+        // DELETE api/<apiVersion>/<ShortlistController>
+        [HttpDelete]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete([FromBody] IEnumerable<Shortlist> shortlists)
+        {
+            _logger.LogInformation($"DELETE Shortlists");
+            if (shortlists.Count() == 0)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = "No shortlists to delete",
+                    Status = "400"
+                });
+            }
+
+            try
+            {
+                _context.Shortlist.RemoveRange(shortlists);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
+
+        // DELETE api/<apiVersion>/<ShortlistController>
+        [HttpDelete("{id}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(Guid id, [FromBody] Shortlist shortlist)
+        {
+            _logger.LogInformation($"DELETE Shortlist with {id}");
+            try
+            {
+                _context.Shortlist.Remove(shortlist);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
         }
     }
 
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/Shortlist")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ShortlistContentController : ControllerBase
     {
@@ -116,7 +270,7 @@ namespace WanderListAPI.Controllers
         }
 
         // GET api/<apiVersion>/Shortlist/5/Content
-        [HttpGet("{id}/Content")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(List<ItemBriefResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
@@ -134,17 +288,26 @@ namespace WanderListAPI.Controllers
             return Ok(shortlistContent);
         }
 
-        [HttpPost("{id}/Content")]
+        // POST api/<apiVersion>/<ShortlistContentController>
+        [HttpPost]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(List<Shortlist>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(Guid id, [FromBody] List<ShortlistContent> shortlistContents)
+        public async Task<IActionResult> Post([FromBody] IEnumerable<ShortlistContent> shortlistContent)
         {
-            _logger.LogInformation($"POST ShortlistContent with Shortlist id: {id}");
+            _logger.LogInformation($"PUT Shortlist Content");
+            if (shortlistContent.Count() == 0)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = "No shortlist content to update",
+                    Status = "400"
+                });
+            }
             try
             {
-                _context.ShortlistContent.AddRange(shortlistContents);
+                _context.ShortlistContent.AddRange(shortlistContent);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -155,8 +318,142 @@ namespace WanderListAPI.Controllers
                     Status = "400"
                 });
             }
-            return CreatedAtAction(nameof(Post), new { id = id.ToString() }, shortlistContents);
+
+            //Todo change null to something meaningful
+            return CreatedAtAction(nameof(Post), null, shortlistContent);
         }
 
+        //POST api/<apiVersion>/<ShortlistContentController>/5
+        [HttpPost("{id}")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post(Guid id, [FromBody] ShortlistContent shortlistContent)
+        {
+            _logger.LogInformation($"PUT Shortlist Content with id {id}");
+            try
+            {
+                _context.ShortlistContent.Add(shortlistContent);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+
+            return CreatedAtAction(nameof(Post), new { id }, shortlistContent);
+        }
+
+        // PUT api/<apiVersion>/<ShortlistController>
+        [HttpPut]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody] IEnumerable<ShortlistContent> shortlistContent)
+        {
+            _logger.LogInformation($"PUT Shortlist Content");
+            if (shortlistContent.Count() == 0)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = "No shortlist content to update",
+                    Status = "400"
+                });
+            }
+            try
+            {
+                _context.ShortlistContent.UpdateRange(shortlistContent);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
+
+        // PUT api/<apiVersion>/<ShortlistContentController>/5
+        [HttpPut("{id}")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put(Guid id, [FromBody] ShortlistContent shortlistContent)
+        {
+            _logger.LogInformation($"PUT Shortlist Content with {id}");
+            try
+            {
+                _context.ShortlistContent.Update(shortlistContent);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
+
+        // DELETE api/<apiVersion>/<ShortlistContentController>
+        [HttpDelete]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete([FromBody] IEnumerable<ShortlistContent> shortlistContent)
+        {
+            _logger.LogInformation($"DELETE Shortlist Content");
+            try
+            {
+                _context.ShortlistContent.RemoveRange(shortlistContent);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
+
+        // DELETE api/<apiVersion>/<ShortlistContentController>/5
+        [HttpDelete("{id}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(Guid id, ShortlistContent shortlistContent)
+        {
+            _logger.LogInformation($"DELETE Shortlist Content with {id}");
+            try
+            {
+                _context.ShortlistContent.Remove(shortlistContent);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
+        }
     }
 }

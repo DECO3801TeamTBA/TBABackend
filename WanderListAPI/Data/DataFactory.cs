@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MimeKit;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Resources;
 using WanderListAPI.Models;
@@ -11,6 +12,101 @@ namespace WanderListAPI.Data
 {
     public static class DataFactory
     {
+        public static Activity CreateActivity(Content content)
+        {
+            var activity = new Activity()
+            {
+                ActivityId = content.ContentId,
+                Content = content
+            };
+
+            return activity;
+        }
+
+        public static Activity CreateActivity(string name, string description,
+            string fileName, string fileDescription, int environmentRating,
+            int socialRating, int economicRating, double latitude, double longitude, City city)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
+            var content = CreateContent(item, environmentRating, socialRating,
+                economicRating, city);
+
+            return CreateActivity(content);
+        }
+
+        public static City CreateCity(Item item, string country, string video)
+        {
+            var city = new City()
+            {
+                CityId = item.ItemId,
+                Country = country,
+                Item = item,
+                Video = video
+            };
+
+            return city;
+        }
+
+        public static City CreateCity(string name, string description,
+            string country, string video, double latitude, double longitude,
+            string fileName, string fileDescription)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
+
+            return CreateCity(item, country, video);
+        }
+
+        public static Content CreateContent(Item item, int environmentRating,
+            int socialRating, int economicRating, City city)
+        {
+            return new Content()
+            {
+                ContentId = item.ItemId,
+                Item = item,
+                EnvironmentalRating = environmentRating,
+                SocialRating = socialRating,
+                EconomicRating = economicRating,
+                CityId = city.CityId,
+                City = city
+            };
+        }
+
+        public static Content CreateContent(string name, string description,
+            string fileName, string fileDescription, int environmentRating,
+            int socialRating, int economicRating, double latitude, double longitude, City city)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
+
+            return CreateContent(item, environmentRating, socialRating,
+                economicRating, city);
+        }
+
+        public static Destination CreateDestination(Content content)
+        {
+            var destination = new Destination()
+            {
+                DestinationId = content.ContentId,
+                Content = content
+            };
+
+            return destination;
+        }
+
+        public static Destination CreateDestination(string name,
+            string description, string fileName, string fileDescription,
+            int environmentRating, int socialRating, int economicRating, double latitude, double longitude, City city)
+        {
+            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
+            var content = CreateContent(item, environmentRating, socialRating,
+                economicRating, city);
+
+            return CreateDestination(content);
+        }
+
         public static IdentityRole CreateIdentityRole(string type)
         {
             var identityRole = new IdentityRole()
@@ -21,33 +117,6 @@ namespace WanderListAPI.Data
             };
 
             return identityRole;
-        }
-
-        public static AppUser CreateUser(string firstName,
-            string lastName, string userName)
-        {
-            string email = firstName + '.' + lastName + "@pretend.com";
-            ResourceMeta profile= CreateResourceMeta("DefaultUser.jfif", "User profile pic");
-
-            var user = new AppUser()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Id = Guid.NewGuid().ToString(),
-                UserName = userName,
-                NormalizedUserName = firstName.ToUpper(),
-                Email = email,
-                NormalizedEmail = email.ToUpper(),
-                CoverImageId = Guid.NewGuid(),
-                ProfilePic = profile,
-
-                //Need this?
-                PasswordHash =
-                    new PasswordHasher<AppUser>().HashPassword(null, "1234"),
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-
-            return user;
         }
 
         public static Item CreateItem(string name, string description,
@@ -75,120 +144,14 @@ namespace WanderListAPI.Data
             return CreateItem(name, description, resourceMeta, latitude, longitude);
         }
 
-        public static City CreateCity(Item item, string country, string video)
+        public static QR CreateQR(Content content)
         {
-            var city = new City()
+            return new QR()
             {
-                CityId = item.ItemId,
-                Country = country,
-                Item = item
+                QRId = Guid.NewGuid(),
+                Expiry = DateTime.Now.AddMonths(3),
+                ContentId = content.ContentId
             };
-
-            return city;
-        }
-
-        public static City CreateCity(string name, string description,
-            string country, string video, double latitude, double longitude,
-            string fileName, string fileDescription)
-        {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
-            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
-
-            return CreateCity(item, country, video);
-        }
-
-        public static Content CreateContent(Item item, int environmentRating,
-            int socialRating, int economicRating)
-        {
-            return new Content()
-            {
-                ContentId = item.ItemId,
-                Item = item,
-                EnvironmentalRating = environmentRating,
-                SocialRating = socialRating,
-                EconomicRating = economicRating
-            };
-        }
-
-        public static Content CreateContent(string name, string description,
-            string fileName, string fileDescription, int environmentRating,
-            int socialRating, int economicRating, double latitude, double longitude)
-        {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
-            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
-
-            return CreateContent(item, environmentRating, socialRating,
-                economicRating);
-        }
-
-        public static Reward CreateReward(string name, string value)
-        {
-            var reward = new Reward()
-            {
-                RewardId = Guid.NewGuid(),
-                Name = name,
-                Value = value,
-                ExpiryDate = new DateTime()
-            };
-
-            return reward;
-        }
-
-        public static Activity CreateActivity(Content content)
-        {
-            var activity = new Activity()
-            {
-                ActivityId = content.ContentId,
-                Content = content
-            };
-
-            return activity;
-        }
-
-        public static Activity CreateActivity(string name, string description,
-            string fileName, string fileDescription, int environmentRating,
-            int socialRating, int economicRating, double latitude, double longitude)
-        {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
-            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
-            var content = CreateContent(item, environmentRating, socialRating,
-                economicRating);
-
-            return CreateActivity(content);
-        }
-
-        public static Destination CreateDestination(Content content)
-        {
-            var destination = new Destination()
-            {
-                DestinationId = content.ContentId,
-                Content = content
-            };
-
-            return destination;
-        }
-
-        public static Destination CreateDestination(string name,
-            string description, string fileName, string fileDescription,
-            int environmentRating, int socialRating, int economicRating, double latitude, double longitude)
-        {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
-            var item = CreateItem(name, description, resourceMeta, latitude, longitude);
-            var content = CreateContent(item, environmentRating, socialRating,
-                economicRating);
-
-            return CreateDestination(content);
-        }
-
-        public static Shortlist CreateShortlist(string name)
-        {
-            var shortlist = new Shortlist()
-            {
-                ShortlistId = Guid.NewGuid(),
-                ListName = name
-            };
-
-            return shortlist;
         }
 
         public static Resource CreateResource(string fileName)
@@ -235,34 +198,69 @@ namespace WanderListAPI.Data
             return CreateResourceMeta(resource, description);
         }
 
-        public static QR CreateQR(Content content)
+        public static Reward CreateReward(string name, string value, City city, int threshold)
         {
-            return new QR()
+            var reward = new Reward()
             {
-                QRId = Guid.NewGuid(),
-                Expiry = DateTime.Now.AddMonths(3),
-                ContentId = content.ContentId
+                RewardId = Guid.NewGuid(),
+                Name = name,
+                Value = value,
+                ExpiryDate = new DateTime(),
+                CityId = city.CityId,
+                CountThreshold = threshold
             };
+
+            return reward;
+        }
+
+        public static Shortlist CreateShortlist(string name, AppUser user)
+        {
+            var shortlist = new Shortlist()
+            {
+                ShortlistId = Guid.NewGuid(),
+                ListName = name,
+                UserId = user.Id
+            };
+
+            return shortlist;
+        }
+
+        public static AppUser CreateUser(string firstName,
+            string lastName, string userName, int points)
+        {
+            string email = firstName + '.' + lastName + "@pretend.com";
+            ResourceMeta profile= CreateResourceMeta("DefaultUser.jfif", "User profile pic");
+
+            var user = new AppUser()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Id = Guid.NewGuid().ToString(),
+                UserName = userName,
+                NormalizedUserName = userName.ToUpper(),
+                Email = email,
+                NormalizedEmail = email.ToUpper(),
+                CoverImageId = Guid.NewGuid(),
+                ProfilePic = profile,
+                Points = points,
+
+                //Need this?
+                PasswordHash =
+                    new PasswordHasher<AppUser>().HashPassword(null, "1234"),
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            return user;
         }
 
         // Junctions
-        public static CityActivity CreateCityActivity(City city,
-            Activity activity)
+        public static CityUser CreateCityUser(City city, AppUser user, int num)
         {
-            return new CityActivity()
+            return new CityUser()
             {
                 CityId = city.CityId,
-                ActivityId = activity.ActivityId
-            };
-        }
-
-        public static CityDestination CreateCityDestination(City city,
-            Destination destination)
-        {
-            return new CityDestination()
-            {
-                CityId = city.CityId,
-                DestinationId = destination.DestinationId
+                UserId = user.Id,
+                Count = num
             };
         }
 
@@ -323,16 +321,7 @@ namespace WanderListAPI.Data
             return userReward;
         }
 
-        public static UserShortlist CreateUserShortlist(AppUser user,
-            Shortlist shortlist)
-        {
-            return new UserShortlist()
-            {
-                UserId = user.Id,
-                ShortlistId = shortlist.ShortlistId
-            };
-        }
-
+        // Cleaners
         public static void Clean(Activity activity)
         {
             if (activity.Content != null)
@@ -366,6 +355,11 @@ namespace WanderListAPI.Data
             {
                 Clean(content.Item);
                 content.Item = null;
+            }
+
+            if (content.City != null)
+            {
+                content.City = null;
             }
         }
 
