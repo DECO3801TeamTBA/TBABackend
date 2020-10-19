@@ -9,7 +9,7 @@ namespace WanderListAPI.Data
     {
         //Add DbSet<Entity> here
         public DbSet<Activity> Activity { get; set; }
-        public DbSet<AppUser> ApplicationUser { get; set; }
+        public DbSet<AppUser> AppUser { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<CityUser> CityUser { get; set; }
         public DbSet<Content> Content { get; set; }

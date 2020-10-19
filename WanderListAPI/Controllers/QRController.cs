@@ -61,7 +61,7 @@ namespace WanderListAPI.Controllers
             }
 
             _logger.LogInformation($"GET Users {request.UserId}");
-            var user = await _context.ApplicationUser
+            var user = await _context.AppUser
                 .Where(use => use.Id == request.UserId.ToString())
                 .FirstOrDefaultAsync();
 
