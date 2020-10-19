@@ -41,7 +41,8 @@ namespace WanderListAPI.Data
             {
                 CityId = item.ItemId,
                 Country = country,
-                Item = item
+                Item = item,
+                Video = video
             };
 
             return city;
@@ -228,7 +229,7 @@ namespace WanderListAPI.Data
             string lastName, string userName, int points)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
-            ResourceMeta profile= CreateResourceMeta("DefaultUser", "User profile pic");
+            ResourceMeta profile= CreateResourceMeta("DefaultUser.jfif", "User profile pic");
 
             var user = new AppUser()
             {
@@ -236,7 +237,7 @@ namespace WanderListAPI.Data
                 LastName = lastName,
                 Id = Guid.NewGuid().ToString(),
                 UserName = userName,
-                NormalizedUserName = firstName.ToUpper(),
+                NormalizedUserName = userName.ToUpper(),
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
                 CoverImageId = Guid.NewGuid(),
@@ -358,7 +359,6 @@ namespace WanderListAPI.Data
 
             if (content.City != null)
             {
-                Clean(content.City);
                 content.City = null;
             }
         }

@@ -48,7 +48,6 @@ namespace WanderListAPI.Data
             activities = GenerateActivities(cities, shortlists, users);
             destinations = GenerateDestinations(cities, shortlists, users);
             qrCodes = GenerateQRCodes(activities, destinations);
-
             GenerateUserRewards(users, rewards, cityUsers);
         }
 
@@ -87,6 +86,7 @@ namespace WanderListAPI.Data
             foreach (City city in cities.Values)
             {
                 items.Add(city.Item);
+                Console.WriteLine(city);
                 resourceMetas.Add(city.Item.CoverImage);
                 resources.Add(city.Item.CoverImage.Resource);
                 DataFactory.Clean(city);
@@ -171,6 +171,8 @@ namespace WanderListAPI.Data
                 {"Melbourne", DataFactory.CreateCity("Melbourne", "Land of the dead",
                     "Australia", "Rzn5WGnS350", -37.814, 144.96332, "Melbourne.jfif", "Melbourne")}
             };
+
+            
         }
 
         public Dictionary<string, Activity> GenerateActivities(Dictionary<string, City> cities, 
@@ -234,7 +236,7 @@ namespace WanderListAPI.Data
         {
             var rewards = new Dictionary<string, Reward>()
             {
-                {"Covid Bonus", DataFactory.CreateReward("Covid Bonus", "Buy 1 get 2 FREE", cities["Mebourne"], 0)},
+                {"Covid Bonus", DataFactory.CreateReward("Covid Bonus", "Buy 1 get 2 FREE", cities["Melbourne"], 0)},
                 {"Uni Tour Discount", DataFactory.CreateReward("Uni Tour Discount",
                     "15% Off your next tour", cities["Brisbane"], 1)},
                 {"Drink Discount", DataFactory.CreateReward("Drink Discount",
