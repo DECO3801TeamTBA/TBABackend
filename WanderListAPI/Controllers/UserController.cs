@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +37,7 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get()
         {
             _logger.LogInformation($"GET Users all");
-            var users = await _context.ApplicationUser
+            var users = await _context.AppUser
                 .Select(use => new UserResponseBrief(use))
                 .ToListAsync();
             return Ok(users);
@@ -49,7 +50,7 @@ namespace WanderListAPI.Controllers
         public async Task<IActionResult> Get(int id)
         {
             _logger.LogInformation($"GET Users {id}");
-            var user = await _context.ApplicationUser
+            var user = await _context.AppUser
                 .Where(use => use.Id == id.ToString())
                 .Select(use => new UserResponseBrief(use))
                 .FirstOrDefaultAsync();
@@ -64,6 +65,44 @@ namespace WanderListAPI.Controllers
             }
 
             return Ok(user);
+        }
+
+        // PUT api/<apiVersion>/<UserController>
+        [HttpPut]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody] UserResponseBrief userResponse)
+        {
+            _logger.LogInformation($"PUT User with {userResponse.UserId}");
+            var user = await _context.AppUser.FindAsync(userResponse.UserId);
+            if (user == default(AppUser))
+            {
+                return NotFound(new Response()
+                {
+                    Message = $"No user exists with id {userResponse.UserId}",
+                    Status = "404"
+                });
+            }
+            try
+            {
+                user.UserName = userResponse.UserName;
+                user.Points = userResponse.Points;
+
+                //Do stuff with profile pic here
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Message = ex.Message,
+                    Status = "400"
+                });
+            }
+            return NoContent();
         }
     }
 
