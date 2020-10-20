@@ -11,7 +11,7 @@ namespace WanderListAPI.Models
         //Table properties
         public Guid ShortlistId { get; set; }
         public string ListName { get; set; }
-        [ForeignKey("ApplicationUser")]
+        [ForeignKey("AppUser")]
         public string UserId { get; set; }
         //Navigation properties
         public AppUser AppUser { get; set; }
