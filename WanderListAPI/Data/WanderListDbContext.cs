@@ -44,7 +44,9 @@ namespace WanderListAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //System.Diagnostics.Debugger.Launch();
             //call base class OnModelCreating to setup
+
             base.OnModelCreating(modelBuilder);
 
             //Composite Keys here
