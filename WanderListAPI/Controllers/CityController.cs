@@ -101,7 +101,7 @@ namespace WanderListAPI.Controllers
                 .Select(act => new ItemBriefResponse(act))
                 .ToListAsync();
 
-            var destinations = await _context.Activity
+            var destinations = await _context.Destination
                 .Include(des => des.Content)
                 .ThenInclude(con => con.Item)
                 .ThenInclude(item => item.CoverImage)

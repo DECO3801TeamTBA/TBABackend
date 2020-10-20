@@ -119,11 +119,24 @@ namespace WanderListAPI.Controllers
         [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(Guid id, [FromBody] Shortlist shortlist)
         {
-            _logger.LogInformation($"POST Shortlist with id {id}");
+            //id is user id!
+            _logger.LogInformation($"POST Shortlist to user with id {id}");
 
+            var user = await _context.AppUser.FirstOrDefaultAsync(u => u.Id == id.ToString());
+
+            if (user == default(AppUser))
+            {
+                return NotFound(new Response()
+                {
+                    Message = "A user with that id does not exist.",
+                    Status="404"
+
+                });
+            }
             try
             {
                 _context.Shortlist.Add(shortlist);
+                shortlist.AppUser = user;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -135,7 +148,7 @@ namespace WanderListAPI.Controllers
                 });
             }
 
-            return CreatedAtAction(nameof(Post), new { id }, shortlist);
+            return CreatedAtAction(nameof(Post), new { shortlist.ShortlistId }, shortlist);
         }
 
         // PUT api/<apiVersion>/<ShortlistController>
