@@ -24,7 +24,7 @@ namespace WanderListAPI.Controllers
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
 
-        public RewardController(WanderListDbContext context, ILogger logger)
+        public RewardController(WanderListDbContext context, ILogger<Reward> logger)
         {
             _context = context;
             _logger = logger;
