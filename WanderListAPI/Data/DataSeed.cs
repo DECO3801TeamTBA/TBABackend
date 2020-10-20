@@ -90,6 +90,7 @@ namespace WanderListAPI.Data
             foreach (ResourceMeta resource in resourceMetas)
             {
                 resources.Add(resource.Resource);
+                Console.WriteLine(resource);
                 DataFactory.Clean(resource);
             }
 
@@ -218,12 +219,11 @@ namespace WanderListAPI.Data
 
             foreach (Activity activity in activities.Values)
             {
-                //int num = 0;
-                //foreach (ResourceMeta image in DataFactory.CreateImageGallery(activity.Content.Item))
-                //{
-                //    Join(activity.Content, image, num++);
-                //}
-                Join(activity.Content, activity.Content.Item.CoverImage, 1);
+                int num = 0;
+                foreach (ResourceMeta image in DataFactory.CreateImageGallery(activity.Content.Item))
+                {
+                    Join(activity.Content, image, num++);
+                }
             }
 
 
@@ -280,12 +280,11 @@ namespace WanderListAPI.Data
 
             foreach (Destination destination in destinations.Values)
             {
-                //int num = 0;
-                //foreach (ResourceMeta image in DataFactory.CreateImageGallery(destination.Content.Item))
-                //{
-                //    Join(destination.Content, image, num++);
-                //}
-                Join(destination.Content, destination.Content.Item.CoverImage, 1);
+                int num = 0;
+                foreach (ResourceMeta image in DataFactory.CreateImageGallery(destination.Content.Item))
+                {
+                    Join(destination.Content, image, num++);
+                }
             }
 
             // ShortlistContent
