@@ -78,7 +78,7 @@
     <None Update="Resources\Images\DefaultUser.jfif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Images\harold.jfif">
+    <None Update="Resources\Images\Harold.jfif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Images\Kayak - 2.jpg">

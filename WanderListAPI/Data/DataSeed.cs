@@ -140,7 +140,7 @@ namespace WanderListAPI.Data
                 {"Daphne", DataFactory.CreateUser("Daphne", "Blakeo", "Daphne", 400)},
             };
 
-            users["Shaggy"].ProfilePic = DataFactory.CreateResourceMeta("harold.jfif");
+            users["Shaggy"].ProfilePic = DataFactory.CreateResourceMeta("Harold.jfif");
             users["Velma"].ProfilePic = DataFactory.CreateResourceMeta("Velma.jfif");
 
             Join(users["Shaggy"], identityRoles["User"]);
