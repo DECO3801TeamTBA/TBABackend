@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -90,7 +90,6 @@ namespace WanderListAPI.Data
             foreach (ResourceMeta resource in resourceMetas)
             {
                 resources.Add(resource.Resource);
-                Console.WriteLine(resource);
                 DataFactory.Clean(resource);
             }
 
