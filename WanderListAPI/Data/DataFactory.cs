@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MimeKit;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Resources;
+using System.Threading.Tasks.Dataflow;
 using WanderListAPI.Models;
 using WanderListAPI.Models.Junctions;
 
@@ -24,10 +26,10 @@ namespace WanderListAPI.Data
         }
 
         public static Activity CreateActivity(string name, string description,
-            string fileName, string fileDescription, int environmentRating,
-            int socialRating, int economicRating, double latitude, double longitude, City city)
+            string fileName, int environmentRating, int socialRating, 
+            int economicRating, double latitude, double longitude, City city)
         {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var resourceMeta = CreateResourceMeta(fileName);
             var item = CreateItem(name, description, resourceMeta, latitude, longitude);
             var content = CreateContent(item, environmentRating, socialRating,
                 economicRating, city);
@@ -50,9 +52,9 @@ namespace WanderListAPI.Data
 
         public static City CreateCity(string name, string description,
             string country, string video, double latitude, double longitude,
-            string fileName, string fileDescription)
+            string fileName)
         {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var resourceMeta = CreateResourceMeta(fileName);
             var item = CreateItem(name, description, resourceMeta, latitude, longitude);
 
             return CreateCity(item, country, video);
@@ -75,10 +77,9 @@ namespace WanderListAPI.Data
         }
 
         public static Content CreateContent(string name, string description,
-            string fileName, string fileDescription, int environmentRating,
-            int socialRating, int economicRating, double latitude, double longitude, City city)
+            string fileName, int environmentRating, int socialRating, int economicRating, double latitude, double longitude, City city)
         {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var resourceMeta = CreateResourceMeta(fileName);
             var item = CreateItem(name, description, resourceMeta, latitude, longitude);
 
             return CreateContent(item, environmentRating, socialRating,
@@ -97,10 +98,10 @@ namespace WanderListAPI.Data
         }
 
         public static Destination CreateDestination(string name,
-            string description, string fileName, string fileDescription,
-            int environmentRating, int socialRating, int economicRating, double latitude, double longitude, City city)
+            string description, string fileName, int environmentRating, 
+            int socialRating, int economicRating, double latitude, double longitude, City city)
         {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var resourceMeta = CreateResourceMeta(fileName);
             var item = CreateItem(name, description, resourceMeta, latitude, longitude);
             var content = CreateContent(item, environmentRating, socialRating,
                 economicRating, city);
@@ -118,6 +119,17 @@ namespace WanderListAPI.Data
             };
 
             return identityRole;
+        }
+
+        public static List<ResourceMeta> CreateImageGallery(Item item)
+        {
+            String name = item.CoverImage.Description;
+            return new List<ResourceMeta>()
+            {
+                item.CoverImage,
+                CreateResourceMeta(name + " - 2.jpg"),
+                CreateResourceMeta(name + " - 3.jpg")
+            };
         }
 
         public static Item CreateItem(string name, string description,
@@ -138,9 +150,9 @@ namespace WanderListAPI.Data
         }
 
         public static Item CreateItem(string name, string description, double latitude, double longitude,
-            string fileName, string fileDescription)
+            string fileName)
         {
-            var resourceMeta = CreateResourceMeta(fileName, fileDescription);
+            var resourceMeta = CreateResourceMeta(fileName);
 
             return CreateItem(name, description, resourceMeta, latitude, longitude);
         }
@@ -172,8 +184,7 @@ namespace WanderListAPI.Data
             return resource;
         }
 
-        public static ResourceMeta CreateResourceMeta(Resource resource,
-            string description)
+        public static ResourceMeta CreateResourceMeta(Resource resource)
         {
             var fileName = Path.GetFileName(resource.FilePath);
 
@@ -182,7 +193,7 @@ namespace WanderListAPI.Data
                 ResourceMetaId = resource.ResourceId,
                 AddedOn = DateTime.Now,
                 OnDisk = false,
-                Description = description,
+                Description = Path.GetFileNameWithoutExtension(resource.FilePath),
                 FileName = fileName,
                 Extension = Path.GetExtension(resource.FilePath),
                 // Length?
@@ -191,12 +202,11 @@ namespace WanderListAPI.Data
             };
         }
 
-        public static ResourceMeta CreateResourceMeta(string fileName,
-            string description)
+        public static ResourceMeta CreateResourceMeta(string fileName)
         {
             var resource = CreateResource(fileName);
 
-            return CreateResourceMeta(resource, description);
+            return CreateResourceMeta(resource);
         }
 
         public static Reward CreateReward(string name, string value, City city, int threshold)
@@ -230,7 +240,7 @@ namespace WanderListAPI.Data
             string lastName, string userName, int points)
         {
             string email = firstName + '.' + lastName + "@pretend.com";
-            ResourceMeta profile= CreateResourceMeta("DefaultUser.jfif", "User profile pic");
+            ResourceMeta profile= CreateResourceMeta("DefaultUser.jfif");
 
             var user = new AppUser()
             {
@@ -368,7 +378,6 @@ namespace WanderListAPI.Data
         {
             if (item.CoverImage != null)
             {
-                Clean(item.CoverImage);
                 item.CoverImage = null;
             }
         }
@@ -385,7 +394,6 @@ namespace WanderListAPI.Data
         {
             if (user.ProfilePic != null)
             {
-                Clean(user.ProfilePic);
                 user.ProfilePic = null;
             }
         }
