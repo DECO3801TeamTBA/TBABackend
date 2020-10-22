@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +23,14 @@ namespace WanderListAPI.Controllers
     {
         private readonly WanderListDbContext _context;
         private readonly ILogger _logger;
+        private readonly IWebHostEnvironment _env;
 
-        public ResourceController(WanderListDbContext context, ILogger<ResourceMeta> logger)
+        public ResourceController(WanderListDbContext context, ILogger<ResourceMeta> logger, IWebHostEnvironment env)
         {
             _context = context;
             _logger = logger;
+            _env = env;
+
         }
 
         // GET: api/<apiVersion>/<ResourceMetaController>
@@ -67,8 +71,9 @@ namespace WanderListAPI.Controllers
 
             if (resourceMeta.OnDisk)
             {
+                string finalPath = Path.Combine(_env.ContentRootPath, resourceMeta.Resource.FilePath);
                 //Assuming virtual, havent decided yet, probably virtual....
-                return File(resourceMeta.Resource.FilePath, resourceMeta.MimeType);
+                return PhysicalFile(finalPath, resourceMeta.MimeType);
             }
             return File(resourceMeta.Resource.Data, resourceMeta.MimeType);
         }

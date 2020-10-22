@@ -177,8 +177,7 @@ namespace WanderListAPI.Data
             var resource = new Resource()
             {
                 ResourceId = Guid.NewGuid(),
-                FilePath = filePath,
-                Data = memStream.ToArray()
+                FilePath = filePath
             };
 
             return resource;
@@ -192,7 +191,7 @@ namespace WanderListAPI.Data
             {
                 ResourceMetaId = resource.ResourceId,
                 AddedOn = DateTime.Now,
-                OnDisk = false,
+                OnDisk = true,
                 Description = Path.GetFileNameWithoutExtension(resource.FilePath),
                 FileName = fileName,
                 Extension = Path.GetExtension(resource.FilePath),
