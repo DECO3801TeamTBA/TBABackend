@@ -256,7 +256,9 @@ namespace WanderListAPI.Controllers
                 {
                     ShortlistId = id
                 };
-                var lookup = await _context.Shortlist.FindAsync(id);
+                var lookup = await _context.Shortlist
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(sl => sl.ShortlistId == id);
                 if (lookup == default(Shortlist))
                 {
                     return NoContent();
