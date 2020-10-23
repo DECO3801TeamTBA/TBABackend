@@ -247,12 +247,20 @@ namespace WanderListAPI.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Response), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(Guid id, [FromBody] Shortlist shortlist)
+        public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation($"DELETE Shortlist with {id}");
             try
             {
+                var shortlist = new Shortlist()
+                {
+                    ShortlistId = id
+                };
+                var lookup = await _context.Shortlist.FindAsync(id);
+                if (lookup == default(Shortlist))
+                {
+                    return NoContent();
+                }
                 _context.Shortlist.Remove(shortlist);
                 await _context.SaveChangesAsync();
             }
