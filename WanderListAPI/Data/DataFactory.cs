@@ -250,10 +250,9 @@ namespace WanderListAPI.Data
                 NormalizedUserName = userName.ToUpper(),
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
-                CoverImageId = Guid.NewGuid(),
-                ProfilePic = profile,
+                ProfilePicResourceMetaId = profile.ResourceMetaId,
                 Points = points,
-
+                ProfilePic = profile,
                 //Need this?
                 PasswordHash =
                     new PasswordHasher<AppUser>().HashPassword(null, "1234"),

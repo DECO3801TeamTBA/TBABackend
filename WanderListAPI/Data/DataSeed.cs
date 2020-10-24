@@ -94,8 +94,12 @@ namespace WanderListAPI.Data
             }
 
             // Add Dictionaries
+            System.Diagnostics.Debugger.Launch();
             modelBuilder.Entity<IdentityRole>().HasData(identityRoles.Values);
+            modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
+            modelBuilder.Entity<Resource>().HasData(resources);
             modelBuilder.Entity<AppUser>().HasData(users.Values);
+
             modelBuilder.Entity<City>().HasData(cities.Values);
             modelBuilder.Entity<Activity>().HasData(activities.Values);
             modelBuilder.Entity<Destination>().HasData(destinations.Values);
@@ -106,8 +110,7 @@ namespace WanderListAPI.Data
             modelBuilder.Entity<QR>().HasData(qrCodes);
             modelBuilder.Entity<Item>().HasData(items);
             modelBuilder.Entity<Content>().HasData(content);
-            modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
-            modelBuilder.Entity<Resource>().HasData(resources);
+            
 
             // Add Junctions
             modelBuilder.Entity<CityUser>().HasData(cityUsers);
@@ -140,8 +143,12 @@ namespace WanderListAPI.Data
                 {"Daphne", DataFactory.CreateUser("Daphne", "Blakeo", "Daphne", 400)},
             };
 
-            users["Shaggy"].ProfilePic = DataFactory.CreateResourceMeta("Harold.jfif");
-            users["Velma"].ProfilePic = DataFactory.CreateResourceMeta("Velma.jfif");
+            var shaggyPic = DataFactory.CreateResourceMeta("Harold.jfif");
+            var velmaPic = DataFactory.CreateResourceMeta("Velma.jfif");
+            users["Shaggy"].ProfilePic = shaggyPic;
+            users["Shaggy"].ProfilePicResourceMetaId = shaggyPic.ResourceMetaId;
+            users["Velma"].ProfilePic = velmaPic;
+            users["Velma"].ProfilePicResourceMetaId = velmaPic.ResourceMetaId;
 
             Join(users["Shaggy"], identityRoles["User"]);
             Join(users["Scooby"], identityRoles["User"]);
