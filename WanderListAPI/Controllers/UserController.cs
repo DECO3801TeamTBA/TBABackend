@@ -48,7 +48,7 @@ namespace WanderListAPI.Controllers
         [HttpGet("{userid}")]
         [ProducesResponseType(typeof(UserResponseBrief), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponseBrief), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Users {id}");
             var user = await _context.AppUser
