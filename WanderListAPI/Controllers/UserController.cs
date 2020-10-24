@@ -39,19 +39,21 @@ namespace WanderListAPI.Controllers
         {
             _logger.LogInformation($"GET Users all");
             var users = await _context.AppUser
+                .Include(u => u.ProfilePic)
                 .Select(use => new UserResponseBrief(use))
                 .ToListAsync();
             return Ok(users);
         }
 
         // GET api/<apiVersion>/<ApplicationUserController>/5
-        [HttpGet("{userid}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserResponseBrief), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponseBrief), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation($"GET Users {id}");
             var user = await _context.AppUser
+                .Include(u =>u.ProfilePic)
                 .Where(use => use.Id == id.ToString())
                 .Select(use => new UserResponseBrief(use))
                 .FirstOrDefaultAsync();

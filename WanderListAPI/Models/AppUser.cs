@@ -20,7 +20,7 @@ namespace WanderListAPI.Models
         public int Points { get; set; }
 
         [ForeignKey("ResourceMeta")]
-        public Guid CoverImageId { get; set; }
+        public Guid ProfilePicResourceMetaId { get; set; }
         //Navigation properties
         public ResourceMeta ProfilePic { get; set; }
 

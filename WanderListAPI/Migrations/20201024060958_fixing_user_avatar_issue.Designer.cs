@@ -9,8 +9,8 @@ using WanderListAPI.Data;
 namespace WanderListAPI.Migrations
 {
     [DbContext(typeof(WanderListDbContext))]
-    [Migration("20201022064624_testingPhysicalFile")]
-    partial class testingPhysicalFile
+    [Migration("20201024060958_fixing_user_avatar_issue")]
+    partial class fixing_user_avatar_issue
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,15 +47,15 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9ff49cf1-81a4-430e-bd38-3b9c229b4b18",
-                            ConcurrencyStamp = "03563a7f-6530-4cc4-ace3-239867460c9d",
+                            Id = "53357811-244f-474c-9cdb-9e9ad1d3dc00",
+                            ConcurrencyStamp = "9aa0a0c0-1b03-4bc4-a6e3-6e27df2899ae",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "d098a91f-0510-42cf-b3fc-13f7ce5a0fac",
-                            ConcurrencyStamp = "60cc499d-9476-46a1-a9ad-18cf15c039d5",
+                            Id = "f04ae5a9-25d2-4fd6-bbc6-64ef93bb1585",
+                            ConcurrencyStamp = "ed1bc63d-9838-4900-a4d5-abea58381cad",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -146,28 +146,28 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
-                            RoleId = "9ff49cf1-81a4-430e-bd38-3b9c229b4b18"
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
+                            RoleId = "53357811-244f-474c-9cdb-9e9ad1d3dc00"
                         },
                         new
                         {
-                            UserId = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
-                            RoleId = "9ff49cf1-81a4-430e-bd38-3b9c229b4b18"
+                            UserId = "e865cca8-85ca-4f56-9e77-8c0394e48207",
+                            RoleId = "53357811-244f-474c-9cdb-9e9ad1d3dc00"
                         },
                         new
                         {
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            RoleId = "9ff49cf1-81a4-430e-bd38-3b9c229b4b18"
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            RoleId = "53357811-244f-474c-9cdb-9e9ad1d3dc00"
                         },
                         new
                         {
-                            UserId = "ba044904-1bb9-49f8-8ac5-a2c29efaabba",
-                            RoleId = "9ff49cf1-81a4-430e-bd38-3b9c229b4b18"
+                            UserId = "7b26062c-2243-474e-9254-a158f8491b1f",
+                            RoleId = "53357811-244f-474c-9cdb-9e9ad1d3dc00"
                         },
                         new
                         {
-                            UserId = "3dc25e29-820b-4972-a7c5-6fc3362e6c9c",
-                            RoleId = "9ff49cf1-81a4-430e-bd38-3b9c229b4b18"
+                            UserId = "730f6a71-49c9-445d-8e71-868f497ffffa",
+                            RoleId = "53357811-244f-474c-9cdb-9e9ad1d3dc00"
                         });
                 });
 
@@ -202,27 +202,27 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ActivityId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d")
+                            ActivityId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea")
                         },
                         new
                         {
-                            ActivityId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51")
+                            ActivityId = new Guid("2192d829-54d6-4290-b230-638304f60ae5")
                         },
                         new
                         {
-                            ActivityId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2")
+                            ActivityId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc")
                         },
                         new
                         {
-                            ActivityId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082")
+                            ActivityId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd")
                         },
                         new
                         {
-                            ActivityId = new Guid("2342d266-f702-4256-aa64-395f5d072a61")
+                            ActivityId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b")
                         },
                         new
                         {
-                            ActivityId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3")
+                            ActivityId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab")
                         });
                 });
 
@@ -237,9 +237,6 @@ namespace WanderListAPI.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<Guid>("CoverImageId")
-                        .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
@@ -280,7 +277,7 @@ namespace WanderListAPI.Migrations
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ProfilePicResourceMetaId")
+                    b.Property<Guid>("ProfilePicResourceMetaId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("SecurityStamp")
@@ -309,10 +306,9 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
+                            Id = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2c6cdd71-dcf5-4940-afa2-db856ac86a78",
-                            CoverImageId = new Guid("1831a3bd-3b3c-478c-b08d-defdf2962ae8"),
+                            ConcurrencyStamp = "93127eca-4252-40c1-b93f-7f99785c8aa5",
                             Email = "Norville.Rogers@pretend.com",
                             EmailConfirmed = false,
                             FirstName = "Norville",
@@ -320,19 +316,19 @@ namespace WanderListAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NORVILLE.ROGERS@PRETEND.COM",
                             NormalizedUserName = "SHAGGY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF3qt0uZcmmFTy1u45CGgyLw0MtwiUIQiIYC84Vq1lO0TfS/D2gp6USVgY9I1mCIrA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBq4m/N4x/iWsDqeGYliVgEXWhwhBwaxGnhbI6flRpBcesKLSqUD0GeayUPI/9a2ng==",
                             PhoneNumberConfirmed = false,
                             Points = 100,
-                            SecurityStamp = "37ede683-e669-445d-9ab5-39c0732453ea",
+                            ProfilePicResourceMetaId = new Guid("74b38bc8-db1e-48a0-8ac2-dfbb0ca23d9c"),
+                            SecurityStamp = "844ece07-8b4a-4fad-80e3-3543fe23d3d4",
                             TwoFactorEnabled = false,
                             UserName = "Shaggy"
                         },
                         new
                         {
-                            Id = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
+                            Id = "e865cca8-85ca-4f56-9e77-8c0394e48207",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d0a63f2-7eb5-43a4-a967-23c9dd3564dc",
-                            CoverImageId = new Guid("3412cbe5-ce64-420e-983f-296a6c1ccb15"),
+                            ConcurrencyStamp = "7312100b-bf1c-4812-994b-3d84d386499d",
                             Email = "Scoobert.Doo@pretend.com",
                             EmailConfirmed = false,
                             FirstName = "Scoobert",
@@ -340,19 +336,19 @@ namespace WanderListAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SCOOBERT.DOO@PRETEND.COM",
                             NormalizedUserName = "SCOOBY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHNMZI02vUY3MtxMjBS3rtU/dcoQxX1i/uzrOmFnJ+wEuoOO3xnYE227vWpvXO9TCw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELTUBkMfl5uReSMiSPZXtRs9E9xcAJw/JfZV/ClU4oMtyKYQnGfIT4Ad/REsJicOWw==",
                             PhoneNumberConfirmed = false,
                             Points = 500,
-                            SecurityStamp = "85eb5410-ef84-4d0c-9c1b-f59d35e66835",
+                            ProfilePicResourceMetaId = new Guid("a552b281-498d-4577-b102-83df5b6c8e0d"),
+                            SecurityStamp = "bd3b3fb6-2f3c-45b9-8db9-8d19f3bde0af",
                             TwoFactorEnabled = false,
                             UserName = "Scooby"
                         },
                         new
                         {
-                            Id = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
+                            Id = "14dae795-570a-4ddd-95df-603b19b16e53",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aac1c66c-67a2-48b3-90ad-652d93557d25",
-                            CoverImageId = new Guid("20ec2ac8-718d-48d3-8021-ffdebf4904d0"),
+                            ConcurrencyStamp = "7d122b16-c972-44b4-a999-a6b4a5017e39",
                             Email = "Velma.Dinkley@pretend.com",
                             EmailConfirmed = false,
                             FirstName = "Velma",
@@ -360,19 +356,19 @@ namespace WanderListAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VELMA.DINKLEY@PRETEND.COM",
                             NormalizedUserName = "VELMA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJk15FOjwDVDHsjaLI1aDh/EdP4PM0MP5UvQjF03csf49XXxzyLBeaeZCCu9W/osDw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOYbK40kNP9RkpTkQNrnfl403Fi8pNs+ebPNCd6WbBsUmkF9/twiAQLWly2mMNHiiw==",
                             PhoneNumberConfirmed = false,
                             Points = 400,
-                            SecurityStamp = "b0283e2a-cfe2-432d-a4d5-b6cdef7022bf",
+                            ProfilePicResourceMetaId = new Guid("a3865d3e-d89f-499e-89d9-342937feccb4"),
+                            SecurityStamp = "f4cc5202-aafc-43f6-8475-9d3bc23622d6",
                             TwoFactorEnabled = false,
                             UserName = "Velma"
                         },
                         new
                         {
-                            Id = "ba044904-1bb9-49f8-8ac5-a2c29efaabba",
+                            Id = "7b26062c-2243-474e-9254-a158f8491b1f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6795f31-dce6-4700-9030-3a0764f57d7a",
-                            CoverImageId = new Guid("8e04f2d4-60e3-4c6a-91c8-dbb25e5ddcae"),
+                            ConcurrencyStamp = "10e69ce4-1270-4dcb-b912-f6515df110f8",
                             Email = "Fred.Jones@pretend.com",
                             EmailConfirmed = false,
                             FirstName = "Fred",
@@ -380,19 +376,19 @@ namespace WanderListAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "FRED.JONES@PRETEND.COM",
                             NormalizedUserName = "FRED",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJVBGwrfxgGFRLga10VkYuXtRcntYI0zRc7Ck/vfACnU2jl6t/8/lou7xSUDb3USTw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHb7TslhAN/kEUP6tga4enSYjMaM5tQsFtKN7JzjC3oxwFRQIR/jpxPq+HZhFRGYrA==",
                             PhoneNumberConfirmed = false,
                             Points = 375,
-                            SecurityStamp = "7a9247e7-fa96-493c-8b23-864ebd7568b6",
+                            ProfilePicResourceMetaId = new Guid("83c45b65-bed3-4968-9452-b164c52346d3"),
+                            SecurityStamp = "4ec28e7d-006c-44cc-a140-f62a7c0e7193",
                             TwoFactorEnabled = false,
                             UserName = "Fred"
                         },
                         new
                         {
-                            Id = "3dc25e29-820b-4972-a7c5-6fc3362e6c9c",
+                            Id = "730f6a71-49c9-445d-8e71-868f497ffffa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a99ddde4-eca5-4f0a-93cc-d9d13f297b88",
-                            CoverImageId = new Guid("fe487884-2a5f-4936-9ed7-9b98756b755b"),
+                            ConcurrencyStamp = "4b351e7a-bc02-4ac4-97a3-b1a52d3fe5c7",
                             Email = "Daphne.Blakeo@pretend.com",
                             EmailConfirmed = false,
                             FirstName = "Daphne",
@@ -400,10 +396,11 @@ namespace WanderListAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DAPHNE.BLAKEO@PRETEND.COM",
                             NormalizedUserName = "DAPHNE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN3tyw9g0sIUmT5M1RdhmfvrP5AMlrUlxAo/CXHT9rNoRXltaZHq5oOicaCiBbuq/w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFyceip7yN0yTgcUUgMijIkwayayj3BMiusf6Ep33U1vN5QF54x8hMU0mOJ98CZbfQ==",
                             PhoneNumberConfirmed = false,
                             Points = 400,
-                            SecurityStamp = "b8f5e7da-3496-45c3-a0be-eca48503d7a4",
+                            ProfilePicResourceMetaId = new Guid("2517a391-99c3-478a-8c13-aa8dfec383ba"),
+                            SecurityStamp = "31e03685-0e2a-406d-8b6a-09bfa117ae27",
                             TwoFactorEnabled = false,
                             UserName = "Daphne"
                         });
@@ -427,19 +424,19 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             Country = "Australia",
                             Video = "nDHlEG48b-M"
                         },
                         new
                         {
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             Country = "Australia",
                             Video = "Yc7r_bbt00M"
                         },
                         new
                         {
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
                             Country = "Australia",
                             Video = "Rzn5WGnS350"
                         });
@@ -483,9 +480,9 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
                             Capacity = 5,
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             EconomicRating = 5,
                             EnvironmentalRating = 3,
                             Featured = false,
@@ -493,9 +490,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
                             Capacity = 5,
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             EconomicRating = 5,
                             EnvironmentalRating = 3,
                             Featured = false,
@@ -503,9 +500,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
+                            ContentId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
                             Capacity = 5,
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             EconomicRating = 5,
                             EnvironmentalRating = 5,
                             Featured = false,
@@ -513,9 +510,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
+                            ContentId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
                             Capacity = 5,
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
                             EconomicRating = 5,
                             EnvironmentalRating = 3,
                             Featured = false,
@@ -523,9 +520,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
+                            ContentId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
                             Capacity = 5,
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
                             EconomicRating = 3,
                             EnvironmentalRating = 5,
                             Featured = false,
@@ -533,9 +530,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3"),
+                            ContentId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab"),
                             Capacity = 5,
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
                             EconomicRating = 5,
                             EnvironmentalRating = 5,
                             Featured = false,
@@ -543,9 +540,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
                             Capacity = 5,
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             EconomicRating = 5,
                             EnvironmentalRating = 5,
                             Featured = false,
@@ -553,9 +550,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
                             Capacity = 5,
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             EconomicRating = 5,
                             EnvironmentalRating = 4,
                             Featured = false,
@@ -563,9 +560,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
+                            ContentId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
                             Capacity = 5,
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             EconomicRating = 3,
                             EnvironmentalRating = 3,
                             Featured = false,
@@ -573,9 +570,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
+                            ContentId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
                             Capacity = 5,
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             EconomicRating = 4,
                             EnvironmentalRating = 5,
                             Featured = false,
@@ -583,9 +580,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a"),
+                            ContentId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf"),
                             Capacity = 5,
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             EconomicRating = 3,
                             EnvironmentalRating = 2,
                             Featured = false,
@@ -593,9 +590,9 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ContentId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06"),
+                            ContentId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657"),
                             Capacity = 5,
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
                             EconomicRating = 5,
                             EnvironmentalRating = 4,
                             Featured = false,
@@ -615,27 +612,27 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            DestinationId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0")
+                            DestinationId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508")
                         },
                         new
                         {
-                            DestinationId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec")
+                            DestinationId = new Guid("06591e55-45a8-412c-9cab-105c9843a116")
                         },
                         new
                         {
-                            DestinationId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250")
+                            DestinationId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017")
                         },
                         new
                         {
-                            DestinationId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b")
+                            DestinationId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4")
                         },
                         new
                         {
-                            DestinationId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a")
+                            DestinationId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf")
                         },
                         new
                         {
-                            DestinationId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06")
+                            DestinationId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657")
                         });
                 });
 
@@ -659,57 +656,57 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 46, DateTimeKind.Local).AddTicks(9724)
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 152, DateTimeKind.Local).AddTicks(9217)
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 47, DateTimeKind.Local).AddTicks(3417)
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 153, DateTimeKind.Local).AddTicks(3228)
                         },
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            UserId = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 47, DateTimeKind.Local).AddTicks(6421)
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            UserId = "e865cca8-85ca-4f56-9e77-8c0394e48207",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 153, DateTimeKind.Local).AddTicks(6428)
                         },
                         new
                         {
-                            ContentId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 47, DateTimeKind.Local).AddTicks(6485)
+                            ContentId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 153, DateTimeKind.Local).AddTicks(6501)
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 47, DateTimeKind.Local).AddTicks(6551)
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 153, DateTimeKind.Local).AddTicks(6508)
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(3995)
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(6969)
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            UserId = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(4051)
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            UserId = "e865cca8-85ca-4f56-9e77-8c0394e48207",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(7039)
                         },
                         new
                         {
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(4059)
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(7052)
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            Date = new DateTime(2020, 10, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(4065)
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            Date = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(7059)
                         });
                 });
 
@@ -743,8 +740,8 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ItemId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            CoverImageId = new Guid("3d3fe775-f8d7-4961-9416-6ce026069acb"),
+                            ItemId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            CoverImageId = new Guid("f2924ae3-f6f1-4251-b4e3-9acaf9bafd8b"),
                             Description = "Tour Brisbanes best bars and clubs in a night of fun",
                             Lattitude = -27.470568,
                             Longitude = 153.024866,
@@ -752,8 +749,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            CoverImageId = new Guid("90966de5-403b-4b66-ae2c-35a9ad22ad62"),
+                            ItemId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            CoverImageId = new Guid("599ff097-5da6-432a-a649-11c070126c25"),
                             Description = "Visit Brisbanes best universities",
                             Lattitude = -27.477118999999998,
                             Longitude = 153.02837199999999,
@@ -761,8 +758,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
-                            CoverImageId = new Guid("cbcf83b1-d1ba-4c88-b365-eb227610dd97"),
+                            ItemId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
+                            CoverImageId = new Guid("06b1b197-5873-45dd-ac38-e346b67c4dc5"),
                             Description = "Get the chance to spot humpback whales right outside of Sydney on this speed boat tour from Circular Quay or Manly Wharf.",
                             Lattitude = -33.856788999999999,
                             Longitude = 151.20925199999999,
@@ -770,8 +767,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
-                            CoverImageId = new Guid("6b23dfc5-fe1a-4f6e-af0d-267cc0582fdd"),
+                            ItemId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
+                            CoverImageId = new Guid("8bccccc6-c9cf-4b1c-ad1c-c0c854afb5af"),
                             Description = "In an intimate group limited to 16 people, float over Yarra Valley vineyards at sunrise, when the landscapes look most magical.",
                             Lattitude = -37.631934999999999,
                             Longitude = 145.400453,
@@ -779,8 +776,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
-                            CoverImageId = new Guid("a58bdc56-3385-4920-a800-71753b202c61"),
+                            ItemId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
+                            CoverImageId = new Guid("9aaeb44e-f597-448c-8c04-fff025028863"),
                             Description = "ArtVo is an art gallery with a difference—this immersive art space encourages people to touch, play, and interact with the art, and there are 11 themed zones to explore.",
                             Lattitude = -37.812648000000003,
                             Longitude = 144.93767099999999,
@@ -788,8 +785,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3"),
-                            CoverImageId = new Guid("c23b9bc8-07d3-4a59-a093-7cb73f3e93f3"),
+                            ItemId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab"),
+                            CoverImageId = new Guid("c0efe95f-3f46-4370-92e7-30f2d95e6e2e"),
                             Description = "Explore Melbourne from the river at your own pace and without anyone getting in the way on this afternoon kayaking tour.",
                             Lattitude = -37.820380999999998,
                             Longitude = 144.95828700000001,
@@ -797,8 +794,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            CoverImageId = new Guid("b63e6bdd-def3-4170-a338-7b557266169d"),
+                            ItemId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            CoverImageId = new Guid("f4c432cd-ac81-47b5-8210-ce661e06e815"),
                             Description = "The best uni in brisbane",
                             Lattitude = -27.497408,
                             Longitude = 153.01367999999999,
@@ -806,8 +803,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            CoverImageId = new Guid("51c085b5-d7e7-44ca-8c07-50abe8d4e974"),
+                            ItemId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            CoverImageId = new Guid("4dc3cebb-e223-4aaf-badb-8811b1f0bc31"),
                             Description = "Super spooooky at night",
                             Lattitude = -27.498972999999999,
                             Longitude = 153.02712,
@@ -815,8 +812,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
-                            CoverImageId = new Guid("1b533d07-aa98-4efc-b301-61c84297a193"),
+                            ItemId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
+                            CoverImageId = new Guid("d5056f70-0b06-43b8-a531-7fb03125a02b"),
                             Description = "Australia's most famouse landmark",
                             Lattitude = -33.856650999999999,
                             Longitude = 151.21527599999999,
@@ -824,8 +821,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
-                            CoverImageId = new Guid("f526a386-539e-4b89-a25c-d02530c4917c"),
+                            ItemId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
+                            CoverImageId = new Guid("eea05605-3272-402e-821a-227b657f38ee"),
                             Description = "Explore the lush plant life, hidden pagodas, and colorful statues at your own speed, or join one of three informative tours that run during the day at no extra cost.",
                             Lattitude = -33.876274000000002,
                             Longitude = 151.20280199999999,
@@ -833,8 +830,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a"),
-                            CoverImageId = new Guid("7453b934-85bd-4d07-9857-11d7b03b64ad"),
+                            ItemId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf"),
+                            CoverImageId = new Guid("c2df0405-fb07-495b-afed-c3ea9a94c948"),
                             Description = "See the more than 13,000 aquatic life forms in the 14 themed areas.",
                             Lattitude = -33.869349999999997,
                             Longitude = 151.202192,
@@ -842,8 +839,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06"),
-                            CoverImageId = new Guid("b99f2dd2-09ab-4219-9a7a-c00c64a011e3"),
+                            ItemId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657"),
+                            CoverImageId = new Guid("b984fc53-6449-4570-842b-ea4df77dcf15"),
                             Description = "China Town’s great for Yum Cha, Chinese Food and a visit to Dessert Story, they have the best Taiwanese desserts!",
                             Lattitude = -37.811279999999996,
                             Longitude = 144.96880899999999,
@@ -851,8 +848,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
-                            CoverImageId = new Guid("92e3cb68-51de-417c-96c8-e60b7bc42cb5"),
+                            ItemId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
+                            CoverImageId = new Guid("6b614456-11db-4f1a-812f-3f3154c8b5e8"),
                             Description = "Brisbane is the capital of Queensland, and the third most populous city in Australia.",
                             Lattitude = -27.467939999999999,
                             Longitude = 153.02808999999999,
@@ -860,8 +857,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
-                            CoverImageId = new Guid("15bb6143-62f9-422d-b746-afdc116fa582"),
+                            ItemId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
+                            CoverImageId = new Guid("b266e840-3f79-4f8a-aceb-0585af953cdc"),
                             Description = "Sydney is the state capital of New South Wales and the most populous city in Australia and Oceania.",
                             Lattitude = -33.867849999999997,
                             Longitude = 151.20732000000001,
@@ -869,8 +866,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ItemId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
-                            CoverImageId = new Guid("6acb6efa-c82f-4590-b2d8-fb11cc3d8b58"),
+                            ItemId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
+                            CoverImageId = new Guid("96e8fe2c-6a5d-408e-833c-49a5187cbd93"),
                             Description = "Melbourne is the capital of Victoria, and the second-most populous city in Australia and Oceania.",
                             Lattitude = -37.814,
                             Longitude = 144.96332000000001,
@@ -898,26 +895,26 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
                             Count = 3
                         },
                         new
                         {
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
-                            UserId = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
+                            UserId = "e865cca8-85ca-4f56-9e77-8c0394e48207",
                             Count = 2
                         },
                         new
                         {
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
                             Count = 1
                         },
                         new
                         {
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
                             Count = 3
                         });
                 });
@@ -942,218 +939,218 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            ResourceMetaId = new Guid("3d3fe775-f8d7-4961-9416-6ce026069acb"),
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            ResourceMetaId = new Guid("f2924ae3-f6f1-4251-b4e3-9acaf9bafd8b"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            ResourceMetaId = new Guid("a4ef40ed-ba0d-455c-8835-bc171a33d66f"),
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            ResourceMetaId = new Guid("39d1c250-bebe-4192-af7a-05187d2784f5"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            ResourceMetaId = new Guid("f11036f7-4cfc-486f-a7f8-971e259c1dec"),
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            ResourceMetaId = new Guid("883efb56-479a-47a9-8e2c-625553187ca7"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            ResourceMetaId = new Guid("90966de5-403b-4b66-ae2c-35a9ad22ad62"),
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            ResourceMetaId = new Guid("599ff097-5da6-432a-a649-11c070126c25"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            ResourceMetaId = new Guid("5686c190-65b9-4d21-a876-e6ca20f19173"),
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            ResourceMetaId = new Guid("b80708d5-376d-4368-b7e1-5f71d5d36d3f"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            ResourceMetaId = new Guid("03a72a14-6ad1-4885-9349-441490edc007"),
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            ResourceMetaId = new Guid("92ea3611-cc81-475e-9fd3-3ccbbe8c7b2a"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
-                            ResourceMetaId = new Guid("cbcf83b1-d1ba-4c88-b365-eb227610dd97"),
+                            ContentId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
+                            ResourceMetaId = new Guid("06b1b197-5873-45dd-ac38-e346b67c4dc5"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
-                            ResourceMetaId = new Guid("df6fe27d-af5a-4f21-be80-992c190c7643"),
+                            ContentId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
+                            ResourceMetaId = new Guid("1bdfd98d-f1f4-4647-8de7-774a9750e016"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
-                            ResourceMetaId = new Guid("bbba1559-2c3b-4c1e-a722-a7ac293e1443"),
+                            ContentId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
+                            ResourceMetaId = new Guid("d8409179-d5e0-46dc-80a3-0d17f2e098f2"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
-                            ResourceMetaId = new Guid("6b23dfc5-fe1a-4f6e-af0d-267cc0582fdd"),
+                            ContentId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
+                            ResourceMetaId = new Guid("8bccccc6-c9cf-4b1c-ad1c-c0c854afb5af"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
-                            ResourceMetaId = new Guid("2c5938de-9a09-40eb-94a3-52a102edac85"),
+                            ContentId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
+                            ResourceMetaId = new Guid("80125e79-bd6a-4ca6-9ee2-a22edac2d6c7"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
-                            ResourceMetaId = new Guid("fd12e6a0-0717-4ff8-b84b-cf26125323d7"),
+                            ContentId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
+                            ResourceMetaId = new Guid("6123d448-4955-4308-af5d-cd35cd95b7f7"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
-                            ResourceMetaId = new Guid("a58bdc56-3385-4920-a800-71753b202c61"),
+                            ContentId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
+                            ResourceMetaId = new Guid("9aaeb44e-f597-448c-8c04-fff025028863"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
-                            ResourceMetaId = new Guid("4615dbae-e74b-4582-b5ff-a13b2d257ba1"),
+                            ContentId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
+                            ResourceMetaId = new Guid("6c41e2a0-1fd2-4d9f-94c4-4610b0f352ab"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
-                            ResourceMetaId = new Guid("2b656ed4-bed7-4472-9b0d-faf09f40fe9d"),
+                            ContentId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
+                            ResourceMetaId = new Guid("43bbf6d7-db73-418a-8953-947394985bf4"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3"),
-                            ResourceMetaId = new Guid("c23b9bc8-07d3-4a59-a093-7cb73f3e93f3"),
+                            ContentId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab"),
+                            ResourceMetaId = new Guid("c0efe95f-3f46-4370-92e7-30f2d95e6e2e"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3"),
-                            ResourceMetaId = new Guid("b2ef3fea-efc8-49d9-98bc-34cbe4a3c00a"),
+                            ContentId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab"),
+                            ResourceMetaId = new Guid("49f9e196-8f6f-4cc0-a7a4-2b7a5da73cee"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3"),
-                            ResourceMetaId = new Guid("270266af-04c3-4afd-963b-d2bf3b21b2ba"),
+                            ContentId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab"),
+                            ResourceMetaId = new Guid("e806ce2a-9fe3-4e18-b5fd-79dda216ffd1"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            ResourceMetaId = new Guid("b63e6bdd-def3-4170-a338-7b557266169d"),
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            ResourceMetaId = new Guid("f4c432cd-ac81-47b5-8210-ce661e06e815"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            ResourceMetaId = new Guid("72be0ec5-4b92-4021-84d9-61cf8766e5f8"),
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            ResourceMetaId = new Guid("6d5eea37-8e93-43ba-b82f-3b6b9e38076c"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            ResourceMetaId = new Guid("df78444d-517e-48ca-bcd0-f4d211657744"),
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            ResourceMetaId = new Guid("8a49a0a6-983a-4cb8-9829-3665182a6cbe"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            ResourceMetaId = new Guid("51c085b5-d7e7-44ca-8c07-50abe8d4e974"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            ResourceMetaId = new Guid("4dc3cebb-e223-4aaf-badb-8811b1f0bc31"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            ResourceMetaId = new Guid("be959719-d2ff-4223-af1b-0b42c876be37"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            ResourceMetaId = new Guid("3830a757-d155-4163-8f83-b90efe45c53c"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            ResourceMetaId = new Guid("1afe8e59-f39f-4882-a4c6-5e4e48ba111c"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            ResourceMetaId = new Guid("57c84676-98cb-48f2-bef3-65e22e7139a4"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
-                            ResourceMetaId = new Guid("1b533d07-aa98-4efc-b301-61c84297a193"),
+                            ContentId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
+                            ResourceMetaId = new Guid("d5056f70-0b06-43b8-a531-7fb03125a02b"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
-                            ResourceMetaId = new Guid("f3b539ee-038b-4cce-8854-411107430195"),
+                            ContentId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
+                            ResourceMetaId = new Guid("7385025a-3cad-4c06-a128-63faba227ade"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
-                            ResourceMetaId = new Guid("37df0390-a4b0-4cce-9e89-0ae704764791"),
+                            ContentId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
+                            ResourceMetaId = new Guid("48fa6cca-e61e-4ee7-ac08-9a950e98fb0b"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
-                            ResourceMetaId = new Guid("f526a386-539e-4b89-a25c-d02530c4917c"),
+                            ContentId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
+                            ResourceMetaId = new Guid("eea05605-3272-402e-821a-227b657f38ee"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
-                            ResourceMetaId = new Guid("058be29f-19e9-4192-b4a6-4687c9143a72"),
+                            ContentId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
+                            ResourceMetaId = new Guid("256c7770-71bd-4261-9b26-b47d89d61b82"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
-                            ResourceMetaId = new Guid("54b4aad0-b9d7-4e6a-8dbb-bbbc64a0f8d5"),
+                            ContentId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
+                            ResourceMetaId = new Guid("867540eb-577d-4cf3-bdef-14fdbf8ed2ea"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a"),
-                            ResourceMetaId = new Guid("7453b934-85bd-4d07-9857-11d7b03b64ad"),
+                            ContentId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf"),
+                            ResourceMetaId = new Guid("c2df0405-fb07-495b-afed-c3ea9a94c948"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a"),
-                            ResourceMetaId = new Guid("3cd55a01-3eb1-4d04-a815-021dfab88205"),
+                            ContentId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf"),
+                            ResourceMetaId = new Guid("2571b013-aa2a-455f-b759-e1dab4849895"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a"),
-                            ResourceMetaId = new Guid("4123ff6f-d457-438e-afc6-c5ad8e5ef788"),
+                            ContentId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf"),
+                            ResourceMetaId = new Guid("cd431ce8-2fd2-4a11-b20e-bb39160f7d13"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06"),
-                            ResourceMetaId = new Guid("b99f2dd2-09ab-4219-9a7a-c00c64a011e3"),
+                            ContentId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657"),
+                            ResourceMetaId = new Guid("b984fc53-6449-4570-842b-ea4df77dcf15"),
                             Number = 0
                         },
                         new
                         {
-                            ContentId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06"),
-                            ResourceMetaId = new Guid("b732cde8-93a8-474e-a94c-3aa85d41a626"),
+                            ContentId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657"),
+                            ResourceMetaId = new Guid("4312f7ed-3e9d-4c61-94a0-cbbb82672ced"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06"),
-                            ResourceMetaId = new Guid("ce23a3d1-4b37-49a1-a8e7-1af5aa9002f9"),
+                            ContentId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657"),
+                            ResourceMetaId = new Guid("a303d0eb-a9eb-4634-a69c-106edcb9f4e6"),
                             Number = 2
                         });
                 });
@@ -1179,75 +1176,75 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            QRId = new Guid("09626616-7c04-46ba-b8ac-7ce587765289"),
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(9936)
+                            QRId = new Guid("e94fb825-69a5-4616-987e-5ba923553221"),
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(3575)
                         },
                         new
                         {
-                            QRId = new Guid("9225f341-7f60-4183-b0d9-1c419c8baeeb"),
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1077)
+                            QRId = new Guid("d1429357-fa0d-48c2-b0a5-d3b03741e9e9"),
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4747)
                         },
                         new
                         {
-                            QRId = new Guid("d985d95d-b853-4a69-b246-86e81daba2fa"),
-                            ContentId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1107)
+                            QRId = new Guid("00e899a5-2c96-48c7-a3af-baa8c4c074cf"),
+                            ContentId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4779)
                         },
                         new
                         {
-                            QRId = new Guid("45bfdafe-e8ca-41ae-9e6a-8d4b2718ed1a"),
-                            ContentId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1111)
+                            QRId = new Guid("729d6d26-1c96-4087-abad-6c56f7de4e89"),
+                            ContentId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4788)
                         },
                         new
                         {
-                            QRId = new Guid("e3bfb998-927d-4fcd-8983-4ff18d75c05a"),
-                            ContentId = new Guid("2342d266-f702-4256-aa64-395f5d072a61"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1115)
+                            QRId = new Guid("98e571f9-7a3b-4c0d-a8ae-32d4b06f737f"),
+                            ContentId = new Guid("86eaa7cd-22c3-4b23-9d7a-a6a40a13df2b"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4793)
                         },
                         new
                         {
-                            QRId = new Guid("3db4a3ef-8619-4db5-9be5-2974bca42a37"),
-                            ContentId = new Guid("2b134a25-09e5-49e9-a7c6-2030cbf091f3"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1121)
+                            QRId = new Guid("9ca62dd6-3172-426e-87fd-900663197629"),
+                            ContentId = new Guid("9a69e9d4-75e5-42db-92f7-c984aa8728ab"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4802)
                         },
                         new
                         {
-                            QRId = new Guid("0c824642-4513-4f8c-ba65-e2b0a5ba5358"),
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1126)
+                            QRId = new Guid("75425683-5be2-4a2f-9760-7598053cc712"),
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4846)
                         },
                         new
                         {
-                            QRId = new Guid("46c0e9d4-982a-4599-b747-f66704d869ba"),
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1129)
+                            QRId = new Guid("6ed07c3e-12b5-48ac-a912-f0c3036482d7"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4852)
                         },
                         new
                         {
-                            QRId = new Guid("8e39d7d1-4b7d-49a2-adcd-2811356ede6c"),
-                            ContentId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1131)
+                            QRId = new Guid("e00c546e-eef0-442e-b4b3-66324d2f696c"),
+                            ContentId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4857)
                         },
                         new
                         {
-                            QRId = new Guid("3c7ec676-ae47-415a-950f-4b46e06f72d5"),
-                            ContentId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1138)
+                            QRId = new Guid("28273ddb-7ab5-49d8-916e-f16fab359b3b"),
+                            ContentId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4864)
                         },
                         new
                         {
-                            QRId = new Guid("8e50038b-3ba5-48ac-96ca-5b95bd37495f"),
-                            ContentId = new Guid("943a43a2-3d47-47e7-b2e9-80acd90f337a"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1141)
+                            QRId = new Guid("49b44a90-b25b-4ef2-a0cb-bd3df96e158e"),
+                            ContentId = new Guid("a4d180f9-d4a0-4962-a623-adcf5bea3faf"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4868)
                         },
                         new
                         {
-                            QRId = new Guid("9ad3b65e-7297-4c92-aadf-4cfa4921c9b9"),
-                            ContentId = new Guid("8ad16df5-87db-448f-b979-33dfff6b3f06"),
-                            Expiry = new DateTime(2021, 1, 22, 16, 46, 24, 54, DateTimeKind.Local).AddTicks(1143)
+                            QRId = new Guid("a2546b7d-cf5e-4193-b82a-84a2ad024a57"),
+                            ContentId = new Guid("9a29bc1d-8c33-4f00-b953-50f2fee9b657"),
+                            Expiry = new DateTime(2021, 1, 24, 16, 9, 52, 161, DateTimeKind.Local).AddTicks(4872)
                         });
                 });
 
@@ -1270,222 +1267,222 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ResourceId = new Guid("3d3fe775-f8d7-4961-9416-6ce026069acb"),
+                            ResourceId = new Guid("f2924ae3-f6f1-4251-b4e3-9acaf9bafd8b"),
                             FilePath = "./Resources/Images/PubCrawl.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("a4ef40ed-ba0d-455c-8835-bc171a33d66f"),
+                            ResourceId = new Guid("39d1c250-bebe-4192-af7a-05187d2784f5"),
                             FilePath = "./Resources/Images/PubCrawl - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("f11036f7-4cfc-486f-a7f8-971e259c1dec"),
+                            ResourceId = new Guid("883efb56-479a-47a9-8e2c-625553187ca7"),
                             FilePath = "./Resources/Images/PubCrawl - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("90966de5-403b-4b66-ae2c-35a9ad22ad62"),
+                            ResourceId = new Guid("599ff097-5da6-432a-a649-11c070126c25"),
                             FilePath = "./Resources/Images/UniTour.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("5686c190-65b9-4d21-a876-e6ca20f19173"),
+                            ResourceId = new Guid("b80708d5-376d-4368-b7e1-5f71d5d36d3f"),
                             FilePath = "./Resources/Images/UniTour - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("03a72a14-6ad1-4885-9349-441490edc007"),
+                            ResourceId = new Guid("92ea3611-cc81-475e-9fd3-3ccbbe8c7b2a"),
                             FilePath = "./Resources/Images/UniTour - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("cbcf83b1-d1ba-4c88-b365-eb227610dd97"),
+                            ResourceId = new Guid("06b1b197-5873-45dd-ac38-e346b67c4dc5"),
                             FilePath = "./Resources/Images/Balloon Flight.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("df6fe27d-af5a-4f21-be80-992c190c7643"),
+                            ResourceId = new Guid("1bdfd98d-f1f4-4647-8de7-774a9750e016"),
                             FilePath = "./Resources/Images/Balloon Flight - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("bbba1559-2c3b-4c1e-a722-a7ac293e1443"),
+                            ResourceId = new Guid("d8409179-d5e0-46dc-80a3-0d17f2e098f2"),
                             FilePath = "./Resources/Images/Balloon Flight - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("6b23dfc5-fe1a-4f6e-af0d-267cc0582fdd"),
+                            ResourceId = new Guid("8bccccc6-c9cf-4b1c-ad1c-c0c854afb5af"),
                             FilePath = "./Resources/Images/Balloon Flight.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("2c5938de-9a09-40eb-94a3-52a102edac85"),
+                            ResourceId = new Guid("80125e79-bd6a-4ca6-9ee2-a22edac2d6c7"),
                             FilePath = "./Resources/Images/Balloon Flight - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("fd12e6a0-0717-4ff8-b84b-cf26125323d7"),
+                            ResourceId = new Guid("6123d448-4955-4308-af5d-cd35cd95b7f7"),
                             FilePath = "./Resources/Images/Balloon Flight - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("a58bdc56-3385-4920-a800-71753b202c61"),
+                            ResourceId = new Guid("9aaeb44e-f597-448c-8c04-fff025028863"),
                             FilePath = "./Resources/Images/Art Gallery.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("4615dbae-e74b-4582-b5ff-a13b2d257ba1"),
+                            ResourceId = new Guid("6c41e2a0-1fd2-4d9f-94c4-4610b0f352ab"),
                             FilePath = "./Resources/Images/Art Gallery - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("2b656ed4-bed7-4472-9b0d-faf09f40fe9d"),
+                            ResourceId = new Guid("43bbf6d7-db73-418a-8953-947394985bf4"),
                             FilePath = "./Resources/Images/Art Gallery - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("c23b9bc8-07d3-4a59-a093-7cb73f3e93f3"),
+                            ResourceId = new Guid("c0efe95f-3f46-4370-92e7-30f2d95e6e2e"),
                             FilePath = "./Resources/Images/Balloon Flight.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("b2ef3fea-efc8-49d9-98bc-34cbe4a3c00a"),
+                            ResourceId = new Guid("49f9e196-8f6f-4cc0-a7a4-2b7a5da73cee"),
                             FilePath = "./Resources/Images/Balloon Flight - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("270266af-04c3-4afd-963b-d2bf3b21b2ba"),
+                            ResourceId = new Guid("e806ce2a-9fe3-4e18-b5fd-79dda216ffd1"),
                             FilePath = "./Resources/Images/Balloon Flight - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("b63e6bdd-def3-4170-a338-7b557266169d"),
+                            ResourceId = new Guid("f4c432cd-ac81-47b5-8210-ce661e06e815"),
                             FilePath = "./Resources/Images/UQ.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("72be0ec5-4b92-4021-84d9-61cf8766e5f8"),
+                            ResourceId = new Guid("6d5eea37-8e93-43ba-b82f-3b6b9e38076c"),
                             FilePath = "./Resources/Images/UQ - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("df78444d-517e-48ca-bcd0-f4d211657744"),
+                            ResourceId = new Guid("8a49a0a6-983a-4cb8-9829-3665182a6cbe"),
                             FilePath = "./Resources/Images/UQ - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("51c085b5-d7e7-44ca-8c07-50abe8d4e974"),
+                            ResourceId = new Guid("4dc3cebb-e223-4aaf-badb-8811b1f0bc31"),
                             FilePath = "./Resources/Images/SouthBrisbaneCemetery.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("be959719-d2ff-4223-af1b-0b42c876be37"),
+                            ResourceId = new Guid("3830a757-d155-4163-8f83-b90efe45c53c"),
                             FilePath = "./Resources/Images/SouthBrisbaneCemetery - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("1afe8e59-f39f-4882-a4c6-5e4e48ba111c"),
+                            ResourceId = new Guid("57c84676-98cb-48f2-bef3-65e22e7139a4"),
                             FilePath = "./Resources/Images/SouthBrisbaneCemetery - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("1b533d07-aa98-4efc-b301-61c84297a193"),
+                            ResourceId = new Guid("d5056f70-0b06-43b8-a531-7fb03125a02b"),
                             FilePath = "./Resources/Images/OperaHouse.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("f3b539ee-038b-4cce-8854-411107430195"),
+                            ResourceId = new Guid("7385025a-3cad-4c06-a128-63faba227ade"),
                             FilePath = "./Resources/Images/OperaHouse - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("37df0390-a4b0-4cce-9e89-0ae704764791"),
+                            ResourceId = new Guid("48fa6cca-e61e-4ee7-ac08-9a950e98fb0b"),
                             FilePath = "./Resources/Images/OperaHouse - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("f526a386-539e-4b89-a25c-d02530c4917c"),
+                            ResourceId = new Guid("eea05605-3272-402e-821a-227b657f38ee"),
                             FilePath = "./Resources/Images/OperaHouse.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("058be29f-19e9-4192-b4a6-4687c9143a72"),
+                            ResourceId = new Guid("256c7770-71bd-4261-9b26-b47d89d61b82"),
                             FilePath = "./Resources/Images/OperaHouse - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("54b4aad0-b9d7-4e6a-8dbb-bbbc64a0f8d5"),
+                            ResourceId = new Guid("867540eb-577d-4cf3-bdef-14fdbf8ed2ea"),
                             FilePath = "./Resources/Images/OperaHouse - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("7453b934-85bd-4d07-9857-11d7b03b64ad"),
+                            ResourceId = new Guid("c2df0405-fb07-495b-afed-c3ea9a94c948"),
                             FilePath = "./Resources/Images/Aquarium.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("3cd55a01-3eb1-4d04-a815-021dfab88205"),
+                            ResourceId = new Guid("2571b013-aa2a-455f-b759-e1dab4849895"),
                             FilePath = "./Resources/Images/Aquarium - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("4123ff6f-d457-438e-afc6-c5ad8e5ef788"),
+                            ResourceId = new Guid("cd431ce8-2fd2-4a11-b20e-bb39160f7d13"),
                             FilePath = "./Resources/Images/Aquarium - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("b99f2dd2-09ab-4219-9a7a-c00c64a011e3"),
+                            ResourceId = new Guid("b984fc53-6449-4570-842b-ea4df77dcf15"),
                             FilePath = "./Resources/Images/Chinatown.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("b732cde8-93a8-474e-a94c-3aa85d41a626"),
+                            ResourceId = new Guid("4312f7ed-3e9d-4c61-94a0-cbbb82672ced"),
                             FilePath = "./Resources/Images/Chinatown - 2.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("ce23a3d1-4b37-49a1-a8e7-1af5aa9002f9"),
+                            ResourceId = new Guid("a303d0eb-a9eb-4634-a69c-106edcb9f4e6"),
                             FilePath = "./Resources/Images/Chinatown - 3.jpg"
                         },
                         new
                         {
-                            ResourceId = new Guid("3de69d8c-1320-4d8a-ad0a-89787815cf14"),
-                            FilePath = "./Resources/Images/harold.jfif"
+                            ResourceId = new Guid("74b38bc8-db1e-48a0-8ac2-dfbb0ca23d9c"),
+                            FilePath = "./Resources/Images/Harold.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("e07913cf-3a41-47bb-87f6-b923c87a8e0f"),
+                            ResourceId = new Guid("a552b281-498d-4577-b102-83df5b6c8e0d"),
                             FilePath = "./Resources/Images/DefaultUser.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("2b5a184d-73f5-46c2-accf-4b8382752bea"),
+                            ResourceId = new Guid("a3865d3e-d89f-499e-89d9-342937feccb4"),
                             FilePath = "./Resources/Images/Velma.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("780bcb01-f687-4c5d-a48a-546a8fdc6cde"),
+                            ResourceId = new Guid("83c45b65-bed3-4968-9452-b164c52346d3"),
                             FilePath = "./Resources/Images/DefaultUser.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("ad2f5827-eabf-4445-bed1-fa9ab488cf2d"),
+                            ResourceId = new Guid("2517a391-99c3-478a-8c13-aa8dfec383ba"),
                             FilePath = "./Resources/Images/DefaultUser.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("92e3cb68-51de-417c-96c8-e60b7bc42cb5"),
+                            ResourceId = new Guid("6b614456-11db-4f1a-812f-3f3154c8b5e8"),
                             FilePath = "./Resources/Images/Brisbane.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("15bb6143-62f9-422d-b746-afdc116fa582"),
+                            ResourceId = new Guid("b266e840-3f79-4f8a-aceb-0585af953cdc"),
                             FilePath = "./Resources/Images/Sydney.jfif"
                         },
                         new
                         {
-                            ResourceId = new Guid("6acb6efa-c82f-4590-b2d8-fb11cc3d8b58"),
+                            ResourceId = new Guid("96e8fe2c-6a5d-408e-833c-49a5187cbd93"),
                             FilePath = "./Resources/Images/Melbourne.jfif"
                         });
                 });
@@ -1526,8 +1523,8 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ResourceMetaId = new Guid("3d3fe775-f8d7-4961-9416-6ce026069acb"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 42, DateTimeKind.Local).AddTicks(531),
+                            ResourceMetaId = new Guid("f2924ae3-f6f1-4251-b4e3-9acaf9bafd8b"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 147, DateTimeKind.Local).AddTicks(2671),
                             Description = "PubCrawl",
                             Extension = ".jpg",
                             FileName = "PubCrawl.jpg",
@@ -1537,8 +1534,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("a4ef40ed-ba0d-455c-8835-bc171a33d66f"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 44, DateTimeKind.Local).AddTicks(720),
+                            ResourceMetaId = new Guid("39d1c250-bebe-4192-af7a-05187d2784f5"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 149, DateTimeKind.Local).AddTicks(3646),
                             Description = "PubCrawl - 2",
                             Extension = ".jpg",
                             FileName = "PubCrawl - 2.jpg",
@@ -1548,8 +1545,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("f11036f7-4cfc-486f-a7f8-971e259c1dec"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 44, DateTimeKind.Local).AddTicks(3099),
+                            ResourceMetaId = new Guid("883efb56-479a-47a9-8e2c-625553187ca7"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 149, DateTimeKind.Local).AddTicks(6592),
                             Description = "PubCrawl - 3",
                             Extension = ".jpg",
                             FileName = "PubCrawl - 3.jpg",
@@ -1559,8 +1556,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("90966de5-403b-4b66-ae2c-35a9ad22ad62"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 43, DateTimeKind.Local).AddTicks(658),
+                            ResourceMetaId = new Guid("599ff097-5da6-432a-a649-11c070126c25"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 148, DateTimeKind.Local).AddTicks(2948),
                             Description = "UniTour",
                             Extension = ".jpg",
                             FileName = "UniTour.jpg",
@@ -1570,8 +1567,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("5686c190-65b9-4d21-a876-e6ca20f19173"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 44, DateTimeKind.Local).AddTicks(8479),
+                            ResourceMetaId = new Guid("b80708d5-376d-4368-b7e1-5f71d5d36d3f"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 150, DateTimeKind.Local).AddTicks(2245),
                             Description = "UniTour - 2",
                             Extension = ".jpg",
                             FileName = "UniTour - 2.jpg",
@@ -1581,8 +1578,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("03a72a14-6ad1-4885-9349-441490edc007"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 44, DateTimeKind.Local).AddTicks(9869),
+                            ResourceMetaId = new Guid("92ea3611-cc81-475e-9fd3-3ccbbe8c7b2a"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 150, DateTimeKind.Local).AddTicks(4098),
                             Description = "UniTour - 3",
                             Extension = ".jpg",
                             FileName = "UniTour - 3.jpg",
@@ -1592,8 +1589,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("cbcf83b1-d1ba-4c88-b365-eb227610dd97"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 43, DateTimeKind.Local).AddTicks(2128),
+                            ResourceMetaId = new Guid("06b1b197-5873-45dd-ac38-e346b67c4dc5"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 148, DateTimeKind.Local).AddTicks(4513),
                             Description = "Balloon Flight",
                             Extension = ".jpg",
                             FileName = "Balloon Flight.jpg",
@@ -1603,8 +1600,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("df6fe27d-af5a-4f21-be80-992c190c7643"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(1281),
+                            ResourceMetaId = new Guid("1bdfd98d-f1f4-4647-8de7-774a9750e016"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 150, DateTimeKind.Local).AddTicks(6018),
                             Description = "Balloon Flight - 2",
                             Extension = ".jpg",
                             FileName = "Balloon Flight - 2.jpg",
@@ -1614,8 +1611,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("bbba1559-2c3b-4c1e-a722-a7ac293e1443"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(2827),
+                            ResourceMetaId = new Guid("d8409179-d5e0-46dc-80a3-0d17f2e098f2"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 150, DateTimeKind.Local).AddTicks(7836),
                             Description = "Balloon Flight - 3",
                             Extension = ".jpg",
                             FileName = "Balloon Flight - 3.jpg",
@@ -1625,8 +1622,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("6b23dfc5-fe1a-4f6e-af0d-267cc0582fdd"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 43, DateTimeKind.Local).AddTicks(3198),
+                            ResourceMetaId = new Guid("8bccccc6-c9cf-4b1c-ad1c-c0c854afb5af"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 148, DateTimeKind.Local).AddTicks(5632),
                             Description = "Balloon Flight",
                             Extension = ".jpg",
                             FileName = "Balloon Flight.jpg",
@@ -1636,8 +1633,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("2c5938de-9a09-40eb-94a3-52a102edac85"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(3986),
+                            ResourceMetaId = new Guid("80125e79-bd6a-4ca6-9ee2-a22edac2d6c7"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 150, DateTimeKind.Local).AddTicks(9181),
                             Description = "Balloon Flight - 2",
                             Extension = ".jpg",
                             FileName = "Balloon Flight - 2.jpg",
@@ -1647,8 +1644,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("fd12e6a0-0717-4ff8-b84b-cf26125323d7"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(5255),
+                            ResourceMetaId = new Guid("6123d448-4955-4308-af5d-cd35cd95b7f7"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 151, DateTimeKind.Local).AddTicks(635),
                             Description = "Balloon Flight - 3",
                             Extension = ".jpg",
                             FileName = "Balloon Flight - 3.jpg",
@@ -1658,8 +1655,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("a58bdc56-3385-4920-a800-71753b202c61"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 43, DateTimeKind.Local).AddTicks(4838),
+                            ResourceMetaId = new Guid("9aaeb44e-f597-448c-8c04-fff025028863"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 148, DateTimeKind.Local).AddTicks(7406),
                             Description = "Art Gallery",
                             Extension = ".jpg",
                             FileName = "Art Gallery.jpg",
@@ -1669,8 +1666,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("4615dbae-e74b-4582-b5ff-a13b2d257ba1"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(6666),
+                            ResourceMetaId = new Guid("6c41e2a0-1fd2-4d9f-94c4-4610b0f352ab"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 151, DateTimeKind.Local).AddTicks(2193),
                             Description = "Art Gallery - 2",
                             Extension = ".jpg",
                             FileName = "Art Gallery - 2.jpg",
@@ -1680,8 +1677,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("2b656ed4-bed7-4472-9b0d-faf09f40fe9d"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(8261),
+                            ResourceMetaId = new Guid("43bbf6d7-db73-418a-8953-947394985bf4"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 151, DateTimeKind.Local).AddTicks(4403),
                             Description = "Art Gallery - 3",
                             Extension = ".jpg",
                             FileName = "Art Gallery - 3.jpg",
@@ -1691,8 +1688,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("c23b9bc8-07d3-4a59-a093-7cb73f3e93f3"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 43, DateTimeKind.Local).AddTicks(5878),
+                            ResourceMetaId = new Guid("c0efe95f-3f46-4370-92e7-30f2d95e6e2e"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 148, DateTimeKind.Local).AddTicks(8484),
                             Description = "Balloon Flight",
                             Extension = ".jpg",
                             FileName = "Balloon Flight.jpg",
@@ -1702,8 +1699,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("b2ef3fea-efc8-49d9-98bc-34cbe4a3c00a"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 45, DateTimeKind.Local).AddTicks(9339),
+                            ResourceMetaId = new Guid("49f9e196-8f6f-4cc0-a7a4-2b7a5da73cee"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 151, DateTimeKind.Local).AddTicks(5984),
                             Description = "Balloon Flight - 2",
                             Extension = ".jpg",
                             FileName = "Balloon Flight - 2.jpg",
@@ -1713,8 +1710,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("270266af-04c3-4afd-963b-d2bf3b21b2ba"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 46, DateTimeKind.Local).AddTicks(555),
+                            ResourceMetaId = new Guid("e806ce2a-9fe3-4e18-b5fd-79dda216ffd1"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 151, DateTimeKind.Local).AddTicks(7695),
                             Description = "Balloon Flight - 3",
                             Extension = ".jpg",
                             FileName = "Balloon Flight - 3.jpg",
@@ -1724,8 +1721,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("b63e6bdd-def3-4170-a338-7b557266169d"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 48, DateTimeKind.Local).AddTicks(7668),
+                            ResourceMetaId = new Guid("f4c432cd-ac81-47b5-8210-ce661e06e815"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 155, DateTimeKind.Local).AddTicks(669),
                             Description = "UQ",
                             Extension = ".jpg",
                             FileName = "UQ.jpg",
@@ -1735,8 +1732,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("72be0ec5-4b92-4021-84d9-61cf8766e5f8"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 50, DateTimeKind.Local).AddTicks(7072),
+                            ResourceMetaId = new Guid("6d5eea37-8e93-43ba-b82f-3b6b9e38076c"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 157, DateTimeKind.Local).AddTicks(6339),
                             Description = "UQ - 2",
                             Extension = ".jpg",
                             FileName = "UQ - 2.jpg",
@@ -1746,8 +1743,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("df78444d-517e-48ca-bcd0-f4d211657744"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 51, DateTimeKind.Local).AddTicks(24),
+                            ResourceMetaId = new Guid("8a49a0a6-983a-4cb8-9829-3665182a6cbe"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 158, DateTimeKind.Local).AddTicks(170),
                             Description = "UQ - 3",
                             Extension = ".jpg",
                             FileName = "UQ - 3.jpg",
@@ -1757,8 +1754,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("51c085b5-d7e7-44ca-8c07-50abe8d4e974"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 49, DateTimeKind.Local).AddTicks(1815),
+                            ResourceMetaId = new Guid("4dc3cebb-e223-4aaf-badb-8811b1f0bc31"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 155, DateTimeKind.Local).AddTicks(6312),
                             Description = "SouthBrisbaneCemetery",
                             Extension = ".jpg",
                             FileName = "SouthBrisbaneCemetery.jpg",
@@ -1768,8 +1765,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("be959719-d2ff-4223-af1b-0b42c876be37"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 51, DateTimeKind.Local).AddTicks(7534),
+                            ResourceMetaId = new Guid("3830a757-d155-4163-8f83-b90efe45c53c"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 158, DateTimeKind.Local).AddTicks(8599),
                             Description = "SouthBrisbaneCemetery - 2",
                             Extension = ".jpg",
                             FileName = "SouthBrisbaneCemetery - 2.jpg",
@@ -1779,8 +1776,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("1afe8e59-f39f-4882-a4c6-5e4e48ba111c"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 51, DateTimeKind.Local).AddTicks(8821),
+                            ResourceMetaId = new Guid("57c84676-98cb-48f2-bef3-65e22e7139a4"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 159, DateTimeKind.Local).AddTicks(187),
                             Description = "SouthBrisbaneCemetery - 3",
                             Extension = ".jpg",
                             FileName = "SouthBrisbaneCemetery - 3.jpg",
@@ -1790,8 +1787,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("1b533d07-aa98-4efc-b301-61c84297a193"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 49, DateTimeKind.Local).AddTicks(3550),
+                            ResourceMetaId = new Guid("d5056f70-0b06-43b8-a531-7fb03125a02b"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 155, DateTimeKind.Local).AddTicks(8648),
                             Description = "OperaHouse",
                             Extension = ".jpg",
                             FileName = "OperaHouse.jpg",
@@ -1801,8 +1798,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("f3b539ee-038b-4cce-8854-411107430195"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 52, DateTimeKind.Local).AddTicks(1543),
+                            ResourceMetaId = new Guid("7385025a-3cad-4c06-a128-63faba227ade"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 159, DateTimeKind.Local).AddTicks(2886),
                             Description = "OperaHouse - 2",
                             Extension = ".jpg",
                             FileName = "OperaHouse - 2.jpg",
@@ -1812,8 +1809,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("37df0390-a4b0-4cce-9e89-0ae704764791"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 52, DateTimeKind.Local).AddTicks(3161),
+                            ResourceMetaId = new Guid("48fa6cca-e61e-4ee7-ac08-9a950e98fb0b"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 159, DateTimeKind.Local).AddTicks(4453),
                             Description = "OperaHouse - 3",
                             Extension = ".jpg",
                             FileName = "OperaHouse - 3.jpg",
@@ -1823,8 +1820,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("f526a386-539e-4b89-a25c-d02530c4917c"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 49, DateTimeKind.Local).AddTicks(4894),
+                            ResourceMetaId = new Guid("eea05605-3272-402e-821a-227b657f38ee"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 156, DateTimeKind.Local).AddTicks(381),
                             Description = "OperaHouse",
                             Extension = ".jpg",
                             FileName = "OperaHouse.jpg",
@@ -1834,8 +1831,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("058be29f-19e9-4192-b4a6-4687c9143a72"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 52, DateTimeKind.Local).AddTicks(5455),
+                            ResourceMetaId = new Guid("256c7770-71bd-4261-9b26-b47d89d61b82"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 159, DateTimeKind.Local).AddTicks(6816),
                             Description = "OperaHouse - 2",
                             Extension = ".jpg",
                             FileName = "OperaHouse - 2.jpg",
@@ -1845,8 +1842,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("54b4aad0-b9d7-4e6a-8dbb-bbbc64a0f8d5"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 52, DateTimeKind.Local).AddTicks(6598),
+                            ResourceMetaId = new Guid("867540eb-577d-4cf3-bdef-14fdbf8ed2ea"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 159, DateTimeKind.Local).AddTicks(8082),
                             Description = "OperaHouse - 3",
                             Extension = ".jpg",
                             FileName = "OperaHouse - 3.jpg",
@@ -1856,8 +1853,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("7453b934-85bd-4d07-9857-11d7b03b64ad"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 49, DateTimeKind.Local).AddTicks(6489),
+                            ResourceMetaId = new Guid("c2df0405-fb07-495b-afed-c3ea9a94c948"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 156, DateTimeKind.Local).AddTicks(2209),
                             Description = "Aquarium",
                             Extension = ".jpg",
                             FileName = "Aquarium.jpg",
@@ -1867,8 +1864,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("3cd55a01-3eb1-4d04-a815-021dfab88205"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 52, DateTimeKind.Local).AddTicks(8054),
+                            ResourceMetaId = new Guid("2571b013-aa2a-455f-b759-e1dab4849895"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 159, DateTimeKind.Local).AddTicks(9600),
                             Description = "Aquarium - 2",
                             Extension = ".jpg",
                             FileName = "Aquarium - 2.jpg",
@@ -1878,8 +1875,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("4123ff6f-d457-438e-afc6-c5ad8e5ef788"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 52, DateTimeKind.Local).AddTicks(9528),
+                            ResourceMetaId = new Guid("cd431ce8-2fd2-4a11-b20e-bb39160f7d13"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(1348),
                             Description = "Aquarium - 3",
                             Extension = ".jpg",
                             FileName = "Aquarium - 3.jpg",
@@ -1889,8 +1886,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("b99f2dd2-09ab-4219-9a7a-c00c64a011e3"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 49, DateTimeKind.Local).AddTicks(9253),
+                            ResourceMetaId = new Guid("b984fc53-6449-4570-842b-ea4df77dcf15"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 156, DateTimeKind.Local).AddTicks(5722),
                             Description = "Chinatown",
                             Extension = ".jpg",
                             FileName = "Chinatown.jpg",
@@ -1900,8 +1897,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("b732cde8-93a8-474e-a94c-3aa85d41a626"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(1115),
+                            ResourceMetaId = new Guid("4312f7ed-3e9d-4c61-94a0-cbbb82672ced"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(3090),
                             Description = "Chinatown - 2",
                             Extension = ".jpg",
                             FileName = "Chinatown - 2.jpg",
@@ -1911,8 +1908,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("ce23a3d1-4b37-49a1-a8e7-1af5aa9002f9"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 53, DateTimeKind.Local).AddTicks(3749),
+                            ResourceMetaId = new Guid("a303d0eb-a9eb-4634-a69c-106edcb9f4e6"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 160, DateTimeKind.Local).AddTicks(6645),
                             Description = "Chinatown - 3",
                             Extension = ".jpg",
                             FileName = "Chinatown - 3.jpg",
@@ -1922,19 +1919,19 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("3de69d8c-1320-4d8a-ad0a-89787815cf14"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 40, DateTimeKind.Local).AddTicks(110),
-                            Description = "harold",
+                            ResourceMetaId = new Guid("74b38bc8-db1e-48a0-8ac2-dfbb0ca23d9c"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 144, DateTimeKind.Local).AddTicks(6846),
+                            Description = "Harold",
                             Extension = ".jfif",
-                            FileName = "harold.jfif",
+                            FileName = "Harold.jfif",
                             Length = 0L,
                             MimeType = "image/jpeg",
                             OnDisk = true
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("e07913cf-3a41-47bb-87f6-b923c87a8e0f"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 34, DateTimeKind.Local).AddTicks(3547),
+                            ResourceMetaId = new Guid("a552b281-498d-4577-b102-83df5b6c8e0d"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 138, DateTimeKind.Local).AddTicks(5487),
                             Description = "DefaultUser",
                             Extension = ".jfif",
                             FileName = "DefaultUser.jfif",
@@ -1944,8 +1941,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("2b5a184d-73f5-46c2-accf-4b8382752bea"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 40, DateTimeKind.Local).AddTicks(1494),
+                            ResourceMetaId = new Guid("a3865d3e-d89f-499e-89d9-342937feccb4"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 144, DateTimeKind.Local).AddTicks(9977),
                             Description = "Velma",
                             Extension = ".jfif",
                             FileName = "Velma.jfif",
@@ -1955,8 +1952,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("780bcb01-f687-4c5d-a48a-546a8fdc6cde"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 37, DateTimeKind.Local).AddTicks(1214),
+                            ResourceMetaId = new Guid("83c45b65-bed3-4968-9452-b164c52346d3"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 141, DateTimeKind.Local).AddTicks(4160),
                             Description = "DefaultUser",
                             Extension = ".jfif",
                             FileName = "DefaultUser.jfif",
@@ -1966,8 +1963,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("ad2f5827-eabf-4445-bed1-fa9ab488cf2d"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 38, DateTimeKind.Local).AddTicks(5255),
+                            ResourceMetaId = new Guid("2517a391-99c3-478a-8c13-aa8dfec383ba"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 142, DateTimeKind.Local).AddTicks(8705),
                             Description = "DefaultUser",
                             Extension = ".jfif",
                             FileName = "DefaultUser.jfif",
@@ -1977,8 +1974,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("92e3cb68-51de-417c-96c8-e60b7bc42cb5"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 18, DateTimeKind.Local).AddTicks(7215),
+                            ResourceMetaId = new Guid("6b614456-11db-4f1a-812f-3f3154c8b5e8"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 120, DateTimeKind.Local).AddTicks(4042),
                             Description = "Brisbane",
                             Extension = ".jfif",
                             FileName = "Brisbane.jfif",
@@ -1988,8 +1985,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("15bb6143-62f9-422d-b746-afdc116fa582"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 27, DateTimeKind.Local).AddTicks(5988),
+                            ResourceMetaId = new Guid("b266e840-3f79-4f8a-aceb-0585af953cdc"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 131, DateTimeKind.Local).AddTicks(3269),
                             Description = "Sydney",
                             Extension = ".jfif",
                             FileName = "Sydney.jfif",
@@ -1999,8 +1996,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            ResourceMetaId = new Guid("6acb6efa-c82f-4590-b2d8-fb11cc3d8b58"),
-                            AddedOn = new DateTime(2020, 10, 22, 16, 46, 24, 27, DateTimeKind.Local).AddTicks(7994),
+                            ResourceMetaId = new Guid("96e8fe2c-6a5d-408e-833c-49a5187cbd93"),
+                            AddedOn = new DateTime(2020, 10, 24, 16, 9, 52, 131, DateTimeKind.Local).AddTicks(5588),
                             Description = "Melbourne",
                             Extension = ".jfif",
                             FileName = "Melbourne.jfif",
@@ -2043,8 +2040,8 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            RewardId = new Guid("ffc970f1-da66-4d34-bc8a-477f01736a8a"),
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            RewardId = new Guid("afbba952-bf50-499d-bda7-69370952c3c1"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             CountThreshold = 1,
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Uni Tour Discount",
@@ -2052,8 +2049,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            RewardId = new Guid("5f3ec24a-daae-4945-8f47-ae5f91ac35a8"),
-                            CityId = new Guid("1db30674-7fbd-4f87-8575-fc16066cfb45"),
+                            RewardId = new Guid("73e161f2-5967-4a04-b81e-cc1ef7b18922"),
+                            CityId = new Guid("26e08eeb-c653-44a4-a6c0-43c91fe825b4"),
                             CountThreshold = 4,
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Drink Discount",
@@ -2061,8 +2058,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            RewardId = new Guid("b59fcd99-c4f2-485b-a9dc-bb1a46e6bb62"),
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            RewardId = new Guid("23fe1cc4-2db1-44f7-a8cf-20b8853d9bf9"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             CountThreshold = 1,
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Sydney Aquarium Voucher",
@@ -2070,8 +2067,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            RewardId = new Guid("17ed77c8-91ac-4b40-ac0b-dbe077364edd"),
-                            CityId = new Guid("c46703bc-fad3-45d5-9dc7-3003b6b4e4df"),
+                            RewardId = new Guid("9a374c7e-f91c-4fdf-9da0-c84a8127c62b"),
+                            CityId = new Guid("58dab70e-c8fd-49a9-a67a-3fd6dd0f4210"),
                             CountThreshold = 0,
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Free tour of Chinese Garden of Friendship",
@@ -2079,8 +2076,8 @@ namespace WanderListAPI.Migrations
                         },
                         new
                         {
-                            RewardId = new Guid("5bd90a76-b34d-44a9-8efb-0096da28acee"),
-                            CityId = new Guid("05b2effc-2073-4b52-a61f-810f0d57f191"),
+                            RewardId = new Guid("4ed94d72-dbea-4bdb-aa79-510308974ffb"),
+                            CityId = new Guid("5a136b8f-9e27-4621-abef-504456d347de"),
                             CountThreshold = 1,
                             ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Save when you bring a Friend",
@@ -2109,27 +2106,27 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ShortlistId = new Guid("de987f5b-a15e-4942-bdd4-933b12b0e337"),
+                            ShortlistId = new Guid("8d590836-f6c0-400e-90bc-b1825699c0b7"),
                             ListName = "Brisbane Holiday",
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac"
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53"
                         },
                         new
                         {
-                            ShortlistId = new Guid("40031af5-bf1b-4572-9c07-133f3673529f"),
+                            ShortlistId = new Guid("2c27bee8-7cfc-4ac3-b5ad-debe0f874a6f"),
                             ListName = "Bucket List",
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac"
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53"
                         },
                         new
                         {
-                            ShortlistId = new Guid("d92b3c04-9d55-43ac-bfaf-064b9a2e59b1"),
+                            ShortlistId = new Guid("fef5d4b0-4607-4813-88d7-679b9666cd26"),
                             ListName = "Shag Spots",
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea"
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd"
                         },
                         new
                         {
-                            ShortlistId = new Guid("7f9ba63f-ee42-4b45-a075-9b23898f06b1"),
+                            ShortlistId = new Guid("2ee3842d-9d38-47e5-81a6-0bd57df50e6b"),
                             ListName = "Ghost Sightings",
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea"
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd"
                         });
                 });
 
@@ -2153,56 +2150,56 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("b448551f-148f-4227-91af-73a2bdc05a6d"),
-                            ShortlistId = new Guid("de987f5b-a15e-4942-bdd4-933b12b0e337"),
+                            ContentId = new Guid("bc0f26b5-3341-425f-8626-f79de9563bea"),
+                            ShortlistId = new Guid("8d590836-f6c0-400e-90bc-b1825699c0b7"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("35fc42d9-0e6a-4a9e-9cee-684f06350f51"),
-                            ShortlistId = new Guid("de987f5b-a15e-4942-bdd4-933b12b0e337"),
+                            ContentId = new Guid("2192d829-54d6-4290-b230-638304f60ae5"),
+                            ShortlistId = new Guid("8d590836-f6c0-400e-90bc-b1825699c0b7"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("135131d9-011d-486d-b511-c43af3dd21e2"),
-                            ShortlistId = new Guid("40031af5-bf1b-4572-9c07-133f3673529f"),
+                            ContentId = new Guid("17f3d026-e975-4a0b-ab5c-223a682400bc"),
+                            ShortlistId = new Guid("2c27bee8-7cfc-4ac3-b5ad-debe0f874a6f"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("a72ea357-728b-4b47-976e-1f49d298c082"),
-                            ShortlistId = new Guid("d92b3c04-9d55-43ac-bfaf-064b9a2e59b1"),
+                            ContentId = new Guid("72d6b13e-79af-4c56-b115-8fc616051ccd"),
+                            ShortlistId = new Guid("fef5d4b0-4607-4813-88d7-679b9666cd26"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("bc604b49-b75e-4bdb-baf1-cdaa1a21c2d0"),
-                            ShortlistId = new Guid("de987f5b-a15e-4942-bdd4-933b12b0e337"),
+                            ContentId = new Guid("d3bcb61c-e5f5-4497-9bf8-3cf1ded1f508"),
+                            ShortlistId = new Guid("8d590836-f6c0-400e-90bc-b1825699c0b7"),
                             Number = 3
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            ShortlistId = new Guid("7f9ba63f-ee42-4b45-a075-9b23898f06b1"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            ShortlistId = new Guid("2ee3842d-9d38-47e5-81a6-0bd57df50e6b"),
                             Number = 1
                         },
                         new
                         {
-                            ContentId = new Guid("eb127d9e-4622-4a70-a5e7-62e4fa2f7250"),
-                            ShortlistId = new Guid("40031af5-bf1b-4572-9c07-133f3673529f"),
+                            ContentId = new Guid("93b4ccec-711e-4461-afc7-7f15c33d1017"),
+                            ShortlistId = new Guid("2c27bee8-7cfc-4ac3-b5ad-debe0f874a6f"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("48dd94ba-60cf-429d-8399-1ce19bffbc2b"),
-                            ShortlistId = new Guid("d92b3c04-9d55-43ac-bfaf-064b9a2e59b1"),
+                            ContentId = new Guid("fd39f7ef-5fe4-4670-ab7a-11e63b494aa4"),
+                            ShortlistId = new Guid("fef5d4b0-4607-4813-88d7-679b9666cd26"),
                             Number = 2
                         },
                         new
                         {
-                            ContentId = new Guid("4427d44d-f996-45d8-bff8-5697a51cf1ec"),
-                            ShortlistId = new Guid("d92b3c04-9d55-43ac-bfaf-064b9a2e59b1"),
+                            ContentId = new Guid("06591e55-45a8-412c-9cab-105c9843a116"),
+                            ShortlistId = new Guid("fef5d4b0-4607-4813-88d7-679b9666cd26"),
                             Number = 3
                         });
                 });
@@ -2229,38 +2226,38 @@ namespace WanderListAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
-                            RewardId = new Guid("ffc970f1-da66-4d34-bc8a-477f01736a8a")
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
+                            RewardId = new Guid("afbba952-bf50-499d-bda7-69370952c3c1")
                         },
                         new
                         {
-                            UserId = "49b3b6ec-ce67-46ff-a4e5-9c89754f9fea",
-                            RewardId = new Guid("5f3ec24a-daae-4945-8f47-ae5f91ac35a8")
+                            UserId = "9eeac19b-9df1-4bab-9e70-38bc4af917bd",
+                            RewardId = new Guid("73e161f2-5967-4a04-b81e-cc1ef7b18922")
                         },
                         new
                         {
-                            UserId = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
-                            RewardId = new Guid("ffc970f1-da66-4d34-bc8a-477f01736a8a")
+                            UserId = "e865cca8-85ca-4f56-9e77-8c0394e48207",
+                            RewardId = new Guid("afbba952-bf50-499d-bda7-69370952c3c1")
                         },
                         new
                         {
-                            UserId = "f888d8ec-1103-4a30-bae2-bdf8cdbd9b67",
-                            RewardId = new Guid("5f3ec24a-daae-4945-8f47-ae5f91ac35a8")
+                            UserId = "e865cca8-85ca-4f56-9e77-8c0394e48207",
+                            RewardId = new Guid("73e161f2-5967-4a04-b81e-cc1ef7b18922")
                         },
                         new
                         {
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            RewardId = new Guid("5bd90a76-b34d-44a9-8efb-0096da28acee")
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            RewardId = new Guid("4ed94d72-dbea-4bdb-aa79-510308974ffb")
                         },
                         new
                         {
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            RewardId = new Guid("ffc970f1-da66-4d34-bc8a-477f01736a8a")
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            RewardId = new Guid("afbba952-bf50-499d-bda7-69370952c3c1")
                         },
                         new
                         {
-                            UserId = "4f2759c5-9dac-40a2-8d0d-e97e136581ac",
-                            RewardId = new Guid("5f3ec24a-daae-4945-8f47-ae5f91ac35a8")
+                            UserId = "14dae795-570a-4ddd-95df-603b19b16e53",
+                            RewardId = new Guid("73e161f2-5967-4a04-b81e-cc1ef7b18922")
                         });
                 });
 
@@ -2328,7 +2325,9 @@ namespace WanderListAPI.Migrations
                 {
                     b.HasOne("WanderListAPI.Models.ResourceMeta", "ProfilePic")
                         .WithMany()
-                        .HasForeignKey("ProfilePicResourceMetaId");
+                        .HasForeignKey("ProfilePicResourceMetaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WanderListAPI.Models.City", b =>
