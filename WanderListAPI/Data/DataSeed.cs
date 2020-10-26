@@ -145,7 +145,7 @@ namespace WanderListAPI.Data
                 {"Fred", DataFactory.CreateUser("Fred", "Jones", "Fred", 375)},
                 {"Daphne", DataFactory.CreateUser("Daphne", "Blakeo", "Daphne", 400)},
             };
-            var shagPic = DataFactory.CreateResourceMeta("harold.jfif");
+            var shagPic = DataFactory.CreateResourceMeta("Harold.jfif");
             var velPic = DataFactory.CreateResourceMeta("Velma.jfif");
             users["Shaggy"].ProfilePic = shagPic;
             users["Shaggy"].ProfilePicResourceMetaId = shagPic.ResourceMetaId;
