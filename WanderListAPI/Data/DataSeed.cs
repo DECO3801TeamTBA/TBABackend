@@ -145,9 +145,12 @@ namespace WanderListAPI.Data
                 {"Fred", DataFactory.CreateUser("Fred", "Jones", "Fred", 375)},
                 {"Daphne", DataFactory.CreateUser("Daphne", "Blakeo", "Daphne", 400)},
             };
-
-            users["Shaggy"].ProfilePic = DataFactory.CreateResourceMeta("harold.jfif");
-            users["Velma"].ProfilePic = DataFactory.CreateResourceMeta("Velma.jfif");
+            var shagPic = DataFactory.CreateResourceMeta("harold.jfif");
+            var velPic = DataFactory.CreateResourceMeta("Velma.jfif");
+            users["Shaggy"].ProfilePic = shagPic;
+            users["Shaggy"].ProfilePicResourceMetaId = shagPic.ResourceMetaId;
+            users["Velma"].ProfilePic = velPic;
+            users["Velma"].ProfilePicResourceMetaId = velPic.ResourceMetaId;
 
             Join(users["Shaggy"], identityRoles["User"]);
             Join(users["Scooby"], identityRoles["User"]);
@@ -187,7 +190,7 @@ namespace WanderListAPI.Data
             };
         }
 
-        public Dictionary<string, Activity> GenerateActivities(Dictionary<string, City> cities, 
+        public Dictionary<string, Activity> GenerateActivities(Dictionary<string, City> cities,
             Dictionary<string, Shortlist> shortlists, Dictionary<string, AppUser> users)
         {
             var activities = new Dictionary<string, Activity>()
@@ -223,14 +226,14 @@ namespace WanderListAPI.Data
                 // Sydney
                 {"Whale-Watching", DataFactory.CreateActivity("Sydney Whale-Watching by Speed Boat",
                 "Get the chance to spot humpback whales right outside of Sydney on this speed boat tour " +
-                "from Circular Quay or Manly Wharf.", "Balloon Flight.jpg", 5, 5, 5, -33.856789, 151.209252, 
+                "from Circular Quay or Manly Wharf.", "Balloon Flight.jpg", 5, 5, 5, -33.856789, 151.209252,
                 cities["Sydney"])},
 
 
                 // Melbourne
-                {"Balloon Flight", DataFactory.CreateActivity("Yarra Valley Balloon Flight at Sunrise", 
+                {"Balloon Flight", DataFactory.CreateActivity("Yarra Valley Balloon Flight at Sunrise",
                 "In an intimate group limited to 16 people, float over Yarra Valley vineyards at sunrise, " +
-                "when the landscapes look most magical.", "Balloon Flight.jpg", 3, 5, 5, -37.631935, 145.400453, 
+                "when the landscapes look most magical.", "Balloon Flight.jpg", 3, 5, 5, -37.631935, 145.400453,
                 cities["Melbourne"])},
                 {"Art Gallery", DataFactory.CreateActivity("ArtVo Immersive Gallery Experience", "ArtVo is an art gallery with a difference—this immersive " +
                 "art space encourages people to touch, play, and interact with the art, and there are 11 themed zones " +
@@ -282,7 +285,7 @@ namespace WanderListAPI.Data
                 {"South Brisbane Cemetery", DataFactory.CreateDestination("South Brisbane Cemetery",
                     "Super spooooky at night",
                     "SouthBrisbaneCemetery.jpg", 4, 3, 5, -27.498973, 153.027120, cities["Brisbane"])},
-                {"Rainforest", DataFactory.CreateDestination("Springbrook and Tamborine Rainforest", 
+                {"Rainforest", DataFactory.CreateDestination("Springbrook and Tamborine Rainforest",
                 "Explore the mountains, caves, and waterfalls of the Gold Coast Hinterlands. Admire " +
                 "the Natural Bridge and trek to Cave Creek waterfall in the Springbrook National Park.",
                 "Rainforest.jpg", 5, 5, 5, -28.209280, 153.270175, cities["Brisbane"])},
@@ -357,13 +360,13 @@ namespace WanderListAPI.Data
                 {"Drink Discount", DataFactory.CreateReward("Drink Discount",
                     "$5 OFF a jug of beer with any meal purchase", cities["Brisbane"], 4, "Beer.jfif")},
 
-                {"Sydney Aquarium Voucher", DataFactory.CreateReward("Sydney Aquarium Voucher", 
+                {"Sydney Aquarium Voucher", DataFactory.CreateReward("Sydney Aquarium Voucher",
                     "5% off your next ticket", cities["Sydney"], 1, "Sydney Aquarium.jfif")},
                 {"Free tour", DataFactory.CreateReward("Free tour of Chinese Garden of Friendship",
                     "Free tour with any ticket purchase", cities["Sydney"], 0, "Chinese Garden.jfif")},
 
                 {"Kayak deal", DataFactory.CreateReward("Save when you bring a Friend",
-                    "1/2 price for the scond person for your Melbourne City Afternoon Kayak Tour", 
+                    "1/2 price for the scond person for your Melbourne City Afternoon Kayak Tour",
                     cities["Melbourne"], 1, "Kayak.jfif")}
             };
 
@@ -372,14 +375,17 @@ namespace WanderListAPI.Data
 
         public List<QR> GenerateQRCodes(Dictionary<string, Activity> activities, Dictionary<string, Destination> destinations)
         {
+            //System.Diagnostics.Debugger.Launch();
             var qrCodes = new List<QR>();
-            foreach (Activity activity in activities.Values) {
-                qrCodes.Add(DataFactory.CreateQR(activity.Content));
+            int qrCount = 0;
+            foreach (Activity activity in activities.Values)
+            {
+                qrCodes.Add(DataFactory.CreateQR(activity.Content, FixedGuids[qrCount++]));
             }
 
             foreach (Destination destination in destinations.Values)
             {
-                qrCodes.Add(DataFactory.CreateQR(destination.Content));
+                qrCodes.Add(DataFactory.CreateQR(destination.Content, FixedGuids[qrCount++]));
             }
 
             return qrCodes;
@@ -406,7 +412,8 @@ namespace WanderListAPI.Data
             if (entry == default(CityUser))
             {
                 cityUsers.Add(DataFactory.CreateCityUser(content.City, user, 1));
-            } else
+            }
+            else
             {
                 entry.Count++;
             }
@@ -436,5 +443,26 @@ namespace WanderListAPI.Data
                 }
             }
         }
+
+        public static Guid[] FixedGuids = { Guid.Parse("427409c5-6835-422e-80cd-440fa43fbc5b"),
+                                            Guid.Parse("34fc6cf4-a1c6-450c-b042-cf63439b32eb"),
+                                            Guid.Parse("2fd3044a-4399-470f-b4e7-caaaf4778052"),
+                                            Guid.Parse("cd39311d-270b-4a65-91e3-7f017b7d3e1d"),
+                                            Guid.Parse("48dc9302-ab3f-4c5c-ae99-ad26890e2b67"),
+                                            Guid.Parse("10acf718-78a0-4942-af03-d0b0967d8fb8"),
+                                            Guid.Parse("cf4720b2-a19b-4192-b058-e57833e3a136"),
+                                            Guid.Parse("419118f9-c599-45cc-af39-e5c2a4cd42ad"),
+                                            Guid.Parse("35706d34-ba8e-4d9a-b462-56d6dc77442a"),
+                                            Guid.Parse("0cc9bd7b-8168-4f3c-bc17-3506fc6162d0"),
+                                            Guid.Parse("ac6078f5-b650-40af-989d-ca283f2953d3"),
+                                            Guid.Parse("3a79f425-9b29-4e56-a7e8-2a19763a851e"),
+                                            Guid.Parse("fa3016e5-e381-4763-9f6e-7c3c5dbfe8b6"),
+                                            Guid.Parse("9bfa91ed-db90-421d-b801-7fdcd1d77c21"),
+                                            Guid.Parse("79b70237-ee27-4b33-a4c1-e4c7a979a196"),
+                                            Guid.Parse("8e24ae3d-e5dd-44e4-9020-7a78197fe252"),
+                                            Guid.Parse("396d1fc0-5f4b-4210-8ef9-a8da6af71653"),
+                                            Guid.Parse("ad323d73-bc68-4a50-a671-9caaec358363"),
+                                            Guid.Parse("1f893175-6e3f-43a9-8423-7a3786782f47"),
+                                            Guid.Parse("62198a08-23f2-427d-b237-23c853ee888e") };
     }
 }

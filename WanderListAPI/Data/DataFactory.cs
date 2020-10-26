@@ -158,11 +158,11 @@ namespace WanderListAPI.Data
             return CreateItem(name, description, resourceMeta, latitude, longitude);
         }
 
-        public static QR CreateQR(Content content)
+        public static QR CreateQR(Content content, Guid id)
         {
             return new QR()
             {
-                QRId = Guid.NewGuid(),
+                QRId = id,
                 Expiry = DateTime.Now.AddMonths(3),
                 ContentId = content.ContentId
             };
@@ -173,13 +173,12 @@ namespace WanderListAPI.Data
             var filePath = "./Resources/Images/" + fileName;
             using var fileStream = new FileStream(filePath, FileMode.Open);
             using var memStream = new MemoryStream();
-            fileStream.CopyTo(memStream);
+            //fileStream.CopyTo(memStream);
 
             var resource = new Resource()
             {
                 ResourceId = Guid.NewGuid(),
-                FilePath = filePath,
-                Data = memStream.ToArray()
+                FilePath = filePath
             };
 
             return resource;
@@ -193,7 +192,7 @@ namespace WanderListAPI.Data
             {
                 ResourceMetaId = resource.ResourceId,
                 AddedOn = DateTime.Now,
-                OnDisk = false,
+                OnDisk = true,
                 Description = Path.GetFileNameWithoutExtension(resource.FilePath),
                 FileName = fileName,
                 Extension = Path.GetExtension(resource.FilePath),
@@ -259,7 +258,7 @@ namespace WanderListAPI.Data
                 NormalizedUserName = userName.ToUpper(),
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
-                ProfilePicResourceMetaId = Guid.NewGuid(),
+                ProfilePicResourceMetaId = profile.ResourceMetaId,
                 ProfilePic = profile,
                 Points = points,
 
