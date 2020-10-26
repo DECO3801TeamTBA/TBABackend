@@ -94,12 +94,8 @@ namespace WanderListAPI.Data
             }
 
             // Add Dictionaries
-            System.Diagnostics.Debugger.Launch();
             modelBuilder.Entity<IdentityRole>().HasData(identityRoles.Values);
-            modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
-            modelBuilder.Entity<Resource>().HasData(resources);
             modelBuilder.Entity<AppUser>().HasData(users.Values);
-
             modelBuilder.Entity<City>().HasData(cities.Values);
             modelBuilder.Entity<Activity>().HasData(activities.Values);
             modelBuilder.Entity<Destination>().HasData(destinations.Values);
@@ -110,7 +106,8 @@ namespace WanderListAPI.Data
             modelBuilder.Entity<QR>().HasData(qrCodes);
             modelBuilder.Entity<Item>().HasData(items);
             modelBuilder.Entity<Content>().HasData(content);
-            
+            modelBuilder.Entity<ResourceMeta>().HasData(resourceMetas);
+            modelBuilder.Entity<Resource>().HasData(resources);
 
             // Add Junctions
             modelBuilder.Entity<CityUser>().HasData(cityUsers);
@@ -143,12 +140,8 @@ namespace WanderListAPI.Data
                 {"Daphne", DataFactory.CreateUser("Daphne", "Blakeo", "Daphne", 400)},
             };
 
-            var shaggyPic = DataFactory.CreateResourceMeta("Harold.jfif");
-            var velmaPic = DataFactory.CreateResourceMeta("Velma.jfif");
-            users["Shaggy"].ProfilePic = shaggyPic;
-            users["Shaggy"].ProfilePicResourceMetaId = shaggyPic.ResourceMetaId;
-            users["Velma"].ProfilePic = velmaPic;
-            users["Velma"].ProfilePicResourceMetaId = velmaPic.ResourceMetaId;
+            users["Shaggy"].ProfilePic = DataFactory.CreateResourceMeta("harold.jfif");
+            users["Velma"].ProfilePic = DataFactory.CreateResourceMeta("Velma.jfif");
 
             Join(users["Shaggy"], identityRoles["User"]);
             Join(users["Scooby"], identityRoles["User"]);
@@ -317,18 +310,18 @@ namespace WanderListAPI.Data
             var rewards = new Dictionary<string, Reward>()
             {
                 {"Uni Tour Discount", DataFactory.CreateReward("Uni Tour Discount",
-                    "15% Off your next tour", cities["Brisbane"], 1)},
+                    "15% Off your next tour", cities["Brisbane"], 1, "Uni Tour.jfif")},
                 {"Drink Discount", DataFactory.CreateReward("Drink Discount",
-                    "$5 OFF a jug of beer with any meal purchase", cities["Brisbane"], 4)},
+                    "$5 OFF a jug of beer with any meal purchase", cities["Brisbane"], 4, "Beer.jfif")},
 
                 {"Sydney Aquarium Voucher", DataFactory.CreateReward("Sydney Aquarium Voucher", 
-                    "5% off your next ticket", cities["Sydney"], 1)},
+                    "5% off your next ticket", cities["Sydney"], 1, "Sydney Aquarium.jfif")},
                 {"Free tour", DataFactory.CreateReward("Free tour of Chinese Garden of Friendship",
-                    "Free tour with any ticket purchase", cities["Sydney"], 0)},
+                    "Free tour with any ticket purchase", cities["Sydney"], 0, "Chinese Garden.jfif")},
 
                 {"Kayak deal", DataFactory.CreateReward("Save when you bring a Friend",
                     "1/2 price for the scond person for your Melbourne City Afternoon Kayak Tour", 
-                    cities["Melbourne"], 1)}
+                    cities["Melbourne"], 1, "Kayak.jfif")}
             };
 
             return rewards;

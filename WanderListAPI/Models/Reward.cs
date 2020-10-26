@@ -18,8 +18,11 @@ namespace WanderListAPI.Models
         [ForeignKey("City")]
         public Guid CityId { get; set; }
         public int CountThreshold { get; set; }
+        [ForeignKey("ResourceMeta")]
+        public Guid CoverImageId { get; set; }
 
         //Navigation properties
         public City City { get; set; }
+        public ResourceMeta CoverImage { get; set; }
     }
 }
