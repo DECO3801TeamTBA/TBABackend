@@ -87,6 +87,12 @@ namespace WanderListAPI.Data
                 DataFactory.Clean(city);
             }
 
+            foreach (Reward reward in rewards.Values)
+            {
+                resourceMetas.Add(reward.CoverImage);
+                DataFactory.Clean(reward);
+            }
+
             foreach (ResourceMeta resource in resourceMetas)
             {
                 resources.Add(resource.Resource);
@@ -193,6 +199,26 @@ namespace WanderListAPI.Data
                 {"Uni tour", DataFactory.CreateActivity("Uni tour",
                     "Visit Brisbanes best universities",
                     "UniTour.jpg", 3, 5, 5, -27.477119, 153.028372, cities["Brisbane"])},
+                {"Segway", DataFactory.CreateActivity("Brisbane Segway Sightseeing Tour",
+                    "Make the most of your vacation time in Brisbane by embarking on a Segway " +
+                    "tour of the riverside city. Zooming around on this two-wheeled, self-balancing, " +
+                    "electric scooter allows you to cover much more ground",
+                    "Segway.jpg", 3, 5, 4, -27.476328, 153.009019, cities["Brisbane"])},
+                {"Scavenger", DataFactory.CreateActivity("Brisbane Scavenger Hunt",
+                    "Walk to all the best landmarks and hidden gems, answering trivia " +
+                    "questions and solving challenges. Work with your team or compete against " +
+                    "them, as you learn new facts and create memorable experiences on this 2h activity. ",
+                    "Scavenger.jpg", 3, 5, 5, -27.465718, 153.024058, cities["Brisbane"])},
+                {"Rock Climbing", DataFactory.CreateActivity("Brisbane Rock Climbing",
+                    "Kangaroo Point cliff face is a unique sight in the heart of Brisbane, " +
+                    "climb the cliffs whilst they are lit up in the evening. The urban cliff " +
+                    "offers a unique rock climbing experience, allowing beginners and the experienced " +
+                    "to be challenged by its various routes.",
+                    "Rock Climbing.jpg", 3, 5, 5, -27.477733, 153.034482, cities["Brisbane"])},
+                {"River Cruise", DataFactory.CreateActivity("Twilight River Cruise",
+                    "The only way to see the Brisbane River. The back drop of the city underlights " +
+                    "with these reflecting off the river create an amazing ambiance.",
+                    "River Cruise.jpg", 3, 5, 5, -27.470408, 153.018872, cities["Brisbane"])},
 
                 // Sydney
                 {"Whale-Watching", DataFactory.CreateActivity("Sydney Whale-Watching by Speed Boat",
@@ -256,6 +282,23 @@ namespace WanderListAPI.Data
                 {"South Brisbane Cemetery", DataFactory.CreateDestination("South Brisbane Cemetery",
                     "Super spooooky at night",
                     "SouthBrisbaneCemetery.jpg", 4, 3, 5, -27.498973, 153.027120, cities["Brisbane"])},
+                {"Rainforest", DataFactory.CreateDestination("Springbrook and Tamborine Rainforest", 
+                "Explore the mountains, caves, and waterfalls of the Gold Coast Hinterlands. Admire " +
+                "the Natural Bridge and trek to Cave Creek waterfall in the Springbrook National Park.",
+                "Rainforest.jpg", 5, 5, 5, -28.209280, 153.270175, cities["Brisbane"])},
+                {"Australia Zoo", DataFactory.CreateDestination("Australia Zoo",
+                "This is the perfect pick for animal lovers! Visit the world-renowned Australia Zoo—also " +
+                "known as “The Home of the Crocodile Hunter” and owned by Steve Irwin’s widow Terri Irwin.",
+                "Australia Zoo.jpg", 4, 5, 3, -26.835488, 152.963134, cities["Brisbane"])},
+                {"Stradbroke", DataFactory.CreateDestination("North Stradbroke Island",
+                "A beautiful tropical island located west of brisbane, with many beautiful white beaches " +
+                "and sea views. Dolphins, turtles and many other marine and coastal life are frequently sighted here.",
+                "Stradbroke.jpg", 4, 4, 5, -27.509375, 153.468471, cities["Brisbane"])},
+                {"Lone Pine", DataFactory.CreateDestination("Lone Pine Koala Sanctuary",
+                " Meet a koala, hand-feed kangaroos and engage with a large variety of Australian wildlife in " +
+                "Lone Pine's beautiful, natural settings. Guests experience happy, healthy animals and engaged " +
+                "staff, as well as the opportunity to support conservation and enjoy educational opportunities.",
+                "Lone Pine.jpg", 5, 5, 5, -27.533553, 152.968783, cities["Brisbane"])},
 
                 // Sydney
                 {"Sydney Opera House", DataFactory.CreateDestination("Sydney Opera House",

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MimeKit;
 using System;
@@ -177,7 +178,8 @@ namespace WanderListAPI.Data
             var resource = new Resource()
             {
                 ResourceId = Guid.NewGuid(),
-                FilePath = filePath
+                FilePath = filePath,
+                Data = memStream.ToArray()
             };
 
             return resource;
@@ -191,7 +193,7 @@ namespace WanderListAPI.Data
             {
                 ResourceMetaId = resource.ResourceId,
                 AddedOn = DateTime.Now,
-                OnDisk = true,
+                OnDisk = false,
                 Description = Path.GetFileNameWithoutExtension(resource.FilePath),
                 FileName = fileName,
                 Extension = Path.GetExtension(resource.FilePath),
@@ -208,19 +210,26 @@ namespace WanderListAPI.Data
             return CreateResourceMeta(resource);
         }
 
-        public static Reward CreateReward(string name, string value, City city, int threshold)
+        public static Reward CreateReward(string name, string value, City city, int threshold, ResourceMeta coverImage)
         {
-            var reward = new Reward()
+            return new Reward()
             {
                 RewardId = Guid.NewGuid(),
                 Name = name,
                 Value = value,
                 ExpiryDate = new DateTime(),
                 CityId = city.CityId,
-                CountThreshold = threshold
+                CountThreshold = threshold,
+                CoverImageId = coverImage.ResourceMetaId,
+                CoverImage = coverImage
             };
+        }
 
-            return reward;
+        public static Reward CreateReward(string name, string value, City city, int threshold, String filename)
+        {
+            var coverImage = CreateResourceMeta(filename);
+
+            return CreateReward(name, value, city, threshold, coverImage);
         }
 
         public static Shortlist CreateShortlist(string name, AppUser user)
@@ -250,9 +259,10 @@ namespace WanderListAPI.Data
                 NormalizedUserName = userName.ToUpper(),
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
-                ProfilePicResourceMetaId = profile.ResourceMetaId,
-                Points = points,
+                ProfilePicResourceMetaId = Guid.NewGuid(),
                 ProfilePic = profile,
+                Points = points,
+
                 //Need this?
                 PasswordHash =
                     new PasswordHasher<AppUser>().HashPassword(null, "1234"),
@@ -393,6 +403,14 @@ namespace WanderListAPI.Data
             if (user.ProfilePic != null)
             {
                 user.ProfilePic = null;
+            }
+        }
+
+        public static void Clean(Reward reward)
+        {
+            if (reward.CoverImage != null)
+            {
+                reward.CoverImage = null;
             }
         }
     }
