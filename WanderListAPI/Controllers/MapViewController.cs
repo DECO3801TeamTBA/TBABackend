@@ -84,7 +84,7 @@ namespace WanderListAPI.Controllers
                 Latitude = act.Content.Item.Lattitude,
                 Longitude = act.Content.Item.Longitude,
                 Type = "activity",
-                CoverImage = des.Content.Item.CoverImage
+                CoverImage = act.Content.Item.CoverImage
             }).ToList());
 
             return Ok(mapResponses);
