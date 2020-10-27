@@ -43,10 +43,12 @@ namespace WanderListAPI.Controllers
             var destinations = await _context.Destination
                 .Include(des => des.Content)
                 .ThenInclude(con => con.Item)
+                .ThenInclude(ite => ite.CoverImage)
                 .ToListAsync();
             var activities = await _context.Activity
                 .Include(act => act.Content)
                 .ThenInclude(con => con.Item)
+                .ThenInclude(ite => ite.CoverImage)
                 .ToListAsync();
 
             //calculate capacities => make a dictonary (id -> capacity)
@@ -69,7 +71,8 @@ namespace WanderListAPI.Controllers
                 Description = des.Content.Item.Description,
                 Latitude = des.Content.Item.Lattitude,
                 Longitude = des.Content.Item.Longitude,
-                Type = "destination"       
+                Type = "destination",    
+                CoverImage = des.Content.Item.CoverImage
             }).ToList();
             mapResponses.AddRange(activities.Select(act => new MapResponse()
             {
@@ -80,7 +83,8 @@ namespace WanderListAPI.Controllers
                 Description = act.Content.Item.Description,
                 Latitude = act.Content.Item.Lattitude,
                 Longitude = act.Content.Item.Longitude,
-                Type = "activity"
+                Type = "activity",
+                CoverImage = des.Content.Item.CoverImage
             }).ToList());
 
             return Ok(mapResponses);

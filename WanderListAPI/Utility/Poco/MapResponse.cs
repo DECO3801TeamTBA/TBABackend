@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WanderListAPI.Models;
 
 namespace WanderListAPI.Utility.Poco
 {
@@ -15,5 +16,6 @@ namespace WanderListAPI.Utility.Poco
         public double Longitude { get; set; }
         public Guid Id { get; set; }
         public string Type { get; set; }
+        public ResourceMeta CoverImage { get; set; }
     }
 }
