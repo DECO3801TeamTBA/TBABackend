@@ -226,7 +226,7 @@ namespace WanderListAPI.Data
                 // Sydney
                 {"Whale-Watching", DataFactory.CreateActivity("Sydney Whale-Watching by Speed Boat",
                 "Get the chance to spot humpback whales right outside of Sydney on this speed boat tour " +
-                "from Circular Quay or Manly Wharf.", "Balloon Flight.jpg", 5, 5, 5, -33.856789, 151.209252,
+                "from Circular Quay or Manly Wharf.", "Whale-Watching.jpg", 5, 5, 5, -33.856789, 151.209252,
                 cities["Sydney"])},
 
 
@@ -241,7 +241,7 @@ namespace WanderListAPI.Data
                 cities["Melbourne"])},
                 {"Kayak", DataFactory.CreateActivity("Melbourne City Afternoon Kayak Tour",
                 "Explore Melbourne from the river at your own pace and without anyone getting " +
-                "in the way on this afternoon kayaking tour.", "Balloon Flight.jpg", 5, 4, 5, -37.820381, 144.958287,
+                "in the way on this afternoon kayaking tour.", "Kayak.jpg", 5, 4, 5, -37.820381, 144.958287,
                 cities["Melbourne"])},
             };
 
